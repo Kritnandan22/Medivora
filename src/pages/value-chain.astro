@@ -1,0 +1,23 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import StubPage from '~/components/StubPage.astro';
+---
+
+<BaseLayout
+  title="The Value Chain"
+  description="Seven stages of pharma, two engines at work in each — from discovery to the pharmacy counter."
+>
+  <StubPage
+    title="The value chain — seven stages, two engines at work in each."
+    lede="From the first hypothesis to the last dose handed across a counter, this section maps where workflow and agentic automation are actually being applied. Tap any stage to see the workflow pipeline, the agentic layer, and the real deployments."
+    willCover={[
+      '01 — Drug Discovery & R&D',
+      '02 — Clinical Trials & Development',
+      '03 — Regulatory Affairs & Submissions',
+      '04 — Pharmacovigilance & Drug Safety',
+      '05 — Manufacturing & Quality (GxP)',
+      '06 — Supply Chain & Distribution',
+      '07 — Pharmacy Operations & Medication Management',
+    ]}
+  />
+</BaseLayout>

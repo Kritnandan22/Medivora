@@ -1,0 +1,22 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import StubPage from '~/components/StubPage.astro';
+---
+
+<BaseLayout
+  title="Responsible Adoption"
+  description="What separates a deployable system from a liability in regulated medicine."
+>
+  <StubPage
+    title="In medicine, 'it mostly works' is not good enough."
+    lede="Automation in life sciences lives or dies on trust. This section sets out the non-negotiables that separate a deployable system from a liability — validation, audit trails, human-in-the-loop, harmonised data, governance and limits."
+    willCover={[
+      'Validate everything (21 CFR Part 11, GCP, GLP, GMP)',
+      'Audit trails and e-signatures by design',
+      'Keep humans in the loop on decisions of consequence',
+      'Harmonise the data before you automate it',
+      'Govern, upskill, and protect equity from inception',
+      'Acknowledge the honest limits of the technology',
+    ]}
+  />
+</BaseLayout>

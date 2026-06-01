@@ -112,9 +112,9 @@ Typography:
 
 | Phase | Focus | Status |
 | --- | --- | --- |
-| 0 | Setup & deployable skeleton | ✅ scaffold complete |
-| 1 | Design system & layout shell | next |
-| 2 | Core content pages (Markdown collections) | |
+| 0 | Setup & deployable skeleton | ✅ done |
+| 1 | Design system & layout shell | ✅ done |
+| 2 | Core content pages (Markdown collections) | next |
 | 3 | Interactive features (value-chain explorer, agent diagram, decision tool) | |
 | 4 | Engagement & data (optional backend) | |
 | 5 | SEO, accessibility, performance | |

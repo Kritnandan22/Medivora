@@ -1,0 +1,22 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import StubPage from '~/components/StubPage.astro';
+---
+
+<BaseLayout
+  title="Foundations"
+  description="How workflow automation and agentic automation actually work — and how to tell them apart."
+>
+  <StubPage
+    title="Foundations — the two engines of automation."
+    lede="The starting point. One follows the rules; one writes its own. Almost everything in this guide is built from these two distinct capabilities — knowing which is which is the whole game."
+    willCover={[
+      'Workflow automation — the deterministic pipeline (iPaaS, RPA, integration tools)',
+      'Agentic automation — the reasoning operator (LLM-powered agents)',
+      'How an AI agent actually works: model, goal, tools, memory, RAG, guardrails',
+      'The reason–act loop, multi-agent systems and orchestration',
+      'Human-in-the-loop and how the two engines combine',
+      'A decision framework: which engine, and when',
+    ]}
+  />
+</BaseLayout>

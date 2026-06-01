@@ -1,0 +1,21 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import StubPage from '~/components/StubPage.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="Medivora — purpose, scope, methodology, and the informational disclaimer."
+>
+  <StubPage
+    title="About Medivora."
+    lede="Medivora is a public, vendor-neutral, educational resource explaining how workflow and agentic automation are reshaping how medicines are discovered, approved, manufactured, distributed and managed. This page sets out the purpose, scope and methodology behind the guide."
+    willCover={[
+      'Purpose & audiences (professionals, clinical staff, students, executives, the curious public)',
+      'Scope: what we cover and what we deliberately leave out',
+      'Methodology: how sources are selected and synthesised',
+      'The informational disclaimer in full',
+      'How to suggest a correction or a missing case study',
+    ]}
+  />
+</BaseLayout>

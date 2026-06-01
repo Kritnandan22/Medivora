@@ -1,0 +1,180 @@
+---
+import BrandMark from '~/components/BrandMark.astro';
+
+const year = new Date().getFullYear();
+
+const cols = [
+  {
+    heading: 'The Guide',
+    links: [
+      { href: '/foundations', label: 'Foundations' },
+      { href: '/value-chain', label: 'The Value Chain' },
+      { href: '/case-studies', label: 'Case Studies' },
+      { href: '/responsible-adoption', label: 'Responsible Adoption' },
+      { href: '/road-ahead', label: 'The Road Ahead' },
+    ],
+  },
+  {
+    heading: 'Reference',
+    links: [
+      { href: '/about', label: 'About Medivora' },
+      { href: '/contact', label: 'Contact' },
+      { href: '/privacy', label: 'Privacy & Disclaimer' },
+      { href: '/sitemap-index.xml', label: 'Sitemap' },
+    ],
+  },
+];
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="foot-brand-row">
+          <BrandMark size={28} class="foot-mark" />
+          <div class="foot-name">
+            Medi<em>vora</em>
+          </div>
+        </div>
+        <p>
+          A field guide to how workflow automation and agentic automation are
+          reshaping pharmaceuticals and medicine management — from the first
+          hypothesis to the last dose.
+        </p>
+      </div>
+
+      {
+        cols.map((col) => (
+          <div class="foot-col">
+            <h5>{col.heading}</h5>
+            <ul>
+              {col.links.map((l) => (
+                <li>
+                  <a href={l.href}>{l.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="foot-bottom">
+      <span>
+        © {year} Medivora · A field guide, not affiliated with any company named
+        within.
+      </span>
+      <span class="mono">Workflow × Agentic × Life Sciences</span>
+      <a href="#top" class="back-top">Back to top ↑</a>
+    </div>
+
+    <p class="foot-note">
+      For information and education only. Company examples, figures and outcomes
+      are drawn from publicly reported sources and industry analyses and are
+      illustrative; they are not endorsements, guarantees, medical advice, or
+      regulatory guidance. Verify any claim against primary sources before
+      relying on it for clinical, regulatory or investment decisions.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: var(--color-bg);
+    border-top: 1px solid var(--color-line);
+    padding: 4rem 0 2.5rem;
+    margin-top: 6rem;
+  }
+  .foot-top {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+  }
+  .foot-brand-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.9rem;
+  }
+  .foot-mark {
+    color: var(--color-accent);
+  }
+  .foot-name {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .foot-name em {
+    font-style: italic;
+    color: var(--color-accent);
+  }
+  .foot-brand p {
+    font-size: 0.92rem;
+    color: var(--color-text-soft);
+    max-width: 30em;
+    line-height: 1.6;
+  }
+  .foot-col h5 {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+  }
+  .foot-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .foot-col a {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--color-text-soft);
+    padding: 5px 0;
+    transition: color 180ms ease;
+  }
+  .foot-col a:hover {
+    color: var(--color-accent);
+  }
+
+  .foot-bottom {
+    border-top: 1px solid var(--color-line);
+    padding-top: 1.6rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--color-text-soft);
+  }
+  .back-top {
+    color: var(--color-text-soft);
+    transition: color 180ms ease;
+  }
+  .back-top:hover {
+    color: var(--color-accent);
+  }
+
+  .foot-note {
+    max-width: 60em;
+    font-size: 0.78rem;
+    color: var(--color-text-soft);
+    line-height: 1.55;
+    margin-top: 1.2rem;
+    font-style: italic;
+  }
+
+  @media (max-width: 980px) {
+    .foot-top {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .foot-top {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

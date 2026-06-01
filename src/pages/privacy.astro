@@ -1,0 +1,20 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import StubPage from '~/components/StubPage.astro';
+---
+
+<BaseLayout
+  title="Privacy & Disclaimer"
+  description="Privacy notice, cookie policy and informational disclaimer for Medivora."
+>
+  <StubPage
+    title="Privacy & disclaimer."
+    lede="The full privacy policy, cookie notice and informational disclaimer arrive in Phase 6, in line with the responsible-adoption posture of the site."
+    willCover={[
+      'Privacy policy (what is collected, why, retention)',
+      'Cookie notice and consent for analytics',
+      'Data subject rights under GDPR-style principles',
+      'The informational disclaimer — not medical, regulatory, or investment advice',
+    ]}
+  />
+</BaseLayout>

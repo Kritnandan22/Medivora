@@ -1,0 +1,22 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import StubPage from '~/components/StubPage.astro';
+---
+
+<BaseLayout
+  title="Case Studies"
+  description="Real deployments of automation in pharma — the wins and the honest limits."
+>
+  <StubPage
+    title="Case studies — real deployments, honest limits."
+    lede="The technology is past the demo stage in several areas. It has also produced cautionary tales worth keeping in view. This section presents both, filterable by domain and by success / cautionary outcome."
+    willCover={[
+      'Insilico Medicine — a preclinical candidate after screening ~78 molecules',
+      'Exscientia × Sumitomo (DSP-1181) — fast to the clinic, then discontinued',
+      'Recursion — industrialised phenotypic screening at scale',
+      'GSK and Eli Lilly — foundation-model access deals (early 2026)',
+      'Argus-class safety systems — pharmacovigilance automated end to end',
+      'AI pharmacy agents — ~67% reported cut in administrative processing time',
+    ]}
+  />
+</BaseLayout>

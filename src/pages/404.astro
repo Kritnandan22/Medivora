@@ -6,19 +6,30 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
   title="Not Found"
   description="That page does not exist on Medivora."
 >
-  <section class="py-32">
+  <section class="notfound">
     <div class="wrap">
-      <span class="mono text-[color:var(--color-amber)]">Error · 404</span>
-      <h1 class="mt-4 text-[clamp(2rem,5vw,4rem)]">Nothing at this URL.</h1>
-      <p class="mt-4 max-w-[40em] text-[color:var(--color-ink-2)]">
+      <span class="eyebrow">Error · 404</span>
+      <h1>Nothing at this URL.</h1>
+      <p>
         The page you tried to reach does not exist. It may have been moved, or
         the link may be wrong.
       </p>
-      <a
-        href="/"
-        class="mono mt-8 inline-block rounded-sm bg-[color:var(--color-green)] px-5 py-3 text-[color:var(--color-paper)] transition hover:bg-[color:var(--color-green-deep)]"
-        >← Back to the home page</a
-      >
+      <a href="/" class="btn btn-primary">← Back to the home page</a>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .notfound {
+    padding: 6rem 0 8rem;
+  }
+  h1 {
+    margin-top: 1rem;
+    font-size: clamp(2rem, 5vw, 4rem);
+  }
+  p {
+    margin: 1rem 0 2rem;
+    max-width: 40em;
+    color: var(--color-text-2);
+  }
+</style>

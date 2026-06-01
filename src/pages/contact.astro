@@ -1,0 +1,20 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import StubPage from '~/components/StubPage.astro';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Reach the team behind Medivora."
+>
+  <StubPage
+    title="Get in touch."
+    lede="The contact form, spam protection and newsletter sign-up arrive in Phase 4. Until then, reach out via the email address on the About page."
+    willCover={[
+      'Validated, spam-protected contact form (honeypot + rate limiting)',
+      'Optional newsletter sign-up (double opt-in)',
+      'Privacy notice for stored personal data',
+      'Clear response-time expectations',
+    ]}
+  />
+</BaseLayout>

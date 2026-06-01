@@ -1,0 +1,95 @@
+---
+interface Props {
+  title: string;
+  lede: string;
+  willCover: string[];
+}
+const { title, lede, willCover } = Astro.props;
+---
+
+<section class="stub-section">
+  <div class="wrap">
+    <span class="eyebrow">Phase 2 · Coming soon</span>
+    <h1>{title}</h1>
+    <p class="lede">{lede}</p>
+
+    {
+      willCover.length > 0 && (
+        <div class="will-cover">
+          <h2>What this page will cover</h2>
+          <ul>
+            {willCover.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+
+    <a href="/" class="btn btn-ghost back-link">← Back to home</a>
+  </div>
+</section>
+
+<style>
+  .stub-section {
+    padding: 5rem 0 6rem;
+  }
+  h1 {
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    margin-top: 1.1rem;
+    max-width: 18ch;
+  }
+  .lede {
+    margin-top: 1.5rem;
+    font-size: 1.12rem;
+    color: var(--color-text-2);
+    line-height: 1.6;
+    max-width: 38em;
+  }
+  .will-cover {
+    margin-top: 3rem;
+    padding: 1.8rem 1.6rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-soft);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    max-width: 42em;
+  }
+  .will-cover h2 {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--color-signal);
+    margin-bottom: 1rem;
+  }
+  .will-cover ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+  .will-cover li {
+    position: relative;
+    padding-left: 1.1rem;
+    font-size: 0.95rem;
+    color: var(--color-text-2);
+    line-height: 1.5;
+  }
+  .will-cover li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+  }
+  .back-link {
+    margin-top: 3rem;
+  }
+</style>

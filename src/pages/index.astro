@@ -1,78 +1,309 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
+import BrandMark from '~/components/BrandMark.astro';
+
+const stats = [
+  { n: '~$2.3B', l: 'Average cost to bring a single new medicine to market' },
+  { n: '~90%', l: 'Of drug candidates still fail during clinical development', amber: true },
+  { n: '80–90%', l: 'Phase I success for AI-discovered molecules vs. 40–65% historically' },
+  { n: '67%', l: 'Reported cut in admin processing time by an AI pharmacy agent', amber: true },
+];
+
+const sections = [
+  {
+    href: '/foundations',
+    eyebrow: '01 — Foundations',
+    title: 'One follows the rules. One writes its own.',
+    body: 'Two distinct capabilities — workflow automation and agentic automation — sit underneath everything in this guide. Knowing which is which is the whole game.',
+  },
+  {
+    href: '/value-chain',
+    eyebrow: '02 — The Value Chain',
+    title: 'Seven stages, two engines at work in each.',
+    body: 'From the first hypothesis to the last dose, here is where workflow and agentic automation are being applied across the life-sciences value chain.',
+  },
+  {
+    href: '/case-studies',
+    eyebrow: '03 — In Practice',
+    title: 'Real deployments — the wins and the honest limits.',
+    body: 'The technology is past the demo stage in several areas. It has also produced cautionary tales worth keeping in view.',
+  },
+  {
+    href: '/responsible-adoption',
+    eyebrow: '04 — Doing It Responsibly',
+    title: 'In medicine, "it mostly works" is not good enough.',
+    body: 'Validation, audit trails, human-in-the-loop, harmonised data, governance — the non-negotiables that separate a deployable system from a liability.',
+  },
+];
 ---
 
 <BaseLayout title="Medivora">
-  <section class="relative overflow-hidden py-24 sm:py-32">
+  <section class="hero">
     <div class="wrap">
-      <span
-        class="mono inline-flex items-center gap-2 text-[color:var(--color-green)]"
-      >
-        <span
-          class="inline-block h-[7px] w-[7px] rounded-full bg-[color:var(--color-amber-bright)] shadow-[0_0_0_4px_rgba(224,138,43,0.18)]"
-        ></span>
-        Phase 0 · Deployable Skeleton
-      </span>
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">A Field Guide · Pharma & Medicine Management</span>
+          <h1 class="hero-h">
+            The pharmacy that <em>runs itself</em> — and the science that
+            <em>thinks ahead</em>.
+          </h1>
+          <p class="hero-sub">
+            Two kinds of automation are reshaping how medicines are discovered,
+            approved, made, distributed and managed.
+            <strong>Workflow automation</strong> moves structured work through
+            the pipeline flawlessly.
+            <strong>Agentic automation</strong> reasons through the messy parts
+            a human used to handle. Here is how both are being put to work
+            across the life-sciences value chain.
+          </p>
+          <div class="hero-actions">
+            <a href="/value-chain" class="btn btn-primary"
+              >See the value chain →</a
+            >
+            <a href="/foundations" class="btn btn-ghost"
+              >Understand the difference</a
+            >
+          </div>
+        </div>
 
-      <h1
-        class="mt-6 text-[clamp(2.5rem,6vw,5rem)] leading-[0.98] tracking-tight"
-      >
-        The pharmacy that
-        <em class="italic font-medium text-[color:var(--color-green)]"
-          >runs itself</em
-        >
-         — and the science that
-        <em class="italic font-medium text-[color:var(--color-green)]"
-          >thinks ahead</em
-        >.
-      </h1>
-
-      <p
-        class="mt-8 max-w-[34em] text-lg leading-relaxed text-[color:var(--color-ink-2)]"
-      >
-        A field guide to how workflow automation and agentic automation are
-        reshaping pharmaceuticals and medicine management — from the first
-        hypothesis to the last dose. The site is being built in phases on
-        Astro + Render.
-      </p>
-
-      <div class="mt-10 flex flex-wrap items-center gap-4">
-        <span
-          class="mono rounded-sm bg-[color:var(--color-green)] px-5 py-3 text-[color:var(--color-paper)]"
-        >
-          Build status: scaffold live
-        </span>
-        <a
-          href="/docs/SPEC.md"
-          class="mono rounded-sm border border-[color:var(--color-ink)] px-5 py-3 text-[color:var(--color-ink)] transition hover:bg-[color:var(--color-ink)] hover:text-[color:var(--color-paper)]"
-        >
-          Read the spec →
-        </a>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-mark">
+            <BrandMark size={220} />
+          </div>
+        </div>
       </div>
+    </div>
 
-      <div
-        class="mt-20 grid grid-cols-1 gap-px overflow-hidden rounded-md border border-[color:var(--color-ink)]/15 bg-[color:var(--color-ink)]/15 sm:grid-cols-3"
-      >
-        <div class="bg-[color:var(--color-paper-2)] p-6">
-          <div class="mono text-[color:var(--color-amber)]">Stack</div>
-          <p class="mt-2 text-sm text-[color:var(--color-ink-soft)]">
-            Astro · Tailwind v4 · Markdown content collections.
-          </p>
-        </div>
-        <div class="bg-[color:var(--color-paper-2)] p-6">
-          <div class="mono text-[color:var(--color-amber)]">Hosting</div>
-          <p class="mt-2 text-sm text-[color:var(--color-ink-soft)]">
-            Render static site, global CDN, automatic TLS, auto-deploy on
-            push.
-          </p>
-        </div>
-        <div class="bg-[color:var(--color-paper-2)] p-6">
-          <div class="mono text-[color:var(--color-amber)]">Next</div>
-          <p class="mt-2 text-sm text-[color:var(--color-ink-soft)]">
-            Phase 1 — design system, header & footer, dark/light theme.
-          </p>
-        </div>
+    <div class="stats">
+      <div class="wrap stats-in">
+        {
+          stats.map((s) => (
+            <div class="stat">
+              <div class={`n${s.amber ? ' amb' : ''}`}>{s.n}</div>
+              <div class="l">{s.l}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="map">
+    <div class="wrap">
+      <div class="map-head">
+        <span class="eyebrow">The map</span>
+        <h2>Where to start.</h2>
+        <p>
+          The full content arrives in Phase 2; for now, each card links to a
+          placeholder so you can see the structure and the visual language of
+          the site.
+        </p>
+      </div>
+      <div class="map-grid">
+        {
+          sections.map((s) => (
+            <a class="map-card" href={s.href}>
+              <span class="map-eyebrow">{s.eyebrow}</span>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+              <span class="map-arrow">Explore →</span>
+            </a>
+          ))
+        }
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .hero {
+    padding: 4.5rem 0 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.18fr 0.82fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .hero-h {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: clamp(2.5rem, 6.2vw, 5.4rem);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin-top: 1.6rem;
+  }
+  .hero-h em {
+    font-style: italic;
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+  .hero-sub {
+    margin-top: 1.6rem;
+    font-size: 1.12rem;
+    color: var(--color-text-2);
+    max-width: 34em;
+    line-height: 1.55;
+  }
+  .hero-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-mark {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 30% 30%,
+      color-mix(in oklab, var(--color-accent) 18%, transparent),
+      transparent 70%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-accent);
+  }
+
+  /* Stats strip */
+  .stats {
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    margin-top: 3.5rem;
+  }
+  .stats-in {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .stat {
+    padding: 1.8rem 1.5rem;
+    border-right: 1px solid var(--color-line-soft);
+  }
+  .stat:last-child {
+    border-right: 0;
+  }
+  .stat .n {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--color-accent);
+  }
+  .stat .n.amb {
+    color: var(--color-signal);
+  }
+  .stat .l {
+    margin-top: 0.7rem;
+    font-size: 0.82rem;
+    color: var(--color-text-soft);
+    line-height: 1.45;
+  }
+
+  /* Map of sections */
+  .map {
+    padding: 6rem 0 2rem;
+  }
+  .map-head {
+    max-width: 46em;
+    margin-bottom: 3rem;
+  }
+  .map-head h2 {
+    margin-top: 1rem;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+  }
+  .map-head p {
+    margin-top: 1rem;
+    color: var(--color-text-2);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+  .map-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.4rem;
+  }
+  .map-card {
+    display: block;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-md);
+    padding: 1.9rem 1.7rem;
+    color: var(--color-text);
+    transition:
+      transform 220ms ease,
+      box-shadow 220ms ease,
+      border-color 220ms ease;
+  }
+  .map-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-soft);
+    border-color: var(--color-accent);
+  }
+  .map-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--color-signal);
+  }
+  .map-card h3 {
+    margin-top: 0.9rem;
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .map-card p {
+    margin-top: 0.7rem;
+    font-size: 0.94rem;
+    color: var(--color-text-2);
+    line-height: 1.55;
+  }
+  .map-arrow {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  /* Responsive */
+  @media (max-width: 980px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .hero-visual {
+      order: -1;
+    }
+    .hero-mark {
+      width: 160px;
+      height: 160px;
+    }
+    .map-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .stats-in {
+      grid-template-columns: 1fr 1fr;
+    }
+    .stat:nth-child(2n) {
+      border-right: 0;
+    }
+    .stat:nth-child(-n + 2) {
+      border-bottom: 1px solid var(--color-line-soft);
+    }
+  }
+</style>
