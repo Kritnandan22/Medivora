@@ -256,4 +256,10 @@
     border-radius: var(--radius-md);
     padding: 1.5rem;
   }
+
+  /* Performance: defer rendering of below-fold sections */
+  .content-lazy {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 400px;
+  }
 }
