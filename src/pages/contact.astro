@@ -405,7 +405,7 @@ import ContentLayout from '~/layouts/ContentLayout.astro';
     border-color: transparent;
     color: var(--color-paper);
   }
-  [data-theme='dark'] .aside-guide {
+  :global([data-theme='dark']) .aside-guide {
     background-color: var(--color-surface-2);
     border-color: var(--color-line);
   }
@@ -424,7 +424,7 @@ import ContentLayout from '~/layouts/ContentLayout.astro';
     line-height: 1.55;
     margin-bottom: 1rem;
   }
-  [data-theme='dark'] .aside-guide p { color: var(--color-text-2); }
+  :global([data-theme='dark']) .aside-guide p { color: var(--color-text-2); }
   .aside-btn { display: inline-flex; }
 
   /* Responsive */

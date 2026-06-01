@@ -76,7 +76,7 @@ const cards = [
     padding: 3rem 0 5rem;
     background-color: var(--color-ink);
   }
-  [data-theme='dark'] .future-section {
+  :global([data-theme='dark']) .future-section {
     background-color: color-mix(in oklab, var(--color-paper) 4%, var(--color-ink));
   }
 
@@ -115,13 +115,13 @@ const cards = [
     color: var(--color-paper);
     line-height: 1.2;
   }
-  [data-theme='dark'] .fcard h2 { color: var(--color-text); }
+  :global([data-theme='dark']) .fcard h2 { color: var(--color-text); }
   .fcard p {
     font-size: 0.92rem;
     color: rgba(241,236,224,.72);
     line-height: 1.58;
   }
-  [data-theme='dark'] .fcard p { color: var(--color-text-2); }
+  :global([data-theme='dark']) .fcard p { color: var(--color-text-2); }
 
   /* CTA block */
   .future-cta-block {
@@ -131,7 +131,7 @@ const cards = [
     padding: 2.2rem 2rem;
     color: var(--color-paper);
   }
-  [data-theme='dark'] .future-cta-block {
+  :global([data-theme='dark']) .future-cta-block {
     background-color: var(--color-surface);
     border-color: var(--color-line);
     color: var(--color-text);
@@ -143,7 +143,7 @@ const cards = [
     margin-bottom: 0.7rem;
     color: var(--color-paper);
   }
-  [data-theme='dark'] .future-cta-block h3 { color: var(--color-text); }
+  :global([data-theme='dark']) .future-cta-block h3 { color: var(--color-text); }
   .future-cta-block p {
     font-size: 0.96rem;
     color: rgba(241,236,224,.72);
@@ -151,7 +151,7 @@ const cards = [
     max-width: 52em;
     margin-bottom: 1.4rem;
   }
-  [data-theme='dark'] .future-cta-block p { color: var(--color-text-2); }
+  :global([data-theme='dark']) .future-cta-block p { color: var(--color-text-2); }
   .future-cta-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
   @media (max-width: 860px) {

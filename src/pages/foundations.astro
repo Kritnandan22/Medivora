@@ -288,7 +288,7 @@ import DecisionTool from '~/components/DecisionTool.astro';
     background-color: var(--color-ink);
     color: var(--color-paper);
   }
-  [data-theme='dark'] .engines-section {
+  :global([data-theme='dark']) .engines-section {
     background-color: color-mix(in oklab, var(--color-paper) 4%, var(--color-ink));
   }
   .engines-section .eyebrow { display: none; } /* hidden — eyebrow already in page-hero */
@@ -501,7 +501,7 @@ import DecisionTool from '~/components/DecisionTool.astro';
     gap: 1.5rem;
     align-items: center;
   }
-  [data-theme='dark'] .converge {
+  :global([data-theme='dark']) .converge {
     background-color: var(--color-surface-2);
     border: 1px solid var(--color-line);
     color: var(--color-text);
@@ -519,9 +519,9 @@ import DecisionTool from '~/components/DecisionTool.astro';
     margin-bottom: 0.5rem;
     color: var(--color-paper);
   }
-  [data-theme='dark'] .converge h3 { color: var(--color-text); }
+  :global([data-theme='dark']) .converge h3 { color: var(--color-text); }
   .converge p { color: rgba(241,236,224,.78); font-size: 0.99rem; line-height: 1.55; }
-  [data-theme='dark'] .converge p { color: var(--color-text-2); }
+  :global([data-theme='dark']) .converge p { color: var(--color-text-2); }
   .converge p strong { color: var(--color-green-bright); font-weight: 600; }
 
   /* ── Next CTA ── */
