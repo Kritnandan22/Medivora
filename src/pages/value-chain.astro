@@ -1,5 +1,6 @@
 ---
 import ContentLayout from '~/layouts/ContentLayout.astro';
+import ExplorerMap from '~/components/ExplorerMap.astro';
 
 const stages = [
   {
@@ -179,6 +180,9 @@ const stages = [
 >
 
   <section class="vc-section">
+    <div class="wrap">
+      <ExplorerMap />
+    </div>
     <div class="wrap">
       <div class="vc-accordion" id="vc-accordion">
         {stages.map((stage, i) => (

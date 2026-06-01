@@ -1,0 +1,341 @@
+---
+// Value-Chain Explorer Map — interactive SVG pipeline
+// Clicking a node scrolls to + opens the corresponding accordion item
+const stages = [
+  { num: '01', short: 'Discovery',       color: 'ag',  desc: 'Drug Discovery & R&D' },
+  { num: '02', short: 'Trials',          color: 'ag',  desc: 'Clinical Trials & Development' },
+  { num: '03', short: 'Regulatory',      color: 'wf',  desc: 'Regulatory Affairs & Submissions' },
+  { num: '04', short: 'Safety',          color: 'ag',  desc: 'Pharmacovigilance & Drug Safety' },
+  { num: '05', short: 'Manufacturing',   color: 'wf',  desc: 'Manufacturing & Quality (GxP)' },
+  { num: '06', short: 'Supply Chain',    color: 'wf',  desc: 'Supply Chain & Distribution' },
+  { num: '07', short: 'Pharmacy',        color: 'ag',  desc: 'Pharmacy Operations & Medication Mgmt' },
+];
+---
+
+<div class="explorer-wrap" aria-label="Value chain explorer">
+  <div class="explorer-header">
+    <span class="eyebrow">Interactive map</span>
+    <p class="explorer-hint">Click any stage to jump to its detail below ↓</p>
+  </div>
+
+  <!-- Desktop SVG pipeline -->
+  <div class="explorer-svg-wrap" aria-hidden="true">
+    <svg
+      class="explorer-svg"
+      viewBox="0 0 1100 160"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="Seven-stage pharma value chain pipeline"
+    >
+      <!-- Connector lines between nodes -->
+      {stages.slice(0, -1).map((_, i) => {
+        const x1 = 80 + i * 145 + 46;
+        const x2 = 80 + (i + 1) * 145 - 46;
+        return (
+          <line
+            class="connector"
+            x1={x1} y1="80"
+            x2={x2} y2="80"
+            stroke-dasharray="6 4"
+          />
+        );
+      })}
+
+      <!-- Stage nodes -->
+      {stages.map((s, i) => {
+        const cx = 80 + i * 145;
+        const isAg = s.color === 'ag';
+        return (
+          <g
+            class={`stage-node ${s.color}-node`}
+            data-stage={i}
+            tabindex="0"
+            role="button"
+            aria-label={`Stage ${s.num}: ${s.desc}`}
+          >
+            <!-- Glow ring -->
+            <circle cx={cx} cy="80" r="48" class="node-glow" />
+            <!-- Main circle -->
+            <circle cx={cx} cy="80" r="40" class="node-circle" />
+            <!-- Number -->
+            <text x={cx} y="70" class="node-num" text-anchor="middle">{s.num}</text>
+            <!-- Short label -->
+            <text x={cx} y="86" class="node-short" text-anchor="middle">{s.short}</text>
+            <!-- Type badge dot -->
+            <circle
+              cx={cx + 28}
+              cy={80 - 28}
+              r="7"
+              class={`node-badge ${isAg ? 'ag-badge' : 'wf-badge'}`}
+            />
+          </g>
+        );
+      })}
+    </svg>
+  </div>
+
+  <!-- Mobile: compact vertical pills -->
+  <div class="explorer-pills" aria-hidden="true">
+    {stages.map((s, i) => (
+      <button class={`stage-pill ${s.color}-pill`} data-stage={i}>
+        <span class="pill-num">{s.num}</span>
+        <span class="pill-label">{s.desc}</span>
+        <span class="pill-arrow">→</span>
+      </button>
+    ))}
+  </div>
+</div>
+
+<!-- Tooltip (positioned by JS) -->
+<div class="explorer-tooltip" id="explorer-tooltip" role="tooltip" aria-hidden="true"></div>
+
+<style>
+  .explorer-wrap {
+    margin-bottom: 2.5rem;
+    padding: 1.8rem 0 0;
+  }
+  .explorer-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .explorer-hint {
+    font-size: 0.84rem;
+    color: var(--color-text-soft);
+    margin: 0;
+    font-style: italic;
+  }
+
+  /* ── SVG pipeline ── */
+  .explorer-svg-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    padding: 0.5rem 0;
+  }
+  .explorer-svg {
+    width: 100%;
+    min-width: 700px;
+    height: auto;
+    display: block;
+  }
+
+  /* Connectors */
+  .connector {
+    stroke: var(--color-line);
+    stroke-width: 1.8;
+    fill: none;
+    animation: dash-flow 3s linear infinite;
+  }
+  @keyframes dash-flow { to { stroke-dashoffset: -30; } }
+  @media (prefers-reduced-motion: reduce) {
+    .connector { animation: none; }
+  }
+
+  /* Nodes */
+  .stage-node {
+    cursor: pointer;
+    transition: transform 200ms ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .stage-node:hover,
+  .stage-node:focus { transform: scale(1.08); outline: none; }
+  .stage-node:focus .node-circle { stroke-width: 3; }
+
+  .node-glow {
+    fill: transparent;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+  .wf-node .node-glow { fill: var(--color-accent); }
+  .ag-node .node-glow { fill: var(--color-signal); }
+  .stage-node:hover .node-glow,
+  .stage-node:focus .node-glow,
+  .stage-node.active .node-glow { opacity: 0.12; }
+
+  .node-circle {
+    fill: var(--color-surface);
+    stroke-width: 2;
+    transition: fill 200ms ease, stroke-width 200ms ease;
+  }
+  .wf-node .node-circle { stroke: var(--color-accent); }
+  .ag-node .node-circle { stroke: var(--color-signal); }
+  .stage-node:hover .node-circle,
+  .stage-node:focus .node-circle { fill: var(--color-surface-2); }
+  .stage-node.active .node-circle { stroke-width: 3; }
+  .wf-node.active .node-circle { fill: color-mix(in oklab, var(--color-accent) 10%, var(--color-surface)); }
+  .ag-node.active .node-circle { fill: color-mix(in oklab, var(--color-signal) 10%, var(--color-surface)); }
+
+  .node-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    fill: var(--color-text-soft);
+  }
+  .node-short {
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    fill: var(--color-text);
+  }
+
+  .node-badge { opacity: 0.9; }
+  .wf-badge { fill: var(--color-accent); }
+  .ag-badge { fill: var(--color-signal); }
+
+  /* ── Tooltip ── */
+  .explorer-tooltip {
+    position: fixed;
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    font-size: 0.78rem;
+    line-height: 1.4;
+    padding: 0.5rem 0.85rem;
+    border-radius: var(--radius-sm);
+    pointer-events: none;
+    z-index: 200;
+    max-width: 200px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 140ms ease;
+    white-space: normal;
+  }
+  .explorer-tooltip.visible { opacity: 1; }
+
+  /* ── Mobile pills ── */
+  .explorer-pills { display: none; flex-direction: column; gap: 0.5rem; }
+  .stage-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition: background-color 180ms ease, border-color 180ms ease;
+    width: 100%;
+  }
+  .stage-pill:hover { background-color: var(--color-surface-2); }
+  .wf-pill { border-left: 3px solid var(--color-accent); }
+  .ag-pill { border-left: 3px solid var(--color-signal); }
+  .stage-pill.active { border-color: var(--color-accent); }
+  .ag-pill.active { border-color: var(--color-signal); }
+  .pill-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-signal);
+    min-width: 1.5rem;
+  }
+  .pill-label { flex: 1; font-size: 0.88rem; font-weight: 500; color: var(--color-text); }
+  .pill-arrow { font-size: 0.8rem; color: var(--color-accent); }
+
+  @media (max-width: 680px) {
+    .explorer-svg-wrap { display: none; }
+    .explorer-pills { display: flex; }
+  }
+</style>
+
+<script>
+  (function () {
+    const stageDescs = [
+      'Drug Discovery & R&D',
+      'Clinical Trials & Development',
+      'Regulatory Affairs & Submissions',
+      'Pharmacovigilance & Drug Safety',
+      'Manufacturing & Quality (GxP)',
+      'Supply Chain & Distribution',
+      'Pharmacy Operations & Medication Management',
+    ];
+    const stageIds = [
+      'stage-drug-discovery',
+      'stage-clinical-trials',
+      'stage-regulatory-affairs',
+      'stage-pharmacovigilance',
+      'stage-manufacturing-quality',
+      'stage-supply-chain',
+      'stage-pharmacy-operations',
+    ];
+
+    const tooltip = document.getElementById('explorer-tooltip');
+    const accordion = document.getElementById('vc-accordion');
+
+    function openStage(idx: number) {
+      if (!accordion) return;
+      const items = accordion.querySelectorAll('.vc-item');
+      items.forEach((item, i) => {
+        const panel = item.querySelector('.vc-panel') as HTMLElement;
+        const btn = item.querySelector('.vc-btn');
+        if (i === idx) {
+          item.classList.add('vc-open');
+          if (panel) panel.style.maxHeight = panel.scrollHeight + 'px';
+          if (btn) btn.setAttribute('aria-expanded', 'true');
+          // Scroll to the item
+          setTimeout(() => {
+            item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 80);
+        } else {
+          item.classList.remove('vc-open');
+          if (panel) panel.style.maxHeight = '';
+          if (btn) btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Highlight active node
+      document.querySelectorAll('.stage-node, .stage-pill').forEach((n, i) => {
+        n.classList.toggle('active', i === idx);
+      });
+    }
+
+    // SVG nodes
+    document.querySelectorAll('.stage-node').forEach((node, idx) => {
+      node.addEventListener('click', () => openStage(idx));
+      node.addEventListener('keydown', (e: Event) => {
+        const ke = e as KeyboardEvent;
+        if (ke.key === 'Enter' || ke.key === ' ') { e.preventDefault(); openStage(idx); }
+      });
+
+      // Tooltip
+      node.addEventListener('mouseenter', (e: Event) => {
+        if (!tooltip) return;
+        tooltip.textContent = stageDescs[idx];
+        tooltip.classList.add('visible');
+      });
+      node.addEventListener('mousemove', (e: Event) => {
+        if (!tooltip) return;
+        const me = e as MouseEvent;
+        tooltip.style.left = me.clientX + 12 + 'px';
+        tooltip.style.top = me.clientY - 38 + 'px';
+      });
+      node.addEventListener('mouseleave', () => {
+        if (tooltip) tooltip.classList.remove('visible');
+      });
+    });
+
+    // Mobile pills
+    document.querySelectorAll('.stage-pill').forEach((pill, idx) => {
+      pill.addEventListener('click', () => openStage(idx));
+    });
+
+    // Sync active state when accordion is opened manually
+    if (accordion) {
+      accordion.querySelectorAll('.vc-btn').forEach((btn, idx) => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.vc-item');
+          const willOpen = !item?.classList.contains('vc-open');
+          setTimeout(() => {
+            document.querySelectorAll('.stage-node, .stage-pill').forEach((n, i) => {
+              n.classList.toggle('active', willOpen && i === idx);
+            });
+          }, 10);
+        });
+      });
+    }
+  })();
+</script>

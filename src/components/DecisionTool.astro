@@ -1,0 +1,294 @@
+---
+// "Which automation?" interactive decision tool
+// Pure vanilla JS state machine — no framework
+---
+
+<div class="dt-wrap" id="decision-tool">
+  <div class="dt-header">
+    <span class="eyebrow">Interactive tool</span>
+    <h3>Which automation do you need?</h3>
+    <p class="dt-intro">Answer three quick questions and we'll point you to the right engine.</p>
+  </div>
+
+  <div class="dt-card-wrap">
+    <!-- Q1 -->
+    <div class="dt-card active" data-step="1">
+      <div class="dt-progress">
+        <span class="dt-step-label">Question 1 of 3</span>
+        <div class="dt-bar"><div class="dt-fill" style="width:33%"></div></div>
+      </div>
+      <p class="dt-question">Is the task <strong>structured and predictable</strong> — the same defined steps, every time?</p>
+      <div class="dt-choices">
+        <button class="dt-btn dt-yes" data-step="1" data-answer="yes">
+          <span class="dt-btn-icon">✓</span> Yes — it's rule-based &amp; repeatable
+        </button>
+        <button class="dt-btn dt-no" data-step="1" data-answer="no">
+          <span class="dt-btn-icon">✗</span> No — it's messy, case-by-case
+        </button>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="dt-card" data-step="2">
+      <div class="dt-progress">
+        <span class="dt-step-label">Question 2 of 3</span>
+        <div class="dt-bar"><div class="dt-fill" style="width:66%"></div></div>
+      </div>
+      <p class="dt-question">Are there <strong>frequent exceptions, ambiguous inputs</strong>, or unstructured data to interpret?</p>
+      <div class="dt-choices">
+        <button class="dt-btn dt-yes" data-step="2" data-answer="yes">
+          <span class="dt-btn-icon">✓</span> Yes — lots of edge cases
+        </button>
+        <button class="dt-btn dt-no" data-step="2" data-answer="no">
+          <span class="dt-btn-icon">✗</span> No — data is clean &amp; structured
+        </button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="dt-card" data-step="3">
+      <div class="dt-progress">
+        <span class="dt-step-label">Question 3 of 3</span>
+        <div class="dt-bar"><div class="dt-fill" style="width:99%"></div></div>
+      </div>
+      <p class="dt-question">Does it require a <strong>full audit trail</strong> — signed steps, immutable history — for regulatory compliance?</p>
+      <div class="dt-choices">
+        <button class="dt-btn dt-yes" data-step="3" data-answer="yes">
+          <span class="dt-btn-icon">✓</span> Yes — it's a regulated workflow
+        </button>
+        <button class="dt-btn dt-no" data-step="3" data-answer="no">
+          <span class="dt-btn-icon">✗</span> No — compliance is not the primary concern
+        </button>
+      </div>
+    </div>
+
+    <!-- Result: Workflow -->
+    <div class="dt-card dt-result result-wf" data-step="result-wf">
+      <div class="result-icon wf-icon">⚙️</div>
+      <span class="result-tag wf-tag">Workflow Automation</span>
+      <h4>Reach for the deterministic pipeline.</h4>
+      <p>Your task is well-defined, structured, and needs reliable, auditable execution. iPaaS tools (Make, Power Automate) or RPA (UiPath) will handle it with full compliance built in.</p>
+      <a href="/foundations#which-engine" class="btn btn-primary result-link">Learn more → Foundations</a>
+      <button class="dt-reset">Start over</button>
+    </div>
+
+    <!-- Result: Agentic -->
+    <div class="dt-card dt-result result-ag" data-step="result-ag">
+      <div class="result-icon ag-icon">🤖</div>
+      <span class="result-tag ag-tag">Agentic Automation</span>
+      <h4>Reach for the reasoning operator.</h4>
+      <p>Your task involves ambiguity, exceptions, or multi-step judgement. An LLM-powered agent — with human review at the key decision points — is the right tool.</p>
+      <a href="/foundations#which-engine" class="btn btn-primary result-link">Learn more → Foundations</a>
+      <button class="dt-reset">Start over</button>
+    </div>
+
+    <!-- Result: Both -->
+    <div class="dt-card dt-result result-both" data-step="result-both">
+      <div class="result-icon both-icon">🔗</div>
+      <span class="result-tag both-tag">Both — layered</span>
+      <h4>Use both engines together.</h4>
+      <p>The mature pattern: an agent reasons and orchestrates on top, a deterministic workflow executes the regulated steps underneath — with full audit trail for every output. This is how the best pharma systems are built.</p>
+      <a href="/foundations#which-engine" class="btn btn-primary result-link">Learn more → Foundations</a>
+      <button class="dt-reset">Start over</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .dt-wrap {
+    margin: 3rem 0 0;
+    padding: 2rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-lg);
+  }
+  .dt-header { margin-bottom: 1.5rem; }
+  .dt-header h3 {
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    letter-spacing: -0.015em;
+    color: var(--color-text);
+  }
+  .dt-intro { font-size: 0.92rem; color: var(--color-text-soft); margin-top: 0.4rem; }
+
+  /* Card container */
+  .dt-card-wrap { position: relative; }
+  .dt-card {
+    display: none;
+    animation: dt-slide-in 280ms ease;
+  }
+  .dt-card.active { display: block; }
+  @keyframes dt-slide-in {
+    from { opacity: 0; transform: translateX(18px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dt-card { animation: none; }
+  }
+
+  /* Progress */
+  .dt-progress { margin-bottom: 1.2rem; }
+  .dt-step-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-soft);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .dt-bar {
+    height: 4px;
+    background-color: var(--color-line);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+  }
+  .dt-fill {
+    height: 100%;
+    background-color: var(--color-accent);
+    border-radius: var(--radius-pill);
+    transition: width 400ms ease;
+  }
+
+  /* Question */
+  .dt-question {
+    font-size: 1.06rem;
+    color: var(--color-text);
+    line-height: 1.55;
+    margin-bottom: 1.4rem;
+  }
+  .dt-question strong { color: var(--color-text); font-weight: 700; }
+
+  /* Choice buttons */
+  .dt-choices { display: flex; flex-direction: column; gap: 0.65rem; }
+  .dt-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.9rem 1.2rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-line);
+    background-color: var(--color-bg);
+    font-family: var(--font-sans);
+    font-size: 0.94rem;
+    color: var(--color-text-2);
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 180ms ease, background-color 180ms ease, transform 160ms ease;
+  }
+  .dt-btn:hover { transform: translateX(4px); background-color: var(--color-surface-2); }
+  .dt-yes:hover { border-color: var(--color-accent); }
+  .dt-no:hover  { border-color: var(--color-signal); }
+  .dt-btn-icon {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; font-weight: 700; flex: none;
+  }
+  .dt-yes .dt-btn-icon { background-color: color-mix(in oklab, var(--color-accent) 15%, transparent); color: var(--color-accent); }
+  .dt-no  .dt-btn-icon { background-color: color-mix(in oklab, var(--color-signal) 15%, transparent); color: var(--color-signal); }
+
+  /* Results */
+  .dt-result { text-align: center; padding: 1rem 0.5rem 0.5rem; }
+  .result-icon { font-size: 2.8rem; margin-bottom: 0.8rem; }
+  .result-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 0.9rem;
+  }
+  .wf-tag  { background-color: color-mix(in oklab, var(--color-accent) 15%, transparent); color: var(--color-accent); }
+  .ag-tag  { background-color: color-mix(in oklab, var(--color-signal) 15%, transparent); color: var(--color-signal); }
+  .both-tag { background-color: color-mix(in oklab, var(--color-accent-bright) 15%, transparent); color: var(--color-accent-bright); }
+
+  .dt-result h4 {
+    font-family: var(--font-serif);
+    font-size: 1.32rem;
+    font-weight: 600;
+    margin-bottom: 0.7rem;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+  }
+  .dt-result p {
+    font-size: 0.93rem;
+    color: var(--color-text-2);
+    line-height: 1.6;
+    max-width: 38em;
+    margin: 0 auto 1.4rem;
+  }
+  .result-link { margin-bottom: 1rem; }
+  .dt-reset {
+    display: block;
+    margin: 0.8rem auto 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-soft);
+    transition: color 180ms ease;
+  }
+  .dt-reset:hover { color: var(--color-accent); }
+</style>
+
+<script>
+  (function () {
+    const answers: Record<number, string> = {};
+
+    function showStep(step: string | number) {
+      document.querySelectorAll('.dt-card').forEach((card) => {
+        card.classList.remove('active');
+      });
+      const target = document.querySelector(`[data-step="${step}"]`);
+      if (target) target.classList.add('active');
+    }
+
+    function calcResult() {
+      // Logic:
+      // Both structured AND regulated → Both
+      // Not structured (messy) AND has exceptions → Agentic
+      // Structured AND no exceptions → Workflow
+      // Regulated only → Both (needs WF audit trail + possible agent)
+      const q1 = answers[1]; // structured?
+      const q2 = answers[2]; // exceptions?
+      const q3 = answers[3]; // regulated?
+
+      if (q1 === 'yes' && q3 === 'yes') return 'result-both';
+      if (q1 === 'no'  && q2 === 'yes') return 'result-ag';
+      if (q1 === 'yes' && q2 === 'no')  return 'result-wf';
+      if (q3 === 'yes')                  return 'result-both';
+      return 'result-ag'; // fallback: ambiguous → agent
+    }
+
+    // Answer buttons
+    document.querySelectorAll('.dt-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const step = parseInt((btn as HTMLElement).dataset.step || '1');
+        const answer = (btn as HTMLElement).dataset.answer || '';
+        answers[step] = answer;
+
+        if (step < 3) {
+          showStep(step + 1);
+        } else {
+          showStep(calcResult());
+        }
+      });
+    });
+
+    // Reset buttons
+    document.querySelectorAll('.dt-reset').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        Object.keys(answers).forEach(k => delete (answers as any)[k]);
+        showStep(1);
+      });
+    });
+  })();
+</script>

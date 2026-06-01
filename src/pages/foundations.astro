@@ -1,5 +1,7 @@
 ---
 import ContentLayout from '~/layouts/ContentLayout.astro';
+import AgentDiagram from '~/components/AgentDiagram.astro';
+import DecisionTool from '~/components/DecisionTool.astro';
 ---
 
 <ContentLayout
@@ -98,6 +100,13 @@ import ContentLayout from '~/layouts/ContentLayout.astro';
         They aren't rivals. The mature pattern is <strong>agents reasoning on top, deterministic
         workflows executing underneath</strong> — with a human reviewing the decisions that matter.
       </p>
+    </div>
+  </section>
+
+  <!-- ─── AGENT ARCHITECTURE DIAGRAM ─── -->
+  <section class="diagram-section">
+    <div class="wrap">
+      <AgentDiagram />
     </div>
   </section>
 
@@ -255,10 +264,14 @@ import ContentLayout from '~/layouts/ContentLayout.astro';
           regulatory weight.</strong></p>
         </div>
       </div>
+      <div id="which-engine">
+        <DecisionTool />
+      </div>
     </div>
   </section>
 
   <!-- ─── Next pages CTA ─── -->
+
   <section class="next-section">
     <div class="wrap next-inner">
       <a href="/value-chain" class="btn btn-primary">See the value chain →</a>

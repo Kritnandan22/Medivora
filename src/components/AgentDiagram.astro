@@ -1,0 +1,341 @@
+---
+// Agent Architecture Diagram — animated ReAct loop + multi-agent layer
+---
+
+<div class="agent-diagram-wrap">
+  <div class="agent-diagram-header">
+    <span class="eyebrow">How an AI agent actually works</span>
+    <h3>The reason–act loop &amp; multi-agent orchestration</h3>
+  </div>
+
+  <div class="diagram-canvas" aria-label="Agent architecture diagram" role="img">
+
+    <!-- ── OUTER: Multi-agent ring ── -->
+    <div class="layer layer-outer">
+      <div class="outer-label">Multi-Agent System</div>
+      <div class="agent-ring">
+        <div class="sub-agent sa-supervisor">
+          <span class="sa-icon">⬡</span>
+          <span>Supervisor</span>
+        </div>
+        <div class="sub-agent sa-chemist">
+          <span class="sa-icon">🧪</span>
+          <span>Chemist Agent</span>
+        </div>
+        <div class="sub-agent sa-lab">
+          <span class="sa-icon">🔬</span>
+          <span>Lab Agent</span>
+        </div>
+        <div class="sub-agent sa-safety">
+          <span class="sa-icon">🛡</span>
+          <span>Safety Guardrail</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── INNER: ReAct core loop ── -->
+    <div class="layer layer-inner">
+      <div class="inner-label">Core Agent (ReAct Loop)</div>
+
+      <div class="react-loop">
+        <!-- Goal -->
+        <div class="loop-node goal-node">
+          <div class="node-icon">🎯</div>
+          <div class="node-title">Goal</div>
+          <div class="node-sub">Human instruction</div>
+        </div>
+
+        <!-- Arrow: Goal → Reason -->
+        <div class="loop-arrow arr-right">
+          <span class="arr-line"></span>
+          <span class="arr-head">→</span>
+        </div>
+
+        <!-- Reason -->
+        <div class="loop-node reason-node">
+          <div class="node-icon">🧠</div>
+          <div class="node-title">Reason</div>
+          <div class="node-sub">LLM interprets &amp; plans</div>
+        </div>
+
+        <!-- Arrow: Reason → Act -->
+        <div class="loop-arrow arr-right">
+          <span class="arr-line"></span>
+          <span class="arr-head">→</span>
+        </div>
+
+        <!-- Act -->
+        <div class="loop-node act-node">
+          <div class="node-icon">⚡</div>
+          <div class="node-title">Act</div>
+          <div class="node-sub">Calls tools &amp; APIs</div>
+        </div>
+
+        <!-- Arrow: Act → Observe (down+left) -->
+        <div class="loop-arrow arr-down">
+          <span class="arr-line"></span>
+          <span class="arr-head">↓</span>
+        </div>
+
+        <!-- Observe -->
+        <div class="loop-node observe-node">
+          <div class="node-icon">👁</div>
+          <div class="node-title">Observe</div>
+          <div class="node-sub">Result &amp; feedback</div>
+        </div>
+
+        <!-- Loop-back arrow -->
+        <div class="loop-back" aria-hidden="true">
+          <svg viewBox="0 0 220 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M210 22 L20 22 Q6 22 6 36 L6 44"
+              class="loop-path"
+              stroke-dasharray="6 4"
+              marker-end="url(#arr)"
+            />
+            <defs>
+              <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                <path d="M0 0 L6 3 L0 6 Z" fill="currentColor"/>
+              </marker>
+            </defs>
+          </svg>
+          <span class="loop-label">Loop until done</span>
+        </div>
+      </div>
+
+      <!-- Memory / RAG side node -->
+      <div class="memory-node">
+        <div class="node-icon">📚</div>
+        <div class="node-title">Memory &amp; RAG</div>
+        <div class="node-sub">Context, docs, history</div>
+        <div class="memory-arrow" aria-hidden="true">feeds into Reason ↑</div>
+      </div>
+    </div>
+
+    <!-- ── TOOLS row ── -->
+    <div class="tools-row">
+      <div class="tools-label">Tools the agent can call</div>
+      <div class="tools-list">
+        {['Search', 'Database', 'Lab API', 'File system', 'Email', 'Workflow bots'].map(t => (
+          <span class="tool-chip">{t}</span>
+        ))}
+      </div>
+    </div>
+
+  </div><!-- /diagram-canvas -->
+</div>
+
+<style>
+  .agent-diagram-wrap {
+    padding: 0 0 3rem;
+  }
+  .agent-diagram-header {
+    margin-bottom: 1.4rem;
+  }
+  .agent-diagram-header h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 0.6rem;
+    letter-spacing: -0.015em;
+    color: var(--color-text);
+  }
+
+  /* Canvas */
+  .diagram-canvas {
+    background-color: var(--color-ink);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    overflow: hidden;
+  }
+  [data-theme='dark'] .diagram-canvas {
+    background-color: var(--color-surface-2);
+    border: 1px solid var(--color-line);
+  }
+
+  /* ── Outer multi-agent layer ── */
+  .layer-outer {
+    border: 1px dashed rgba(224,138,43,.4);
+    border-radius: var(--radius-md);
+    padding: 1.2rem 1rem 1rem;
+    position: relative;
+  }
+  .outer-label, .inner-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-amber-bright);
+    margin-bottom: 0.9rem;
+  }
+  .agent-ring {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .sub-agent {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(241,236,224,.15);
+    border-radius: var(--radius-md);
+    padding: 0.55rem 0.85rem;
+    font-size: 0.8rem;
+    color: rgba(241,236,224,.88);
+    font-weight: 500;
+    transition: background 200ms ease, border-color 200ms ease;
+    animation: sub-pulse 4s ease-in-out infinite;
+  }
+  .sub-agent:hover { background: rgba(255,255,255,.09); border-color: rgba(241,236,224,.35); }
+  .sa-supervisor { animation-delay: 0s; }
+  .sa-chemist    { animation-delay: .6s; }
+  .sa-lab        { animation-delay: 1.2s; }
+  .sa-safety     { animation-delay: 1.8s; }
+  @keyframes sub-pulse {
+    0%,100% { opacity: .85; }
+    50%      { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) { .sub-agent { animation: none; } }
+  .sa-icon { font-size: 1rem; }
+
+  /* ── Inner ReAct loop ── */
+  .layer-inner {
+    border: 1px dashed rgba(22,166,132,.35);
+    border-radius: var(--radius-md);
+    padding: 1.2rem 1rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: start;
+  }
+  .inner-label { color: var(--color-green-bright); }
+
+  .react-loop {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    grid-column: 1;
+  }
+
+  /* Loop nodes */
+  .loop-node {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(241,236,224,.18);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    text-align: center;
+    min-width: 110px;
+    transition: transform 200ms ease, background 200ms ease;
+    animation: node-glow 3.6s ease-in-out infinite;
+  }
+  .loop-node:hover { transform: translateY(-3px); background: rgba(255,255,255,.1); }
+  .goal-node    { animation-delay: 0s;    border-color: rgba(22,166,132,.5); }
+  .reason-node  { animation-delay: .9s;   border-color: rgba(22,166,132,.5); }
+  .act-node     { animation-delay: 1.8s;  border-color: rgba(224,138,43,.5); }
+  .observe-node { animation-delay: 2.7s;  border-color: rgba(22,166,132,.5); }
+  @keyframes node-glow {
+    0%,100% { box-shadow: none; }
+    50%      { box-shadow: 0 0 14px rgba(22,166,132,.25); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .loop-node { animation: none; }
+  }
+
+  .node-icon  { font-size: 1.3rem; margin-bottom: .25rem; }
+  .node-title { font-size: 0.82rem; font-weight: 700; color: rgba(241,236,224,.96); font-family: var(--font-sans); }
+  .node-sub   { font-size: 0.7rem; color: rgba(241,236,224,.55); margin-top: .18rem; line-height: 1.3; }
+
+  /* Arrows */
+  .loop-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--color-green-bright);
+    font-size: 1.1rem;
+    opacity: 0.7;
+  }
+  .arr-line { flex: 1; }
+  .arr-down { flex-direction: column; align-self: stretch; }
+
+  /* Loop-back SVG */
+  .loop-back {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    color: var(--color-green-bright);
+    opacity: 0.65;
+  }
+  .loop-back svg { width: 220px; max-width: 100%; }
+  .loop-path {
+    stroke: currentColor;
+    stroke-width: 1.5;
+    animation: dash-flow 3s linear infinite;
+  }
+  @keyframes dash-flow { to { stroke-dashoffset: -30; } }
+  @media (prefers-reduced-motion: reduce) { .loop-path { animation: none; } }
+  .loop-label { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: .1em; text-transform: uppercase; }
+
+  /* Memory node */
+  .memory-node {
+    background: rgba(192,106,36,.1);
+    border: 1px solid rgba(192,106,36,.3);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 0.9rem;
+    text-align: center;
+    min-width: 130px;
+    grid-column: 2;
+    align-self: center;
+  }
+  .memory-arrow {
+    font-size: 0.65rem;
+    color: var(--color-amber-bright);
+    margin-top: 0.5rem;
+    font-family: var(--font-mono);
+    letter-spacing: .06em;
+  }
+
+  /* ── Tools row ── */
+  .tools-row {
+    border-top: 1px solid rgba(241,236,224,.1);
+    padding-top: 1.1rem;
+  }
+  .tools-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(241,236,224,.45);
+    margin-bottom: 0.65rem;
+  }
+  .tools-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tool-chip {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border: 1px solid rgba(22,166,132,.35);
+    border-radius: var(--radius-pill);
+    color: var(--color-green-bright);
+    background: rgba(22,166,132,.06);
+    transition: background 180ms ease;
+  }
+  .tool-chip:hover { background: rgba(22,166,132,.14); }
+
+  /* Responsive */
+  @media (max-width: 680px) {
+    .layer-inner { grid-template-columns: 1fr; }
+    .memory-node { grid-column: 1; }
+    .react-loop { justify-content: center; }
+    .loop-node { min-width: 90px; }
+  }
+</style>

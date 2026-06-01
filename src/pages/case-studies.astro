@@ -63,9 +63,23 @@ const cases = [
 
   <section class="cases-section">
     <div class="wrap">
-      <div class="cases-grid">
+
+      <!-- Filter bar -->
+      <div class="filter-bar" role="group" aria-label="Filter case studies">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Discovery">Discovery</button>
+        <button class="filter-btn" data-filter="Safety">Safety</button>
+        <button class="filter-btn" data-filter="Medicine Mgmt">Medicine Mgmt</button>
+        <button class="filter-btn" data-filter="Signal">Signal</button>
+        <button class="filter-btn" data-filter="Cautionary">Cautionary</button>
+      </div>
+
+      <div class="cases-grid" id="cases-grid">
         {cases.map((c) => (
-          <article class={`case-card${c.warn ? ' case-warn' : ''}`}>
+          <article
+            class={`case-card${c.warn ? ' case-warn' : ''}`}
+            data-category={c.category}
+          >
             <div class="case-org">
               <span class="case-org-name">{c.org}</span>
               <span class="case-pill">{c.category}</span>
@@ -183,6 +197,48 @@ const cases = [
   }
   .case-warn .case-metric { color: var(--color-signal); }
 
+  /* Filter bar */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.8rem;
+  }
+  .filter-btn {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-line);
+    background-color: var(--color-surface);
+    color: var(--color-text-soft);
+    cursor: pointer;
+    transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+  }
+  .filter-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+  .filter-btn.active {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: white;
+  }
+
+  /* Card visibility transitions */
+  .case-card {
+    transition: opacity 280ms ease, transform 280ms ease;
+  }
+  .case-card.filtered-out {
+    opacity: 0;
+    transform: scale(0.97);
+    pointer-events: none;
+    position: absolute;
+    visibility: hidden;
+  }
+
   /* Disclaimer */
   .disclaimer {
     display: flex;
@@ -204,3 +260,30 @@ const cases = [
     .cases-grid { grid-template-columns: 1fr; }
   }
 </style>
+
+<script>
+  (function () {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('#cases-grid .case-card');
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = (btn as HTMLElement).dataset.filter || 'all';
+
+        // Update active button
+        filterBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Show/hide cards
+        cards.forEach((card) => {
+          const cat = (card as HTMLElement).dataset.category || '';
+          if (filter === 'all' || cat === filter) {
+            card.classList.remove('filtered-out');
+          } else {
+            card.classList.add('filtered-out');
+          }
+        });
+      });
+    });
+  })();
+</script>
