@@ -1,0 +1,78 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Rx Automata">
+  <section class="relative overflow-hidden py-24 sm:py-32">
+    <div class="wrap">
+      <span
+        class="mono inline-flex items-center gap-2 text-[color:var(--color-green)]"
+      >
+        <span
+          class="inline-block h-[7px] w-[7px] rounded-full bg-[color:var(--color-amber-bright)] shadow-[0_0_0_4px_rgba(224,138,43,0.18)]"
+        ></span>
+        Phase 0 · Deployable Skeleton
+      </span>
+
+      <h1
+        class="mt-6 text-[clamp(2.5rem,6vw,5rem)] leading-[0.98] tracking-tight"
+      >
+        The pharmacy that
+        <em class="italic font-medium text-[color:var(--color-green)]"
+          >runs itself</em
+        >
+         — and the science that
+        <em class="italic font-medium text-[color:var(--color-green)]"
+          >thinks ahead</em
+        >.
+      </h1>
+
+      <p
+        class="mt-8 max-w-[34em] text-lg leading-relaxed text-[color:var(--color-ink-2)]"
+      >
+        A field guide to how workflow automation and agentic automation are
+        reshaping pharmaceuticals and medicine management — from the first
+        hypothesis to the last dose. The site is being built in phases on
+        Astro + Render.
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center gap-4">
+        <span
+          class="mono rounded-sm bg-[color:var(--color-green)] px-5 py-3 text-[color:var(--color-paper)]"
+        >
+          Build status: scaffold live
+        </span>
+        <a
+          href="/docs/SPEC.md"
+          class="mono rounded-sm border border-[color:var(--color-ink)] px-5 py-3 text-[color:var(--color-ink)] transition hover:bg-[color:var(--color-ink)] hover:text-[color:var(--color-paper)]"
+        >
+          Read the spec →
+        </a>
+      </div>
+
+      <div
+        class="mt-20 grid grid-cols-1 gap-px overflow-hidden rounded-md border border-[color:var(--color-ink)]/15 bg-[color:var(--color-ink)]/15 sm:grid-cols-3"
+      >
+        <div class="bg-[color:var(--color-paper-2)] p-6">
+          <div class="mono text-[color:var(--color-amber)]">Stack</div>
+          <p class="mt-2 text-sm text-[color:var(--color-ink-soft)]">
+            Astro · Tailwind v4 · Markdown content collections.
+          </p>
+        </div>
+        <div class="bg-[color:var(--color-paper-2)] p-6">
+          <div class="mono text-[color:var(--color-amber)]">Hosting</div>
+          <p class="mt-2 text-sm text-[color:var(--color-ink-soft)]">
+            Render static site, global CDN, automatic TLS, auto-deploy on
+            push.
+          </p>
+        </div>
+        <div class="bg-[color:var(--color-paper-2)] p-6">
+          <div class="mono text-[color:var(--color-amber)]">Next</div>
+          <p class="mt-2 text-sm text-[color:var(--color-ink-soft)]">
+            Phase 1 — design system, header & footer, dark/light theme.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

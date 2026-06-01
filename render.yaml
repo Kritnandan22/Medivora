@@ -1,0 +1,32 @@
+# Render Blueprint — Rx Automata
+# Spec reference: §10.5
+# Defines the deploy target as code so it is reproducible across environments.
+
+services:
+  - type: web
+    name: rx-automata
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    autoDeploy: true
+    pullRequestPreviewsEnabled: true
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: Permissions-Policy
+        value: camera=(), microphone=(), geolocation=()
+      - path: /*
+        name: Strict-Transport-Security
+        value: max-age=63072000; includeSubDomains; preload
+    routes:
+      - type: rewrite
+        source: /404
+        destination: /404.html

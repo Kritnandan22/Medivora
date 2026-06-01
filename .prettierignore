@@ -1,0 +1,7 @@
+dist/
+.astro/
+node_modules/
+.venv/
+docs/reference/
+*.docx
+package-lock.json

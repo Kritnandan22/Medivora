@@ -1,0 +1,24 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Not Found"
+  description="That page does not exist on Rx Automata."
+>
+  <section class="py-32">
+    <div class="wrap">
+      <span class="mono text-[color:var(--color-amber)]">Error · 404</span>
+      <h1 class="mt-4 text-[clamp(2rem,5vw,4rem)]">Nothing at this URL.</h1>
+      <p class="mt-4 max-w-[40em] text-[color:var(--color-ink-2)]">
+        The page you tried to reach does not exist. It may have been moved, or
+        the link may be wrong.
+      </p>
+      <a
+        href="/"
+        class="mono mt-8 inline-block rounded-sm bg-[color:var(--color-green)] px-5 py-3 text-[color:var(--color-paper)] transition hover:bg-[color:var(--color-green-deep)]"
+        >← Back to the home page</a
+      >
+    </div>
+  </section>
+</BaseLayout>

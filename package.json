@@ -1,0 +1,37 @@
+{
+  "name": "rx-automata",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Rx Automata — a field guide to workflow and agentic automation in pharma and medicine management.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "format": "prettier --write \"**/*.{astro,ts,tsx,js,jsx,mjs,cjs,css,md,mdx,json,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{astro,ts,tsx,js,jsx,mjs,cjs,css,md,mdx,json,yml,yaml}\"",
+    "lint": "eslint . --ext .js,.mjs,.cjs,.ts,.tsx,.astro",
+    "lint:fix": "eslint . --ext .js,.mjs,.cjs,.ts,.tsx,.astro --fix"
+  },
+  "dependencies": {
+    "astro": "^5.0.0",
+    "@astrojs/sitemap": "^3.2.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.8",
+    "eslint": "^9.13.0",
+    "eslint-plugin-astro": "^1.3.0",
+    "@typescript-eslint/parser": "^8.12.2",
+    "@typescript-eslint/eslint-plugin": "^8.12.2",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  }
+}

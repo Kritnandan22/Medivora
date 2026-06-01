@@ -1,0 +1,89 @@
+@import 'tailwindcss';
+
+@theme {
+  /* === Brand palette (apothecary green, signal amber, warm paper) === */
+  --color-paper: #f1ece0;
+  --color-paper-2: #e8e1d1;
+  --color-paper-3: #ded5c2;
+  --color-ink: #13201b;
+  --color-ink-2: #2c3a34;
+  --color-ink-soft: #54625b;
+  --color-green: #0e6b54;
+  --color-green-bright: #16a684;
+  --color-green-deep: #0a4f3f;
+  --color-amber: #c06a24;
+  --color-amber-bright: #e08a2b;
+
+  /* === Typography === */
+  --font-serif:
+    'Fraunces', 'Iowan Old Style', Georgia, ui-serif, serif;
+  --font-sans:
+    'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui,
+    sans-serif;
+  --font-mono:
+    'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo,
+    Consolas, monospace;
+
+  /* === Layout === */
+  --container-prose: 72ch;
+  --container-narrow: 60rem;
+  --container-wide: 78rem;
+}
+
+/* === Base resets & defaults === */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+  }
+  ::selection {
+    background-color: var(--color-green-bright);
+    color: var(--color-paper);
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  /* Respect users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* === Utility primitives reused across the site === */
+@layer components {
+  .mono {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+  }
+  .wrap {
+    max-width: var(--container-wide);
+    margin-inline: auto;
+    padding-inline: 1.75rem;
+  }
+}

@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rx Automata — Workflow &amp; Agentic Automation in Pharma &amp; Medicine Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F1ECE0;
+    --paper-2:#E8E1D1;
+    --paper-3:#DED5C2;
+    --ink:#13201B;
+    --ink-2:#2C3A34;
+    --ink-soft:#54625B;
+    --green:#0E6B54;
+    --green-bright:#16A684;
+    --green-deep:#0A4F3F;
+    --amber:#C06A24;
+    --amber-bright:#E08A2B;
+    --line:rgba(19,32,27,.16);
+    --line-soft:rgba(19,32,27,.09);
+    --shadow:0 1px 0 rgba(19,32,27,.06), 0 18px 40px -28px rgba(10,79,63,.5);
+    --serif:'Fraunces',Georgia,serif;
+    --sans:'Hanken Grotesk',-apple-system,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --maxw:1240px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+  body{
+    font-family:var(--sans);
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.65;
+    font-size:17px;
+    overflow-x:hidden;
+    position:relative;
+  }
+  /* grain overlay */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection{background:var(--green-bright);color:var(--paper)}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .mono{font-family:var(--mono);font-weight:500;letter-spacing:.14em;text-transform:uppercase;font-size:.7rem}
+
+  /* ===== NAV ===== */
+  header.nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(241,236,224,.82);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--serif);font-weight:600;font-size:1.18rem;letter-spacing:-.01em}
+  .brand .mark{width:30px;height:30px;flex:none}
+  .brand .mark circle,.brand .mark line{stroke:var(--green);}
+  .navlinks{display:flex;gap:30px;align-items:center}
+  .navlinks a{font-size:.83rem;font-weight:500;color:var(--ink-2);transition:color .2s;position:relative;padding:4px 0}
+  .navlinks a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1.5px;background:var(--green);transition:width .25s}
+  .navlinks a:hover{color:var(--green)}
+  .navlinks a:hover::after{width:100%}
+  .nav-cta{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--ink);padding:9px 16px;border-radius:2px;transition:all .22s}
+  .nav-cta:hover{background:var(--ink);color:var(--paper)}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px}
+  .burger span{width:24px;height:2px;background:var(--ink);transition:.3s}
+  .mnav{display:none;border-top:1px solid var(--line);background:var(--paper)}
+  .mnav a{display:block;padding:14px 28px;border-bottom:1px solid var(--line-soft);font-weight:500;font-size:.95rem}
+
+  /* ===== HERO ===== */
+  .hero{position:relative;padding:74px 0 30px;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.18fr .82fr;gap:48px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--green);margin-bottom:26px}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--amber-bright);box-shadow:0 0 0 4px rgba(224,138,43,.18)}
+  h1.hero-h{font-family:var(--serif);font-weight:600;font-size:clamp(2.7rem,6.4vw,5.6rem);line-height:.98;letter-spacing:-.025em}
+  h1.hero-h em{font-style:italic;color:var(--green);font-weight:500}
+  .hero-sub{margin-top:26px;font-size:1.17rem;color:var(--ink-2);max-width:34em;line-height:1.55}
+  .hero-actions{margin-top:34px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .btn{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;padding:14px 24px;border-radius:3px;transition:all .24s;cursor:pointer;border:1px solid transparent;display:inline-flex;gap:9px;align-items:center}
+  .btn-primary{background:var(--green);color:var(--paper)}
+  .btn-primary:hover{background:var(--green-deep);transform:translateY(-2px)}
+  .btn-ghost{border-color:var(--ink);color:var(--ink)}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper)}
+  .hero-visual{position:relative;aspect-ratio:1/1;max-width:440px;margin-left:auto}
+  .hero-visual svg{width:100%;height:100%;overflow:visible}
+  .node{transform-box:fill-box;transform-origin:center}
+  .edge{stroke:var(--green);stroke-width:1.3;fill:none;opacity:.4;stroke-dasharray:5 5;animation:dash 4s linear infinite}
+  .edge.b{stroke:var(--amber);opacity:.55;animation-duration:6s}
+  @keyframes dash{to{stroke-dashoffset:-100}}
+  .pulse{animation:pulse 3.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.32);opacity:.5}}
+  .nlabel{font-family:var(--mono);font-size:8.5px;letter-spacing:.05em;fill:var(--ink-soft)}
+
+  /* stat strip */
+  .stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:56px}
+  .stats-in{display:grid;grid-template-columns:repeat(4,1fr)}
+  .stat{padding:30px 26px;border-right:1px solid var(--line-soft)}
+  .stat:last-child{border-right:0}
+  .stat .n{font-family:var(--serif);font-size:clamp(2rem,3.4vw,2.9rem);font-weight:600;line-height:1;letter-spacing:-.02em;color:var(--green)}
+  .stat .n.amb{color:var(--amber)}
+  .stat .l{margin-top:10px;font-size:.82rem;color:var(--ink-soft);line-height:1.45}
+
+  /* ===== SECTION SHELL ===== */
+  section{padding:90px 0;position:relative}
+  .sec-head{max-width:760px;margin-bottom:54px}
+  .sec-idx{color:var(--amber);margin-bottom:18px;display:block}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(1.95rem,4vw,3.2rem);line-height:1.04;letter-spacing:-.02em}
+  h2 em{font-style:italic;color:var(--green);font-weight:500}
+  .sec-head p{margin-top:20px;font-size:1.12rem;color:var(--ink-2);line-height:1.6}
+  .divider{height:1px;background:var(--line)}
+
+  /* ===== TWO ENGINES ===== */
+  #engines{background:var(--ink);color:var(--paper)}
+  #engines h2{color:var(--paper)}
+  #engines .sec-head p{color:rgba(241,236,224,.72)}
+  #engines .sec-idx{color:var(--amber-bright)}
+  .engines-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .engine{border:1px solid rgba(241,236,224,.2);border-radius:6px;padding:38px 34px;position:relative;overflow:hidden;background:rgba(255,255,255,.02);transition:transform .3s,border-color .3s}
+  .engine:hover{transform:translateY(-4px);border-color:rgba(241,236,224,.4)}
+  .engine .tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink)}
+  .engine.wf .tag{background:var(--green-bright);padding:5px 11px;border-radius:2px;display:inline-block}
+  .engine.ag .tag{background:var(--amber-bright);padding:5px 11px;border-radius:2px;display:inline-block}
+  .engine h3{font-family:var(--serif);font-size:1.85rem;font-weight:600;margin:20px 0 6px;letter-spacing:-.01em}
+  .engine .deck{color:rgba(241,236,224,.7);font-size:1.02rem;margin-bottom:24px}
+  .traits{list-style:none;display:flex;flex-direction:column;gap:13px}
+  .traits li{display:flex;gap:13px;font-size:.95rem;color:rgba(241,236,224,.88);line-height:1.4}
+  .traits li b{color:var(--paper);font-weight:600}
+  .traits svg{flex:none;margin-top:3px}
+  .engine .foot{margin-top:26px;padding-top:20px;border-top:1px solid rgba(241,236,224,.16);font-size:.84rem;color:rgba(241,236,224,.6)}
+  .engine .foot b{color:var(--green-bright);font-weight:600}
+  .engine.ag .foot b{color:var(--amber-bright)}
+  .relation{margin-top:30px;text-align:center;font-size:.96rem;color:rgba(241,236,224,.7);font-style:italic;font-family:var(--serif)}
+  .relation b{color:var(--amber-bright);font-style:normal;font-family:var(--sans);font-weight:600}
+
+  /* ===== WHY PHARMA ===== */
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--paper-2)}
+  .why-card{padding:34px 30px;border-right:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+  .why-card .ic{width:38px;height:38px;color:var(--green);margin-bottom:18px}
+  .why-card h4{font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-bottom:10px;letter-spacing:-.01em}
+  .why-card p{font-size:.94rem;color:var(--ink-soft);line-height:1.55}
+  .why-card:nth-child(3n){border-right:0}
+  .why-card:nth-child(n+4){border-bottom:0}
+
+  /* ===== VALUE CHAIN ACCORDION ===== */
+  .vc{border-top:1px solid var(--line)}
+  .vc-item{border-bottom:1px solid var(--line)}
+  .vc-btn{width:100%;background:none;border:0;cursor:pointer;text-align:left;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:24px;padding:30px 6px;font-family:inherit;transition:padding-left .25s}
+  .vc-btn:hover{padding-left:14px}
+  .vc-num{font-family:var(--mono);font-size:.78rem;color:var(--amber);letter-spacing:.06em}
+  .vc-title{font-family:var(--serif);font-size:clamp(1.35rem,2.6vw,2rem);font-weight:600;letter-spacing:-.015em;line-height:1.1}
+  .vc-toggle{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;transition:all .3s;position:relative}
+  .vc-toggle::before,.vc-toggle::after{content:"";position:absolute;background:var(--ink);transition:.3s}
+  .vc-toggle::before{width:13px;height:1.8px}
+  .vc-toggle::after{width:1.8px;height:13px}
+  .vc-item.open .vc-toggle{background:var(--green);border-color:var(--green)}
+  .vc-item.open .vc-toggle::before,.vc-item.open .vc-toggle::after{background:var(--paper)}
+  .vc-item.open .vc-toggle::after{transform:scaleY(0)}
+  .vc-panel{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1)}
+  .vc-inner{padding:4px 6px 40px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  .vc-lead{grid-column:1/-1;font-size:1.06rem;color:var(--ink-2);max-width:60em;line-height:1.6;margin-bottom:8px}
+  .vc-block{background:var(--paper-2);border:1px solid var(--line-soft);border-radius:6px;padding:24px 22px}
+  .vc-block .bt{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+  .vc-block .bt .chip{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border-radius:2px}
+  .vc-block.wf .chip{background:var(--green);color:var(--paper)}
+  .vc-block.ag .chip{background:var(--amber);color:var(--paper)}
+  .vc-block .bt span.h{font-weight:600;font-size:.96rem}
+  .vc-block ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .vc-block li{font-size:.92rem;color:var(--ink-2);line-height:1.45;padding-left:18px;position:relative}
+  .vc-block li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--green)}
+  .vc-block.ag li::before{background:var(--amber)}
+  .vc-proof{grid-column:1/-1;font-size:.9rem;color:var(--ink-soft);font-style:italic;border-left:2px solid var(--amber);padding:4px 0 4px 16px;line-height:1.5}
+  .vc-proof b{font-style:normal;color:var(--ink);font-weight:600}
+
+  /* ===== DECISION / COMPARISON ===== */
+  #decide{background:var(--paper-2)}
+  .cmp{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:30px}
+  .cmp-col{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:32px 28px}
+  .cmp-col h4{font-family:var(--serif);font-size:1.45rem;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:12px}
+  .cmp-col h4 .badge{width:11px;height:11px;border-radius:3px}
+  .cmp-col.a h4 .badge{background:var(--green)}
+  .cmp-col.b h4 .badge{background:var(--amber)}
+  .cmp-col .when{font-size:.8rem;color:var(--ink-soft);font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:22px}
+  .cmp-col ul{list-style:none;display:flex;flex-direction:column;gap:14px}
+  .cmp-col li{display:flex;gap:12px;font-size:.95rem;color:var(--ink-2);line-height:1.45}
+  .cmp-col li svg{flex:none;margin-top:3px;color:var(--green)}
+  .cmp-col.b li svg{color:var(--amber)}
+  .converge{background:var(--ink);color:var(--paper);border-radius:6px;padding:34px 32px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+  .converge .ic{width:46px;height:46px;color:var(--amber-bright);flex:none}
+  .converge h4{font-family:var(--serif);font-size:1.4rem;font-weight:600;margin-bottom:8px}
+  .converge p{color:rgba(241,236,224,.78);font-size:1rem;line-height:1.55}
+  .converge p b{color:var(--green-bright);font-weight:600}
+
+  /* ===== CASES ===== */
+  .cases{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .case{border:1px solid var(--line);border-radius:6px;padding:30px 28px;background:var(--paper-2);transition:transform .3s,box-shadow .3s;position:relative;overflow:hidden}
+  .case:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .case .org{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+  .case .org .pill{font-size:.6rem;padding:3px 8px;border-radius:20px;border:1px solid var(--line);color:var(--ink-soft);letter-spacing:.08em}
+  .case h4{font-family:var(--serif);font-size:1.3rem;font-weight:600;line-height:1.2;margin-bottom:12px;letter-spacing:-.01em}
+  .case p{font-size:.93rem;color:var(--ink-2);line-height:1.55}
+  .case .metric{margin-top:16px;font-family:var(--serif);font-size:1.05rem;color:var(--green);font-weight:600}
+  .case.warn{border-color:rgba(192,106,36,.4)}
+  .case.warn .org{color:var(--amber)}
+  .case.warn .metric{color:var(--amber)}
+
+  /* ===== RESPONSIBLE ===== */
+  .resp-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:start}
+  .resp-list{display:flex;flex-direction:column;gap:4px}
+  .resp-row{display:grid;grid-template-columns:auto 1fr;gap:20px;padding:22px 0;border-bottom:1px solid var(--line-soft)}
+  .resp-row:last-child{border-bottom:0}
+  .resp-row .rn{font-family:var(--mono);font-size:.8rem;color:var(--amber);padding-top:3px}
+  .resp-row h4{font-family:var(--serif);font-size:1.2rem;font-weight:600;margin-bottom:6px}
+  .resp-row p{font-size:.93rem;color:var(--ink-soft);line-height:1.5}
+  .resp-row p code{font-family:var(--mono);font-size:.82em;background:var(--paper-3);padding:1px 6px;border-radius:3px;color:var(--ink-2)}
+  .resp-aside{background:var(--green-deep);color:var(--paper);border-radius:8px;padding:36px 32px;position:sticky;top:90px}
+  .resp-aside .mono{color:var(--amber-bright)}
+  .resp-aside blockquote{font-family:var(--serif);font-size:1.5rem;line-height:1.3;font-weight:500;margin:18px 0;letter-spacing:-.01em}
+  .resp-aside blockquote em{font-style:italic;color:var(--green-bright)}
+  .resp-aside p{font-size:.92rem;color:rgba(241,236,224,.78);line-height:1.55}
+
+  /* ===== FUTURE ===== */
+  #future{background:var(--ink);color:var(--paper)}
+  #future h2{color:var(--paper)}
+  #future .sec-idx{color:var(--amber-bright)}
+  #future .sec-head p{color:rgba(241,236,224,.74)}
+  .future-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .fcard{border:1px solid rgba(241,236,224,.18);border-radius:6px;padding:30px 26px;transition:.3s}
+  .fcard:hover{background:rgba(255,255,255,.03);border-color:rgba(241,236,224,.36)}
+  .fcard .yr{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;color:var(--amber-bright);margin-bottom:16px}
+  .fcard h4{font-family:var(--serif);font-size:1.32rem;font-weight:600;margin-bottom:10px;letter-spacing:-.01em}
+  .fcard p{font-size:.92rem;color:rgba(241,236,224,.72);line-height:1.55}
+
+  /* ===== FOOTER ===== */
+  footer{background:var(--paper);border-top:1px solid var(--line);padding:64px 0 40px}
+  .foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;margin-bottom:48px}
+  .foot-brand{font-family:var(--serif);font-size:1.7rem;font-weight:600;letter-spacing:-.01em;margin-bottom:14px}
+  .foot-brand em{color:var(--green);font-style:italic}
+  .foot-top p{font-size:.92rem;color:var(--ink-soft);max-width:30em;line-height:1.6}
+  .foot-col h5{font-family:var(--mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink);margin-bottom:16px}
+  .foot-col a{display:block;font-size:.9rem;color:var(--ink-soft);padding:5px 0;transition:color .2s}
+  .foot-col a:hover{color:var(--green)}
+  .foot-bottom{border-top:1px solid var(--line);padding-top:26px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:.8rem;color:var(--ink-soft)}
+  .foot-note{max-width:60em;font-size:.78rem;color:var(--ink-soft);line-height:1.55;margin-top:18px;font-style:italic}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:980px){
+    .hero-grid{grid-template-columns:1fr;gap:8px}
+    .hero-visual{max-width:340px;margin:10px auto 0}
+    .engines-grid,.cmp,.resp-grid,.cases{grid-template-columns:1fr}
+    .why-grid{grid-template-columns:1fr 1fr}
+    .why-card:nth-child(3n){border-right:1px solid var(--line-soft)}
+    .why-card:nth-child(2n){border-right:0}
+    .future-grid{grid-template-columns:1fr 1fr}
+    .resp-aside{position:static}
+    .foot-top{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:720px){
+    .navlinks,.nav-cta{display:none}
+    .burger{display:flex}
+    .stats-in{grid-template-columns:1fr 1fr}
+    .stat:nth-child(2n){border-right:0}
+    .stat:nth-child(-n+2){border-bottom:1px solid var(--line-soft)}
+    .vc-inner{grid-template-columns:1fr}
+    .converge{grid-template-columns:1fr}
+    .future-grid,.why-grid{grid-template-columns:1fr}
+    .why-card{border-right:0!important}
+    .foot-top{grid-template-columns:1fr}
+    section{padding:64px 0}
+    body{font-size:16px}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="#top" class="brand">
+      <svg class="mark" viewBox="0 0 30 30" fill="none">
+        <circle cx="6" cy="8" r="3" stroke-width="1.6"/>
+        <circle cx="22" cy="6" r="2.4" stroke-width="1.6"/>
+        <circle cx="24" cy="22" r="3" stroke-width="1.6"/>
+        <circle cx="8" cy="23" r="2.4" stroke-width="1.6"/>
+        <circle cx="15" cy="15" r="2" stroke-width="1.6"/>
+        <line x1="6" y1="8" x2="15" y2="15" stroke-width="1.4"/>
+        <line x1="22" y1="6" x2="15" y2="15" stroke-width="1.4"/>
+        <line x1="24" y1="22" x2="15" y2="15" stroke-width="1.4"/>
+        <line x1="8" y1="23" x2="15" y2="15" stroke-width="1.4"/>
+      </svg>
+      Rx&nbsp;Automata
+    </a>
+    <nav class="navlinks">
+      <a href="#engines">Two Engines</a>
+      <a href="#why">Why Pharma</a>
+      <a href="#chain">Value Chain</a>
+      <a href="#decide">Which &amp; When</a>
+      <a href="#cases">In Practice</a>
+      <a href="#future">Road Ahead</a>
+    </nav>
+    <a href="#chain" class="nav-cta">Explore the Map</a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <nav class="mnav" id="mnav">
+    <a href="#engines">Two Engines</a>
+    <a href="#why">Why Pharma</a>
+    <a href="#chain">Value Chain</a>
+    <a href="#decide">Which &amp; When</a>
+    <a href="#cases">In Practice</a>
+    <a href="#future">Road Ahead</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<a id="top"></a>
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow mono"><span class="dot"></span>A Field Guide · Pharma &amp; Medicine Management</span>
+        <h1 class="hero-h">The pharmacy that <em>runs itself</em> — and the science that <em>thinks ahead</em>.</h1>
+        <p class="hero-sub">Two kinds of automation are reshaping how medicines are discovered, approved, made, distributed, and managed. <strong>Workflow automation</strong> moves structured work through the pipeline flawlessly. <strong>Agentic automation</strong> reasons through the messy parts a human used to handle. Here is how both are being put to work across the life-sciences value chain.</p>
+        <div class="hero-actions">
+          <a href="#chain" class="btn btn-primary">See the value chain →</a>
+          <a href="#engines" class="btn btn-ghost">Understand the difference</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <svg viewBox="0 0 400 400">
+          <!-- edges -->
+          <path class="edge" d="M200 200 L80 90"/>
+          <path class="edge" d="M200 200 L330 110"/>
+          <path class="edge b" d="M200 200 L350 300"/>
+          <path class="edge" d="M200 200 L70 320"/>
+          <path class="edge b" d="M200 200 L200 50"/>
+          <path class="edge" d="M80 90 L200 50"/>
+          <path class="edge" d="M330 110 L350 300"/>
+          <path class="edge b" d="M70 320 L350 300"/>
+          <!-- outer nodes -->
+          <g class="node pulse" style="animation-delay:.0s"><circle cx="80" cy="90" r="9" fill="#0E6B54"/></g>
+          <g class="node pulse" style="animation-delay:.5s"><circle cx="330" cy="110" r="11" fill="#0E6B54"/></g>
+          <g class="node pulse" style="animation-delay:1.1s"><circle cx="350" cy="300" r="9" fill="#C06A24"/></g>
+          <g class="node pulse" style="animation-delay:1.7s"><circle cx="70" cy="320" r="10" fill="#0E6B54"/></g>
+          <g class="node pulse" style="animation-delay:2.2s"><circle cx="200" cy="50" r="8" fill="#C06A24"/></g>
+          <!-- core -->
+          <circle cx="200" cy="200" r="30" fill="none" stroke="#0A4F3F" stroke-width="1.5" opacity=".5"/>
+          <circle cx="200" cy="200" r="20" fill="#13201B"/>
+          <circle cx="200" cy="200" r="20" fill="none" stroke="#16A684" stroke-width="1.5" class="pulse"/>
+          <text x="200" y="204" text-anchor="middle" class="nlabel" fill="#16A684" style="font-size:9px;letter-spacing:.1em">AGENT</text>
+          <!-- labels -->
+          <text x="80" y="74" text-anchor="middle" class="nlabel">DISCOVERY</text>
+          <text x="330" y="92" text-anchor="middle" class="nlabel">TRIALS</text>
+          <text x="350" y="324" text-anchor="middle" class="nlabel">SUPPLY</text>
+          <text x="70" y="346" text-anchor="middle" class="nlabel">PHARMACY</text>
+          <text x="200" y="36" text-anchor="middle" class="nlabel">SAFETY</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stats">
+    <div class="wrap stats-in">
+      <div class="stat reveal"><div class="n">~$2.3B</div><div class="l">Average cost to bring a single new medicine to market today</div></div>
+      <div class="stat reveal d1"><div class="n amb">~90%</div><div class="l">Of drug candidates still fail during clinical development</div></div>
+      <div class="stat reveal d2"><div class="n">80–90%</div><div class="l">Phase&nbsp;I success for AI-discovered molecules vs. 40–65% historically</div></div>
+      <div class="stat reveal d3"><div class="n amb">67%</div><div class="l">Reported cut in admin processing time by an AI pharmacy agent</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TWO ENGINES -->
+<section id="engines">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-idx mono">01 — The Two Engines</span>
+      <h2>One follows the rules. <em>One writes its own.</em></h2>
+      <p>Almost everything in this guide is built from two distinct capabilities. Knowing which is which is the whole game — because they fail differently, cost differently, and belong in different parts of the pipeline.</p>
+    </div>
+    <div class="engines-grid">
+      <div class="engine wf reveal">
+        <span class="tag">Workflow Automation</span>
+        <h3>The deterministic pipeline</h3>
+        <p class="deck">Software that moves structured work between systems and people along a path you define in advance: <em>if this, then that</em>.</p>
+        <ul class="traits">
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-8" stroke="#16A684" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Rule-based &amp; predictable.</b> Executes the same defined steps perfectly, every time, at high volume.</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-8" stroke="#16A684" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Auditable by design.</b> Signed steps, version snapshots and immutable history — ideal for regulated work.</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-8" stroke="#16A684" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Two flavours.</b> API-first integration (Zapier, Make, Power Automate) and screen-driving RPA (UiPath) for legacy systems with no API.</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="#C06A24" stroke-width="2" stroke-linecap="round"/></svg><span><b>Brittle at the edges.</b> Ambiguous input, exceptions and judgement calls break the flow — a human has to step in.</span></li>
+        </ul>
+        <div class="foot">Best when the process is well-defined and the answer to <b>"does this system have an API?"</b> is yes.</div>
+      </div>
+
+      <div class="engine ag reveal d1">
+        <span class="tag">Agentic Automation</span>
+        <h3>The reasoning operator</h3>
+        <p class="deck">LLM-powered agents that interpret a goal, plan the steps, call the right tools, and execute multi-step work with minimal supervision.</p>
+        <ul class="traits">
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-8" stroke="#E08A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Reasons through ambiguity.</b> Reads unstructured text, interprets intent and handles the exceptions that stop rule-based flows.</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-8" stroke="#E08A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Acts on the write path.</b> Doesn't just analyse — it takes action: books, files, reconciles, drafts, updates systems of record.</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-8" stroke="#E08A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Works in teams.</b> Multi-agent systems split roles — a supervisor, a chemist, a lab agent, a safety guardrail — and collaborate.</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-8" stroke="#E08A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Orchestrates the rest.</b> A capable agent can drive the deterministic workflows and RPA bots beneath it.</span></li>
+        </ul>
+        <div class="foot">Best when inputs are messy, exceptions are frequent, and the work needs <b>interpretation and judgement</b>.</div>
+      </div>
+    </div>
+    <p class="relation">They aren't rivals. The mature pattern is <b>agents reasoning on top, deterministic workflows executing underneath</b> — with a human reviewing the decisions that matter.</p>
+  </div>
+</section>
+
+<!-- WHY PHARMA -->
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-idx mono">02 — Why Pharma Is Ripe For It</span>
+      <h2>A high-stakes industry <em>drowning in structured work.</em></h2>
+      <p>Few sectors combine such enormous cost, such heavy documentation, and such unforgiving regulation. That exact mix is what automation was built to absorb.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/></svg>
+        <h4>Crushing economics</h4>
+        <p>At roughly $2.3B per approved drug and a ~90% clinical failure rate, every week and every misallocated scientist hour carries enormous cost.</p>
+      </div>
+      <div class="why-card reveal d1">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <h4>Documentation overload</h4>
+        <p>Submissions, batch records, safety reports and audit trails generate mountains of repetitive, format-strict paperwork on hard deadlines.</p>
+      </div>
+      <div class="why-card reveal d2">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>Relentless regulation</h4>
+        <p>21&nbsp;CFR&nbsp;Part&nbsp;11, GxP, ICH and global agency rules demand traceable, validated, consistent processes — perfect for controlled automation.</p>
+      </div>
+      <div class="why-card reveal">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 3 8-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 6h5v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>Exploding data volumes</h4>
+        <p>More patients, more data sources and ever-changing global rules outpace the humans expected to track them case by case.</p>
+      </div>
+      <div class="why-card reveal d1">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <h4>The adherence gap</h4>
+        <p>Medication non-adherence remains a leading driver of preventable hospitalisation and cost — a problem of monitoring and follow-up at scale.</p>
+      </div>
+      <div class="why-card reveal d2">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M5 12l4-4M5 12l4 4M19 7v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>Fragile supply chains</h4>
+        <p>Cold-chain logistics, shortages and global disruptions reward systems that can sense, simulate and reroute faster than humans can.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE CHAIN -->
+<section id="chain">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-idx mono">03 — Across The Value Chain</span>
+      <h2>Seven stages, <em>two engines at work in each.</em></h2>
+      <p>From the first hypothesis to the last dose handed across a counter, here is where workflow and agentic automation are actually being applied. Tap any stage to open it.</p>
+    </div>
+
+    <div class="vc">
+      <!-- 1 -->
+      <div class="vc-item open">
+        <button class="vc-btn" aria-expanded="true">
+          <span class="vc-num">01</span>
+          <span class="vc-title">Drug Discovery &amp; R&amp;D</span>
+          <span class="vc-toggle"></span>
+        </button>
+        <div class="vc-panel">
+          <div class="vc-inner">
+            <p class="vc-lead">The slowest, most failure-prone stage — historically a manual marathon of compiling data and screening thousands of molecules. This is where agentic systems are making their boldest claims.</p>
+            <div class="vc-block wf">
+              <div class="bt"><span class="chip">Workflow</span><span class="h">Structuring the lab</span></div>
+              <ul>
+                <li>Automated data pipelines and electronic lab notebooks replacing manual capture</li>
+                <li>Harmonised data definitions across pre-clinical and clinical teams</li>
+                <li>Lab-instrument integration and high-throughput screening orchestration</li>
+              </ul>
+            </div>
+            <div class="vc-block ag">
+              <div class="bt"><span class="chip">Agentic</span><span class="h">The closed-loop scientist</span></div>
+              <ul>
+                <li>Multi-agent systems run the Design–Make–Test–Analyze (DMTA) cycle autonomously</li>
+                <li>Agents generate hypotheses, prioritise targets and design compounds in silico</li>
+                <li>Predicting efficacy, ADMET and toxicity before a molecule is ever synthesised</li>
+                <li>An "AI co-scientist" proposes and refines hypotheses with expert humans in the loop</li>
+              </ul>
+            </div>
+            <p class="vc-proof"><b>In the wild:</b> Insilico Medicine nominated a preclinical candidate after screening just 78 molecules; frameworks like CoScientist, ChemCrow and DrugAgent orchestrate cheminformatics and ML tasks end to end.</p>
+          </div>
+        </div>
+      </div>
+      <!-- 2 -->
+      <div class="vc-item">
+        <button class="vc-btn" aria-expanded="false">
+          <span class="vc-num">02</span>
+          <span class="vc-title">Clinical Trials &amp; Development</span>
+          <span class="vc-toggle"></span>
+        </button>
+        <div class="vc-panel">
+          <div class="vc-inner">
+            <p class="vc-lead">The single costliest, most bottlenecked phase — and one spread across many global sites, each with its own systems and data to provision.</p>
+            <div class="vc-block wf">
+              <div class="bt"><span class="chip">Workflow</span><span class="h">Running the study</span></div>
+              <ul>
+                <li>Electronic Data Capture (EDC) replacing manual patient data entry</li>
+                <li>Monitoring-visit scheduling and multi-site user provisioning</li>
+                <li>Continuous regulatory-compliance tracking across geographies</li>
+              </ul>
+            </div>
+            <div class="vc-block ag">
+              <div class="bt"><span class="chip">Agentic</span><span class="h">Judgement at the bottlenecks</span></div>
+              <ul>
+                <li>AI-driven patient recruitment matching eligible participants faster</li>
+                <li>Eligibility screening reasoned against electronic health records</li>
+                <li>Real-time safety monitoring and autonomous data-query resolution</li>
+                <li>Unified budgeting, contracting and forecasting for trial finances</li>
+              </ul>
+            </div>
+            <p class="vc-proof"><b>Why it matters:</b> faster enrolment and cleaner data attack the two things that most often blow trial timelines and budgets.</p>
+          </div>
+        </div>
+      </div>
+      <!-- 3 -->
+      <div class="vc-item">
+        <button class="vc-btn" aria-expanded="false">
+          <span class="vc-num">03</span>
+          <span class="vc-title">Regulatory Affairs &amp; Submissions</span>
+          <span class="vc-toggle"></span>
+        </button>
+        <div class="vc-panel">
+          <div class="vc-inner">
+            <p class="vc-lead">The "regulatory war room" — cross-functional teams scrambling for weeks to cross-check data for global filings to the FDA, EMA and beyond.</p>
+            <div class="vc-block wf">
+              <div class="bt"><span class="chip">Workflow</span><span class="h">Submission-ready output</span></div>
+              <ul>
+                <li>Automated generation and validation of submission documents</li>
+                <li>Fewer manual formatting errors; faster review cycles</li>
+                <li>Records held to agency compliance standards by construction</li>
+              </ul>
+            </div>
+            <div class="vc-block ag">
+              <div class="bt"><span class="chip">Agentic</span><span class="h">The augmented regulatory worker</span></div>
+              <ul>
+                <li>Instant cross-document data verification across a global dossier</li>
+                <li>Compliance built into the workflow from day one, not bolted on at the end</li>
+                <li>Humans shift from clerical cross-checking to high-level strategic review</li>
+              </ul>
+            </div>
+            <p class="vc-proof"><b>The shift:</b> the goal isn't to remove the regulatory expert — it's to stop them being a data compiler and free them to be a strategist.</p>
+          </div>
+        </div>
+      </div>
+      <!-- 4 -->
+      <div class="vc-item">
+        <button class="vc-btn" aria-expanded="false">
+          <span class="vc-num">04</span>
+          <span class="vc-title">Pharmacovigilance &amp; Drug Safety</span>
+          <span class="vc-toggle"></span>
+        </button>
+        <div class="vc-panel">
+          <div class="vc-inner">
+            <p class="vc-lead">The flagship automation use case in pharma. Thousands of adverse events are processed every month, each a regulated case with strict timelines under ICH&nbsp;E2B(R3) and 21&nbsp;CFR.</p>
+            <div class="vc-block wf">
+              <div class="bt"><span class="chip">Workflow</span><span class="h">The ICSR assembly line</span></div>
+              <ul>
+                <li>Case intake from email, portals and ICSR XML into a central safety database</li>
+                <li>Triage, booking, data entry, automated MedDRA coding and duplicate detection</li>
+                <li>Follow-up tracking, SOP-enforcing steps and a full audit log of every change</li>
+                <li>FDA-compliant e-signature on case review (e.g. safety platforms like Argus)</li>
+              </ul>
+            </div>
+            <div class="vc-block ag">
+              <div class="bt"><span class="chip">Agentic</span><span class="h">Reading the unstructured world</span></div>
+              <ul>
+                <li>Agents extract adverse events from literature, calls and social media</li>
+                <li>Drafting case narratives and performing first-pass medical assessment</li>
+                <li>Surfacing safety signals and routing complex cases for human medical review</li>
+              </ul>
+            </div>
+            <p class="vc-proof"><b>The pressure:</b> rising data volumes, faster drug approvals and global rule nuances make manual case handling unsustainable — exactly the gap intelligent automation fills.</p>
+          </div>
+        </div>
+      </div>
+      <!-- 5 -->
+      <div class="vc-item">
+        <button class="vc-btn" aria-expanded="false">
+          <span class="vc-num">05</span>
+          <span class="vc-title">Manufacturing &amp; Quality (GxP)</span>
+          <span class="vc-toggle"></span>
+        </button>
+        <div class="vc-panel">
+          <div class="vc-inner">
+            <p class="vc-lead">Where consistency is everything. A single out-of-spec batch is costly waste — and a compliance event.</p>
+            <div class="vc-block wf">
+              <div class="bt"><span class="chip">Workflow</span><span class="h">Keeping conditions in control</span></div>
+              <ul>
+                <li>Process Analytical Technology (PAT) monitoring production parameters in real time</li>
+                <li>Automated batch records and deviation management</li>
+                <li>Closed-loop CAPA workflows that document and resolve quality issues</li>
+              </ul>
+            </div>
+            <div class="vc-block ag">
+              <div class="bt"><span class="chip">Agentic</span><span class="h">Finding and explaining anomalies</span></div>
+              <ul>
+                <li>Anomaly detection across complex, multi-source manufacturing data</li>
+                <li>Reasoned root-cause analysis on deviations before they cascade</li>
+                <li>Predictive quality that flags drift toward control limits early</li>
+              </ul>
+            </div>
+            <p class="vc-proof"><b>The guardrail:</b> every automated GxP step must be validated to perform exactly as intended — and any deviation must be immediately detectable.</p>
+          </div>
+        </div>
+      </div>
+      <!-- 6 -->
+      <div class="vc-item">
+        <button class="vc-btn" aria-expanded="false">
+          <span class="vc-num">06</span>
+          <span class="vc-title">Supply Chain &amp; Distribution</span>
+          <span class="vc-toggle"></span>
+        </button>
+        <div class="vc-panel">
+          <div class="vc-inner">
+            <p class="vc-lead">Getting the right medicine to the right place, on time, at the right temperature — across a fragile, globally distributed network.</p>
+            <div class="vc-block wf">
+              <div class="bt"><span class="chip">Workflow</span><span class="h">Sensing and ordering</span></div>
+              <ul>
+                <li>Automated inventory, purchasing and order processing</li>
+                <li>Demand signals unified across previously siloed data</li>
+                <li>Reduced reliance on manual intervention as operations scale</li>
+              </ul>
+            </div>
+            <div class="vc-block ag">
+              <div class="bt"><span class="chip">Agentic</span><span class="h">The autonomous control tower</span></div>
+              <ul>
+                <li>Digital twins simulate the chain to test decisions before they're deployed</li>
+                <li>Dynamic rerouting around weather, customs and capacity — within Good Distribution Practice</li>
+                <li>Anticipating shortages, monitoring price swings and checking contract adherence</li>
+              </ul>
+            </div>
+            <p class="vc-proof"><b>The 2026 standard:</b> interoperable, explainable and audit-ready AI decisions, increasingly woven together with IoT and blockchain.</p>
+          </div>
+        </div>
+      </div>
+      <!-- 7 -->
+      <div class="vc-item">
+        <button class="vc-btn" aria-expanded="false">
+          <span class="vc-num">07</span>
+          <span class="vc-title">Pharmacy Operations &amp; Medication Management</span>
+          <span class="vc-toggle"></span>
+        </button>
+        <div class="vc-panel">
+          <div class="vc-inner">
+            <p class="vc-lead">The "management medicine" frontier — where automation meets the patient. The closest, most validated win is medication adherence; the biggest time-saver is freeing pharmacists from administrative load.</p>
+            <div class="vc-block wf">
+              <div class="bt"><span class="chip">Workflow</span><span class="h">Dispensing &amp; logistics</span></div>
+              <ul>
+                <li>Dispensing robotics and automated inventory management</li>
+                <li>Prescription processing — refills, transfers and new requests</li>
+                <li>Automated refill reminders and routine patient communications</li>
+              </ul>
+            </div>
+            <div class="vc-block ag">
+              <div class="bt"><span class="chip">Agentic</span><span class="h">The AI pharmacy assistant</span></div>
+              <ul>
+                <li>Agents process prescriptions and update the pharmacy system in real time</li>
+                <li>Insurance verification, copay/coverage queries and inbound call handling</li>
+                <li>Outbound adherence and vaccination campaigns; medication reconciliation that flags discrepancies</li>
+                <li>OCR that reads handwritten prescriptions; adherence sensed via smart bottles, dispensers and wearables</li>
+              </ul>
+            </div>
+            <p class="vc-proof"><b>The principle:</b> AI won't replace the pharmacist — it automates low-value tasks (one agent reported a ~67% cut in admin time) so clinical judgement and patient care get the human hours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DECISION -->
+<section id="decide">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-idx mono">04 — Which Engine, And When</span>
+      <h2>The decision is simpler <em>than the hype suggests.</em></h2>
+      <p>You rarely choose one forever. But for any given task, a few questions point clearly to the right tool — and to where they should be combined.</p>
+    </div>
+    <div class="cmp">
+      <div class="cmp-col a reveal">
+        <h4><span class="badge"></span>Reach for workflow automation</h4>
+        <div class="when">When the path is known</div>
+        <ul>
+          <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>The process is well-defined, structured and high-volume</li>
+          <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>The rules are stable and rarely change</li>
+          <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>You need deterministic, repeatable, fully auditable output</li>
+          <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>The systems involved have APIs — or RPA can drive their screens</li>
+        </ul>
+      </div>
+      <div class="cmp-col b reveal d1">
+        <h4><span class="badge"></span>Reach for agentic automation</h4>
+        <div class="when">When judgement is required</div>
+        <ul>
+          <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Inputs are unstructured, ambiguous or vary case by case</li>
+          <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Exceptions and edge cases are frequent, not rare</li>
+          <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>The task spans many tools and steps toward a goal</li>
+          <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Success needs reasoning over messy data, not just moving it</li>
+        </ul>
+      </div>
+    </div>
+    <div class="converge reveal d2">
+      <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 7h7l2 3 2-3h7M3 17h7l2-3 2 3h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div>
+        <h4>The lines are blurring on purpose</h4>
+        <p>Analysts now describe a converging category where iPaaS, RPA and AI agents merge. The resilient strategy isn't a single-vendor bet — it's <b>agents orchestrating deterministic workflows, with humans reviewing the decisions that carry clinical or regulatory weight.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section id="cases">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-idx mono">05 — Proof In Practice</span>
+      <h2>Real deployments — <em>the wins and the honest limits.</em></h2>
+      <p>The technology is past the demo stage in several areas. It's also produced cautionary tales worth keeping in view.</p>
+    </div>
+    <div class="cases">
+      <div class="case reveal">
+        <div class="org">Insilico Medicine <span class="pill">Discovery</span></div>
+        <h4>A candidate, in months not years</h4>
+        <p>Using a generative chemistry platform, the team nominated a preclinical candidate for idiopathic pulmonary fibrosis after screening only 78 molecules — a fraction of the thousands usually required — and later reported positive Phase&nbsp;IIa results.</p>
+        <div class="metric">~18 months · &lt;10% of typical cost</div>
+      </div>
+      <div class="case warn reveal d1">
+        <div class="org">Exscientia × Sumitomo <span class="pill">Cautionary</span></div>
+        <h4>Faster discovery ≠ guaranteed success</h4>
+        <p>DSP-1181, an AI-designed molecule for OCD, became one of the first to enter human trials in under a year — then was discontinued after Phase&nbsp;I despite a favourable safety profile. Speed to the clinic doesn't guarantee a drug that works.</p>
+        <div class="metric">Discontinued after Phase I</div>
+      </div>
+      <div class="case reveal d2">
+        <div class="org">Recursion <span class="pill">Discovery</span></div>
+        <h4>Phenotypic screening at scale</h4>
+        <p>Automated high-throughput cellular imaging paired with deep learning identifies phenotypic changes across millions of experiments — speeding both novel discovery and the repurposing of existing molecules.</p>
+        <div class="metric">Imaging + deep learning, industrialised</div>
+      </div>
+      <div class="case reveal d3">
+        <div class="org">GSK · Eli Lilly <span class="pill">Signal</span></div>
+        <h4>Big pharma buys in</h4>
+        <p>In early 2026, GSK committed tens of millions upfront for access to an oncology foundation model, and Lilly signed a multi-year deal for a drug-design model — clear signals that AI-native discovery is moving from fringe to core.</p>
+        <div class="metric">Foundation-model access deals</div>
+      </div>
+      <div class="case reveal">
+        <div class="org">Argus-class safety systems <span class="pill">Safety</span></div>
+        <h4>Pharmacovigilance, automated end to end</h4>
+        <p>Central safety databases ingest cases from email, portal and XML, auto-code with MedDRA, detect duplicates, enforce SOP workflows and keep a complete, e-signed audit trail — the regulated backbone of modern drug safety.</p>
+        <div class="metric">Thousands of cases / month</div>
+      </div>
+      <div class="case reveal d1">
+        <div class="org">AI pharmacy agents <span class="pill">Medicine Mgmt</span></div>
+        <h4>The counter, unburdened</h4>
+        <p>Purpose-built agents handle inbound calls, refills, insurance checks and adherence outreach, read handwritten scripts via OCR, and reconcile medication lists — with one platform reporting a sharp drop in administrative processing time.</p>
+        <div class="metric">~67% less admin time reported</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESPONSIBLE -->
+<section id="responsible">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-idx mono">06 — Doing It Responsibly</span>
+      <h2>In medicine, "it mostly works" <em>is not good enough.</em></h2>
+      <p>Automation in life sciences lives or dies on trust. These are the non-negotiables that separate a deployable system from a liability.</p>
+    </div>
+    <div class="resp-grid">
+      <div class="resp-list reveal">
+        <div class="resp-row">
+          <span class="rn">i.</span>
+          <div><h4>Validate everything</h4><p>Every automated workflow — however minor — must be validated to perform exactly as intended under <code>21 CFR Part 11</code>, GCP, GLP and GMP, with deviations immediately detectable.</p></div>
+        </div>
+        <div class="resp-row">
+          <span class="rn">ii.</span>
+          <div><h4>Audit trails &amp; e-signatures</h4><p>Signed steps, immutable history and design snapshots make a process independently auditable — the difference between speed and a finding in an inspection.</p></div>
+        </div>
+        <div class="resp-row">
+          <span class="rn">iii.</span>
+          <div><h4>Keep humans in the loop</h4><p>Agents augment clinical and regulatory judgement; they don't replace it. The most credible systems route decisions of consequence to a qualified human.</p></div>
+        </div>
+        <div class="resp-row">
+          <span class="rn">iv.</span>
+          <div><h4>Harmonise the data first</h4><p>Inconsistent field labels and units cause silent errors — like matching patient data to the wrong treatment arm. Clean definitions come before automation, not after.</p></div>
+        </div>
+        <div class="resp-row">
+          <span class="rn">v.</span>
+          <div><h4>Govern, upskill, protect equity</h4><p>Governance-first design, workforce training and equity safeguards have to be built in from inception, not retrofitted once something goes wrong.</p></div>
+        </div>
+      </div>
+      <aside class="resp-aside reveal d1">
+        <span class="mono">The honest takeaway</span>
+        <blockquote>AI performs best when it automates <em>well-defined workflows</em> — and falls short when asked to replace clinical judgement.</blockquote>
+        <p>That single sentence explains the whole architecture of this guide: deterministic workflows for the structured majority, agents for the ambiguous middle, and humans wherever the stakes are highest. Lasting progress comes from thoughtful integration into care — not from early hype.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- FUTURE -->
+<section id="future">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-idx mono">07 — The Road Ahead</span>
+      <h2>From doing the work <em>to predicting it.</em></h2>
+      <p>The near-term trajectory is less about flashier chatbots and more about automation moving upstream — into prediction, planning and orchestration.</p>
+    </div>
+    <div class="future-grid">
+      <div class="fcard reveal">
+        <div class="yr">R&amp;D → R&amp;P</div>
+        <h4>The predictive pipeline</h4>
+        <p>A shift from Research &amp; Development to Research &amp; Prediction: simulating outcomes digitally so only the highest-quality candidates ever consume lab time or trial budget.</p>
+      </div>
+      <div class="fcard reveal d1">
+        <div class="yr">By 2030</div>
+        <h4>AI-native discovery as default</h4>
+        <p>Projections suggest more than half of new drugs could be discovered using AI methods — with early Phase&nbsp;I success rates already running well above historical norms.</p>
+      </div>
+      <div class="fcard reveal d2">
+        <div class="yr">Operations</div>
+        <h4>Self-driving supply chains</h4>
+        <p>Autonomous planning, AI control towers and digital twins become standard — every decision audit-ready and compliance-confirmed by default.</p>
+      </div>
+      <div class="fcard reveal">
+        <div class="yr">Platforms</div>
+        <h4>One converged layer</h4>
+        <p>The boundaries between integration, RPA and agents keep dissolving — pushing teams toward flexible, multi-capability stacks over single-vendor lock-in.</p>
+      </div>
+      <div class="fcard reveal d1">
+        <div class="yr">Compliance</div>
+        <h4>Regulation, built in from day one</h4>
+        <p>Agentic systems increasingly fold verification into the workflow itself, turning the regulatory scramble into continuous, real-time assurance.</p>
+      </div>
+      <div class="fcard reveal d2">
+        <div class="yr">The constant</div>
+        <h4>The human stays central</h4>
+        <p>Across discovery, safety and the pharmacy counter, the durable role of automation is to remove drudgery — and hand expert time back to expert judgement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">Rx&nbsp;<em>Automata</em></div>
+        <p>A field guide to how workflow automation and agentic automation are reshaping pharmaceuticals and medicine management — from the first hypothesis to the last dose.</p>
+      </div>
+      <div class="foot-col">
+        <h5>The Guide</h5>
+        <a href="#engines">The Two Engines</a>
+        <a href="#why">Why Pharma Is Ripe</a>
+        <a href="#chain">The Value Chain</a>
+        <a href="#decide">Which &amp; When</a>
+      </div>
+      <div class="foot-col">
+        <h5>Go Deeper</h5>
+        <a href="#cases">Proof in Practice</a>
+        <a href="#responsible">Doing It Responsibly</a>
+        <a href="#future">The Road Ahead</a>
+        <a href="#top">Back to Top ↑</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Rx Automata · A field guide, not affiliated with any company named within.</span>
+      <span class="mono">Workflow × Agentic × Life Sciences</span>
+    </div>
+    <p class="foot-note">For information and education only. Company examples, figures and outcomes are drawn from publicly reported sources and industry analyses and are illustrative; they are not endorsements, guarantees, medical advice, or regulatory guidance. Verify any claim against primary sources before relying on it for clinical, regulatory or investment decisions.</p>
+  </div>
+</footer>
+
+<script>
+  // mobile nav
+  var burger=document.getElementById('burger'),mnav=document.getElementById('mnav');
+  burger.addEventListener('click',function(){
+    var open=mnav.style.display==='block';
+    mnav.style.display=open?'none':'block';
+    burger.classList.toggle('open',!open);
+  });
+  mnav.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){mnav.style.display='none';});});
+
+  // accordion
+  document.querySelectorAll('.vc-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var item=btn.closest('.vc-item'),panel=item.querySelector('.vc-panel'),isOpen=item.classList.contains('open');
+      document.querySelectorAll('.vc-item').forEach(function(it){
+        it.classList.remove('open');
+        it.querySelector('.vc-panel').style.maxHeight=null;
+        it.querySelector('.vc-btn').setAttribute('aria-expanded','false');
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        panel.style.maxHeight=panel.scrollHeight+'px';
+        btn.setAttribute('aria-expanded','true');
+      }
+    });
+  });
+  // open first panel on load
+  window.addEventListener('load',function(){
+    var first=document.querySelector('.vc-item.open .vc-panel');
+    if(first){first.style.maxHeight=first.scrollHeight+'px';}
+  });
+  // keep open panel sized on resize
+  window.addEventListener('resize',function(){
+    var op=document.querySelector('.vc-item.open .vc-panel');
+    if(op){op.style.maxHeight=op.scrollHeight+'px';}
+  });
+
+  // scroll reveal
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+</script>
+</body>
+</html>
