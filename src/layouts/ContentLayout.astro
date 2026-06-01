@@ -1,0 +1,49 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  eyebrow: string;
+  heading: string;
+  lede: string;
+  /** Optional extra class on the page-hero section */
+  heroClass?: string;
+}
+
+const { title, description, eyebrow, heading, lede, heroClass = '' } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <section class={`page-hero ${heroClass}`}>
+    <div class="wrap">
+      <span class="eyebrow">{eyebrow}</span>
+      <h1 set:html={heading} />
+      <p class="page-lede">{lede}</p>
+    </div>
+  </section>
+
+  <slot />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: 4.5rem 0 3.5rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .page-hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin-top: 1.2rem;
+    max-width: 22ch;
+  }
+  .page-lede {
+    margin-top: 1.4rem;
+    font-size: 1.12rem;
+    color: var(--color-text-2);
+    max-width: 44em;
+    line-height: 1.6;
+  }
+</style>

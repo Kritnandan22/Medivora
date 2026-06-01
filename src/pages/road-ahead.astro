@@ -1,22 +1,163 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
-import StubPage from '~/components/StubPage.astro';
+import ContentLayout from '~/layouts/ContentLayout.astro';
+
+const cards = [
+  {
+    yr: 'R&D → R&P',
+    title: 'The predictive pipeline',
+    body: 'A shift from Research & Development to Research & Prediction: simulating outcomes digitally so only the highest-quality candidates ever consume lab time or trial budget.',
+  },
+  {
+    yr: 'By 2030',
+    title: 'AI-native discovery as default',
+    body: 'Projections suggest more than half of new drugs could be discovered using AI methods — with early Phase I success rates already running well above historical norms.',
+  },
+  {
+    yr: 'Operations',
+    title: 'Self-driving supply chains',
+    body: 'Autonomous planning, AI control towers and digital twins become standard — every decision audit-ready and compliance-confirmed by default.',
+  },
+  {
+    yr: 'Platforms',
+    title: 'One converged layer',
+    body: 'The boundaries between integration, RPA and agents keep dissolving — pushing teams toward flexible, multi-capability stacks over single-vendor lock-in.',
+  },
+  {
+    yr: 'Compliance',
+    title: 'Regulation, built in from day one',
+    body: 'Agentic systems increasingly fold verification into the workflow itself, turning the regulatory scramble into continuous, real-time assurance.',
+  },
+  {
+    yr: 'The constant',
+    title: 'The human stays central',
+    body: 'Across discovery, safety and the pharmacy counter, the durable role of automation is to remove drudgery — and hand expert time back to expert judgement.',
+  },
+];
 ---
 
-<BaseLayout
+<ContentLayout
   title="The Road Ahead"
-  description="From doing the work to predicting it — where pharma automation goes next."
+  description="From doing the work to predicting it — the near-term trajectory of pharma automation through the rest of the decade."
+  eyebrow="05 — The Road Ahead"
+  heading="From doing the work — <em>to predicting it.</em>"
+  lede="The near-term trajectory is less about flashier chatbots and more about automation moving upstream — into prediction, planning and orchestration."
 >
-  <StubPage
-    title="From doing the work — to predicting it."
-    lede="The near-term trajectory is less about flashier chatbots and more about automation moving upstream — into prediction, planning and orchestration. Here is what to expect through the rest of the decade, and what stays constant."
-    willCover={[
-      'R&D → R&P: a shift from Research & Development to Research & Prediction',
-      'AI-native discovery as the default by 2030',
-      'Self-driving supply chains: control towers and digital twins',
-      'One converged platform layer: integration + RPA + agents',
-      'Compliance built in from day one — continuous, real-time assurance',
-      'The constant: the human stays central',
-    ]}
-  />
-</BaseLayout>
+
+  <section class="future-section">
+    <div class="wrap">
+      <div class="future-grid">
+        {cards.map((c) => (
+          <article class="fcard">
+            <div class="fcard-yr">{c.yr}</div>
+            <h2>{c.title}</h2>
+            <p>{c.body}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="future-cta-block">
+        <h3>Ready to go deeper?</h3>
+        <p>
+          The full picture lives across the guide — the two engines, the seven value-chain stages,
+          the real case studies and the non-negotiables for responsible adoption.
+        </p>
+        <div class="future-cta-actions">
+          <a href="/foundations" class="btn btn-primary">Start with the foundations →</a>
+          <a href="/value-chain" class="btn btn-ghost">Explore the value chain</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</ContentLayout>
+
+<style>
+  .future-section {
+    padding: 3rem 0 5rem;
+    background-color: var(--color-ink);
+  }
+  [data-theme='dark'] .future-section {
+    background-color: color-mix(in oklab, var(--color-paper) 4%, var(--color-ink));
+  }
+
+  .future-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+    margin-bottom: 3rem;
+  }
+
+  .fcard {
+    border: 1px solid rgba(241,236,224,.18);
+    border-radius: var(--radius-md);
+    padding: 1.9rem 1.6rem;
+    transition: background-color 240ms ease, border-color 240ms ease;
+  }
+  .fcard:hover {
+    background-color: rgba(255,255,255,.03);
+    border-color: rgba(241,236,224,.36);
+  }
+
+  .fcard-yr {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-amber-bright);
+    margin-bottom: 1rem;
+  }
+  .fcard h2 {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.65rem;
+    letter-spacing: -0.01em;
+    color: var(--color-paper);
+    line-height: 1.2;
+  }
+  [data-theme='dark'] .fcard h2 { color: var(--color-text); }
+  .fcard p {
+    font-size: 0.92rem;
+    color: rgba(241,236,224,.72);
+    line-height: 1.58;
+  }
+  [data-theme='dark'] .fcard p { color: var(--color-text-2); }
+
+  /* CTA block */
+  .future-cta-block {
+    background-color: rgba(255,255,255,.04);
+    border: 1px solid rgba(241,236,224,.16);
+    border-radius: var(--radius-md);
+    padding: 2.2rem 2rem;
+    color: var(--color-paper);
+  }
+  [data-theme='dark'] .future-cta-block {
+    background-color: var(--color-surface);
+    border-color: var(--color-line);
+    color: var(--color-text);
+  }
+  .future-cta-block h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.7rem;
+    color: var(--color-paper);
+  }
+  [data-theme='dark'] .future-cta-block h3 { color: var(--color-text); }
+  .future-cta-block p {
+    font-size: 0.96rem;
+    color: rgba(241,236,224,.72);
+    line-height: 1.6;
+    max-width: 52em;
+    margin-bottom: 1.4rem;
+  }
+  [data-theme='dark'] .future-cta-block p { color: var(--color-text-2); }
+  .future-cta-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  @media (max-width: 860px) {
+    .future-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .future-grid { grid-template-columns: 1fr; }
+  }
+</style>

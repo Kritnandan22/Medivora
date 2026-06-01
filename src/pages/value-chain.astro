@@ -1,23 +1,447 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
-import StubPage from '~/components/StubPage.astro';
+import ContentLayout from '~/layouts/ContentLayout.astro';
+
+const stages = [
+  {
+    num: '01',
+    title: 'Drug Discovery & R&D',
+    slug: 'drug-discovery',
+    lead: 'The slowest, most failure-prone stage — historically a manual marathon of compiling data and screening thousands of molecules. This is where agentic systems are making their boldest claims.',
+    wf: {
+      label: 'Structuring the lab',
+      items: [
+        'Automated data pipelines and electronic lab notebooks replacing manual capture',
+        'Harmonised data definitions across pre-clinical and clinical teams',
+        'Lab-instrument integration and high-throughput screening orchestration',
+      ],
+    },
+    ag: {
+      label: 'The closed-loop scientist',
+      items: [
+        'Multi-agent systems run the Design–Make–Test–Analyze (DMTA) cycle autonomously',
+        'Agents generate hypotheses, prioritise targets and design compounds in silico',
+        'Predicting efficacy, ADMET and toxicity before a molecule is ever synthesised',
+        'An "AI co-scientist" proposes and refines hypotheses with expert humans in the loop',
+      ],
+    },
+    proof: 'In the wild: Insilico Medicine nominated a preclinical candidate after screening just 78 molecules; frameworks like CoScientist, ChemCrow and DrugAgent orchestrate cheminformatics and ML tasks end to end.',
+  },
+  {
+    num: '02',
+    title: 'Clinical Trials & Development',
+    slug: 'clinical-trials',
+    lead: 'The single costliest, most bottlenecked phase — and one spread across many global sites, each with its own systems and data to provision.',
+    wf: {
+      label: 'Running the study',
+      items: [
+        'Electronic Data Capture (EDC) replacing manual patient data entry',
+        'Monitoring-visit scheduling and multi-site user provisioning',
+        'Continuous regulatory-compliance tracking across geographies',
+      ],
+    },
+    ag: {
+      label: 'Judgement at the bottlenecks',
+      items: [
+        'AI-driven patient recruitment matching eligible participants faster',
+        'Eligibility screening reasoned against electronic health records',
+        'Real-time safety monitoring and autonomous data-query resolution',
+        'Unified budgeting, contracting and forecasting for trial finances',
+      ],
+    },
+    proof: 'Why it matters: faster enrolment and cleaner data attack the two things that most often blow trial timelines and budgets.',
+  },
+  {
+    num: '03',
+    title: 'Regulatory Affairs & Submissions',
+    slug: 'regulatory-affairs',
+    lead: 'The "regulatory war room" — cross-functional teams scrambling for weeks to cross-check data for global filings to the FDA, EMA and beyond.',
+    wf: {
+      label: 'Submission-ready output',
+      items: [
+        'Automated generation and validation of submission documents',
+        'Fewer manual formatting errors; faster review cycles',
+        'Records held to agency compliance standards by construction',
+      ],
+    },
+    ag: {
+      label: 'The augmented regulatory worker',
+      items: [
+        'Instant cross-document data verification across a global dossier',
+        'Compliance built into the workflow from day one, not bolted on at the end',
+        'Humans shift from clerical cross-checking to high-level strategic review',
+      ],
+    },
+    proof: 'The shift: the goal isn\'t to remove the regulatory expert — it\'s to stop them being a data compiler and free them to be a strategist.',
+  },
+  {
+    num: '04',
+    title: 'Pharmacovigilance & Drug Safety',
+    slug: 'pharmacovigilance',
+    lead: 'The flagship automation use case in pharma. Thousands of adverse events are processed every month, each a regulated case with strict timelines under ICH E2B(R3) and 21 CFR.',
+    wf: {
+      label: 'The ICSR assembly line',
+      items: [
+        'Case intake from email, portals and ICSR XML into a central safety database',
+        'Triage, booking, data entry, automated MedDRA coding and duplicate detection',
+        'Follow-up tracking, SOP-enforcing steps and a full audit log of every change',
+        'FDA-compliant e-signature on case review (e.g. safety platforms like Argus)',
+      ],
+    },
+    ag: {
+      label: 'Reading the unstructured world',
+      items: [
+        'Agents extract adverse events from literature, calls and social media',
+        'Drafting case narratives and performing first-pass medical assessment',
+        'Surfacing safety signals and routing complex cases for human medical review',
+      ],
+    },
+    proof: 'The pressure: rising data volumes, faster drug approvals and global rule nuances make manual case handling unsustainable — exactly the gap intelligent automation fills.',
+  },
+  {
+    num: '05',
+    title: 'Manufacturing & Quality (GxP)',
+    slug: 'manufacturing-quality',
+    lead: 'Where consistency is everything. A single out-of-spec batch is costly waste — and a compliance event.',
+    wf: {
+      label: 'Keeping conditions in control',
+      items: [
+        'Process Analytical Technology (PAT) monitoring production parameters in real time',
+        'Automated batch records and deviation management',
+        'Closed-loop CAPA workflows that document and resolve quality issues',
+      ],
+    },
+    ag: {
+      label: 'Finding and explaining anomalies',
+      items: [
+        'Anomaly detection across complex, multi-source manufacturing data',
+        'Reasoned root-cause analysis on deviations before they cascade',
+        'Predictive quality that flags drift toward control limits early',
+      ],
+    },
+    proof: 'The guardrail: every automated GxP step must be validated to perform exactly as intended — and any deviation must be immediately detectable.',
+  },
+  {
+    num: '06',
+    title: 'Supply Chain & Distribution',
+    slug: 'supply-chain',
+    lead: 'Getting the right medicine to the right place, on time, at the right temperature — across a fragile, globally distributed network.',
+    wf: {
+      label: 'Sensing and ordering',
+      items: [
+        'Automated inventory, purchasing and order processing',
+        'Demand signals unified across previously siloed data',
+        'Reduced reliance on manual intervention as operations scale',
+      ],
+    },
+    ag: {
+      label: 'The autonomous control tower',
+      items: [
+        'Digital twins simulate the chain to test decisions before they\'re deployed',
+        'Dynamic rerouting around weather, customs and capacity — within Good Distribution Practice',
+        'Anticipating shortages, monitoring price swings and checking contract adherence',
+      ],
+    },
+    proof: 'The 2026 standard: interoperable, explainable and audit-ready AI decisions, increasingly woven together with IoT and blockchain.',
+  },
+  {
+    num: '07',
+    title: 'Pharmacy Operations & Medication Management',
+    slug: 'pharmacy-operations',
+    lead: 'The "management medicine" frontier — where automation meets the patient. The closest, most validated win is medication adherence; the biggest time-saver is freeing pharmacists from administrative load.',
+    wf: {
+      label: 'Dispensing & logistics',
+      items: [
+        'Dispensing robotics and automated inventory management',
+        'Prescription processing — refills, transfers and new requests',
+        'Automated refill reminders and routine patient communications',
+      ],
+    },
+    ag: {
+      label: 'The AI pharmacy assistant',
+      items: [
+        'Agents process prescriptions and update the pharmacy system in real time',
+        'Insurance verification, copay/coverage queries and inbound call handling',
+        'Outbound adherence and vaccination campaigns; medication reconciliation that flags discrepancies',
+        'OCR that reads handwritten prescriptions; adherence sensed via smart bottles, dispensers and wearables',
+      ],
+    },
+    proof: 'The principle: AI won\'t replace the pharmacist — it automates low-value tasks (one agent reported a ~67% cut in admin time) so clinical judgement and patient care get the human hours.',
+  },
+];
 ---
 
-<BaseLayout
+<ContentLayout
   title="The Value Chain"
   description="Seven stages of pharma, two engines at work in each — from discovery to the pharmacy counter."
+  eyebrow="02 — The Value Chain"
+  heading="Seven stages, <em>two engines at work in each.</em>"
+  lede="From the first hypothesis to the last dose handed across a counter, here is where workflow and agentic automation are actually being applied. Tap any stage to open it."
 >
-  <StubPage
-    title="The value chain — seven stages, two engines at work in each."
-    lede="From the first hypothesis to the last dose handed across a counter, this section maps where workflow and agentic automation are actually being applied. Tap any stage to see the workflow pipeline, the agentic layer, and the real deployments."
-    willCover={[
-      '01 — Drug Discovery & R&D',
-      '02 — Clinical Trials & Development',
-      '03 — Regulatory Affairs & Submissions',
-      '04 — Pharmacovigilance & Drug Safety',
-      '05 — Manufacturing & Quality (GxP)',
-      '06 — Supply Chain & Distribution',
-      '07 — Pharmacy Operations & Medication Management',
-    ]}
-  />
-</BaseLayout>
+
+  <section class="vc-section">
+    <div class="wrap">
+      <div class="vc-accordion" id="vc-accordion">
+        {stages.map((stage, i) => (
+          <div class={`vc-item${i === 0 ? ' vc-open' : ''}`} id={`stage-${stage.slug}`}>
+            <button
+              class="vc-btn"
+              aria-expanded={i === 0 ? 'true' : 'false'}
+              aria-controls={`panel-${stage.slug}`}
+            >
+              <span class="vc-num">{stage.num}</span>
+              <span class="vc-title">{stage.title}</span>
+              <span class="vc-toggle" aria-hidden="true"></span>
+            </button>
+            <div
+              class="vc-panel"
+              id={`panel-${stage.slug}`}
+              role="region"
+              aria-labelledby={`btn-${stage.slug}`}
+            >
+              <div class="vc-inner">
+                <p class="vc-lead">{stage.lead}</p>
+
+                <div class="vc-block vc-wf">
+                  <div class="vc-bt">
+                    <span class="chip wf-chip">Workflow</span>
+                    <span class="vc-bt-label">{stage.wf.label}</span>
+                  </div>
+                  <ul>
+                    {stage.wf.items.map(item => <li>{item}</li>)}
+                  </ul>
+                </div>
+
+                <div class="vc-block vc-ag">
+                  <div class="vc-bt">
+                    <span class="chip ag-chip">Agentic</span>
+                    <span class="vc-bt-label">{stage.ag.label}</span>
+                  </div>
+                  <ul>
+                    {stage.ag.items.map(item => <li>{item}</li>)}
+                  </ul>
+                </div>
+
+                <p class="vc-proof">{stage.proof}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom nav -->
+  <section class="vc-footer-nav">
+    <div class="wrap vc-footer-inner">
+      <a href="/foundations" class="btn btn-ghost">← Foundations</a>
+      <a href="/case-studies" class="btn btn-primary">See it in practice →</a>
+    </div>
+  </section>
+
+</ContentLayout>
+
+<style>
+  .vc-section { padding: 2rem 0 5rem; }
+
+  /* Accordion container */
+  .vc-accordion { border-top: 1px solid var(--color-line); }
+  .vc-item { border-bottom: 1px solid var(--color-line); }
+
+  /* Toggle button */
+  .vc-btn {
+    width: 100%;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.9rem 0.4rem;
+    font-family: inherit;
+    transition: padding-left 200ms ease;
+  }
+  .vc-btn:hover { padding-left: 0.85rem; }
+
+  .vc-num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-signal);
+    letter-spacing: 0.06em;
+    min-width: 2rem;
+  }
+  .vc-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.25rem, 2.4vw, 1.85rem);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    color: var(--color-text);
+  }
+  .vc-toggle {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--color-line);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    transition: background-color 240ms ease, border-color 240ms ease;
+    position: relative;
+  }
+  .vc-toggle::before,
+  .vc-toggle::after {
+    content: '';
+    position: absolute;
+    background-color: var(--color-text);
+    transition: transform 240ms ease, opacity 240ms ease;
+  }
+  .vc-toggle::before { width: 13px; height: 1.8px; }
+  .vc-toggle::after  { width: 1.8px; height: 13px; }
+
+  .vc-item.vc-open .vc-toggle {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  .vc-item.vc-open .vc-toggle::before,
+  .vc-item.vc-open .vc-toggle::after { background-color: white; }
+  .vc-item.vc-open .vc-toggle::after { transform: scaleY(0); }
+
+  /* Panel */
+  .vc-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 460ms cubic-bezier(.4, 0, .2, 1);
+  }
+  .vc-inner {
+    padding: 0.25rem 0.4rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.8rem;
+  }
+  .vc-lead {
+    grid-column: 1 / -1;
+    font-size: 1.06rem;
+    color: var(--color-text-2);
+    max-width: 62em;
+    line-height: 1.6;
+  }
+
+  /* Content blocks */
+  .vc-block {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-md);
+    padding: 1.5rem 1.4rem;
+  }
+  .vc-bt {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: var(--radius-xs);
+  }
+  .wf-chip { background-color: var(--color-accent); color: white; }
+  .ag-chip { background-color: var(--color-signal); color: white; }
+  .vc-bt-label { font-weight: 600; font-size: 0.96rem; color: var(--color-text); }
+
+  .vc-block ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+  .vc-block li {
+    font-size: 0.92rem;
+    color: var(--color-text-2);
+    line-height: 1.45;
+    padding-left: 1.1rem;
+    position: relative;
+  }
+  .vc-block li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .vc-wf li::before { background-color: var(--color-accent); }
+  .vc-ag li::before { background-color: var(--color-signal); }
+
+  /* Proof quote */
+  .vc-proof {
+    grid-column: 1 / -1;
+    font-size: 0.9rem;
+    color: var(--color-text-soft);
+    font-style: italic;
+    border-left: 2px solid var(--color-signal);
+    padding: 0.25rem 0 0.25rem 1rem;
+    line-height: 1.55;
+  }
+
+  /* Footer nav */
+  .vc-footer-nav { padding: 2rem 0 4.5rem; }
+  .vc-footer-inner { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .vc-inner { grid-template-columns: 1fr; }
+    .vc-btn { gap: 1rem; }
+  }
+</style>
+
+<script>
+  (function () {
+    const accordion = document.getElementById('vc-accordion');
+    if (!accordion) return;
+
+    // Open first panel on load
+    const firstItem = accordion.querySelector('.vc-item.vc-open');
+    if (firstItem) {
+      const panel = firstItem.querySelector('.vc-panel') as HTMLElement | null;
+      if (panel) panel.style.maxHeight = panel.scrollHeight + 'px';
+    }
+
+    // Toggle handler
+    accordion.querySelectorAll('.vc-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.vc-item') as HTMLElement;
+        const panel = item.querySelector('.vc-panel') as HTMLElement;
+        const isOpen = item.classList.contains('vc-open');
+
+        // Close all
+        accordion.querySelectorAll('.vc-item').forEach((it) => {
+          it.classList.remove('vc-open');
+          const p = it.querySelector('.vc-panel') as HTMLElement;
+          if (p) p.style.maxHeight = '';
+          const b = it.querySelector('.vc-btn');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+
+        // Open clicked (if it was closed)
+        if (!isOpen) {
+          item.classList.add('vc-open');
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // Resize sync
+    window.addEventListener('resize', () => {
+      const open = accordion.querySelector('.vc-item.vc-open .vc-panel') as HTMLElement | null;
+      if (open) open.style.maxHeight = open.scrollHeight + 'px';
+    });
+  })();
+</script>

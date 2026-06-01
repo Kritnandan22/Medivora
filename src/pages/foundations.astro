@@ -1,22 +1,525 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
-import StubPage from '~/components/StubPage.astro';
+import ContentLayout from '~/layouts/ContentLayout.astro';
 ---
 
-<BaseLayout
+<ContentLayout
   title="Foundations"
-  description="How workflow automation and agentic automation actually work — and how to tell them apart."
+  description="How workflow automation and agentic automation actually work — and how to tell them apart. The starting point for everything in the pharma automation field guide."
+  eyebrow="01 — Foundations"
+  heading="One follows the rules. <em>One writes its own.</em>"
+  lede="Almost everything in this guide is built from two distinct capabilities. Knowing which is which is the whole game — because they fail differently, cost differently, and belong in different parts of the pipeline."
 >
-  <StubPage
-    title="Foundations — the two engines of automation."
-    lede="The starting point. One follows the rules; one writes its own. Almost everything in this guide is built from these two distinct capabilities — knowing which is which is the whole game."
-    willCover={[
-      'Workflow automation — the deterministic pipeline (iPaaS, RPA, integration tools)',
-      'Agentic automation — the reasoning operator (LLM-powered agents)',
-      'How an AI agent actually works: model, goal, tools, memory, RAG, guardrails',
-      'The reason–act loop, multi-agent systems and orchestration',
-      'Human-in-the-loop and how the two engines combine',
-      'A decision framework: which engine, and when',
-    ]}
-  />
-</BaseLayout>
+
+  <!-- ─── THE TWO ENGINES ─── -->
+  <section class="engines-section">
+    <div class="wrap">
+      <div class="engines-grid">
+
+        <!-- Workflow -->
+        <article class="engine wf">
+          <span class="engine-tag wf-tag">Workflow Automation</span>
+          <h2>The deterministic pipeline</h2>
+          <p class="engine-deck">
+            Software that moves structured work between systems and people along a path you define
+            in advance: <em>if this, then that</em>.
+          </p>
+          <ul class="traits">
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8.5l3 3 7-8" stroke="#16A684" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span><strong>Rule-based &amp; predictable.</strong> Executes the same defined steps perfectly, every time, at high volume.</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8.5l3 3 7-8" stroke="#16A684" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span><strong>Auditable by design.</strong> Signed steps, version snapshots and immutable history — ideal for regulated work.</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8.5l3 3 7-8" stroke="#16A684" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span><strong>Two flavours.</strong> API-first integration (Zapier, Make, Power Automate) and screen-driving RPA (UiPath) for legacy systems with no API.</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M8 1v14M1 8h14" stroke="#C06A24" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <span><strong>Brittle at the edges.</strong> Ambiguous input, exceptions and judgement calls break the flow — a human has to step in.</span>
+            </li>
+          </ul>
+          <div class="engine-foot">
+            Best when the process is well-defined and the answer to <strong>"does this system have an API?"</strong> is yes.
+          </div>
+        </article>
+
+        <!-- Agentic -->
+        <article class="engine ag">
+          <span class="engine-tag ag-tag">Agentic Automation</span>
+          <h2>The reasoning operator</h2>
+          <p class="engine-deck">
+            LLM-powered agents that interpret a goal, plan the steps, call the right tools,
+            and execute multi-step work with minimal supervision.
+          </p>
+          <ul class="traits">
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8.5l3 3 7-8" stroke="#E08A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span><strong>Reasons through ambiguity.</strong> Reads unstructured text, interprets intent and handles the exceptions that stop rule-based flows.</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8.5l3 3 7-8" stroke="#E08A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span><strong>Acts on the write path.</strong> Doesn't just analyse — it takes action: books, files, reconciles, drafts, updates systems of record.</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8.5l3 3 7-8" stroke="#E08A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span><strong>Works in teams.</strong> Multi-agent systems split roles — a supervisor, a chemist, a lab agent, a safety guardrail — and collaborate.</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8.5l3 3 7-8" stroke="#E08A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span><strong>Orchestrates the rest.</strong> A capable agent can drive the deterministic workflows and RPA bots beneath it.</span>
+            </li>
+          </ul>
+          <div class="engine-foot ag-foot">
+            Best when inputs are messy, exceptions are frequent, and the work needs <strong>interpretation and judgement</strong>.
+          </div>
+        </article>
+      </div>
+
+      <p class="relation">
+        They aren't rivals. The mature pattern is <strong>agents reasoning on top, deterministic
+        workflows executing underneath</strong> — with a human reviewing the decisions that matter.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── WHY PHARMA ─── -->
+  <section class="why-section">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">02 — Why Pharma Is Ripe</span>
+        <h2>A high-stakes industry <em>drowning in structured work.</em></h2>
+        <p>Few sectors combine such enormous cost, such heavy documentation, and such unforgiving
+        regulation. That exact mix is what automation was built to absorb.</p>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-card">
+          <svg class="why-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/>
+          </svg>
+          <h3>Crushing economics</h3>
+          <p>At roughly $2.3B per approved drug and a ~90% clinical failure rate, every week and every misallocated scientist hour carries enormous cost.</p>
+        </div>
+        <div class="why-card">
+          <svg class="why-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <h3>Documentation overload</h3>
+          <p>Submissions, batch records, safety reports and audit trails generate mountains of repetitive, format-strict paperwork on hard deadlines.</p>
+        </div>
+        <div class="why-card">
+          <svg class="why-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>Relentless regulation</h3>
+          <p>21&nbsp;CFR&nbsp;Part&nbsp;11, GxP, ICH and global agency rules demand traceable, validated, consistent processes — perfect for controlled automation.</p>
+        </div>
+        <div class="why-card">
+          <svg class="why-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 17l5-5 4 3 8-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 6h5v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>Exploding data volumes</h3>
+          <p>More patients, more data sources and ever-changing global rules outpace the humans expected to track them case by case.</p>
+        </div>
+        <div class="why-card">
+          <svg class="why-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <h3>The adherence gap</h3>
+          <p>Medication non-adherence remains a leading driver of preventable hospitalisation and cost — a problem of monitoring and follow-up at scale.</p>
+        </div>
+        <div class="why-card">
+          <svg class="why-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14M5 12l4-4M5 12l4 4M19 7v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>Fragile supply chains</h3>
+          <p>Cold-chain logistics, shortages and global disruptions reward systems that can sense, simulate and reroute faster than humans can.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── WHICH ENGINE, WHEN ─── -->
+  <section class="decide-section">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">03 — Which Engine, And When</span>
+        <h2>The decision is simpler <em>than the hype suggests.</em></h2>
+        <p>You rarely choose one forever. But for any given task, a few questions point clearly
+        to the right tool.</p>
+      </div>
+
+      <div class="cmp">
+        <div class="cmp-col cmp-wf">
+          <h3>
+            <span class="cmp-badge wf-badge"></span>
+            Reach for workflow automation
+          </h3>
+          <div class="cmp-when">When the path is known</div>
+          <ul>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              The process is well-defined, structured and high-volume
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              The rules are stable and rarely change
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              You need deterministic, repeatable, fully auditable output
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              The systems involved have APIs — or RPA can drive their screens
+            </li>
+          </ul>
+        </div>
+
+        <div class="cmp-col cmp-ag">
+          <h3>
+            <span class="cmp-badge ag-badge"></span>
+            Reach for agentic automation
+          </h3>
+          <div class="cmp-when">When judgement is required</div>
+          <ul>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Inputs are unstructured, ambiguous or vary case by case
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Exceptions and edge cases are frequent, not rare
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              The task spans many tools and steps toward a goal
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Success needs reasoning over messy data, not just moving it
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="converge">
+        <svg class="converge-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 7h7l2 3 2-3h7M3 17h7l2-3 2 3h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <h3>The lines are blurring on purpose</h3>
+          <p>Analysts now describe a converging category where iPaaS, RPA and AI agents merge.
+          The resilient strategy isn't a single-vendor bet — it's <strong>agents orchestrating
+          deterministic workflows, with humans reviewing the decisions that carry clinical or
+          regulatory weight.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Next pages CTA ─── -->
+  <section class="next-section">
+    <div class="wrap next-inner">
+      <a href="/value-chain" class="btn btn-primary">See the value chain →</a>
+      <a href="/case-studies" class="btn btn-ghost">See it in practice</a>
+    </div>
+  </section>
+
+</ContentLayout>
+
+<style>
+  /* ── Engines ── */
+  .engines-section {
+    padding: 5rem 0;
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+  [data-theme='dark'] .engines-section {
+    background-color: color-mix(in oklab, var(--color-paper) 4%, var(--color-ink));
+  }
+  .engines-section .eyebrow { display: none; } /* hidden — eyebrow already in page-hero */
+
+  .engines-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6rem;
+    margin-top: 0;
+  }
+
+  .engine {
+    border: 1px solid rgba(241,236,224,.18);
+    border-radius: var(--radius-md);
+    padding: 2.4rem 2.1rem;
+    transition: transform 280ms ease, border-color 280ms ease;
+  }
+  .engine:hover {
+    transform: translateY(-4px);
+    border-color: rgba(241,236,224,.38);
+  }
+
+  .engine-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    padding: 5px 11px;
+    border-radius: var(--radius-xs);
+    display: inline-block;
+  }
+  .wf-tag { background: var(--color-green-bright); color: var(--color-ink); }
+  .ag-tag { background: var(--color-amber-bright); color: var(--color-ink); }
+
+  .engine h2 {
+    font-family: var(--font-serif);
+    font-size: 1.85rem;
+    font-weight: 600;
+    margin: 1.2rem 0 0.4rem;
+    letter-spacing: -0.01em;
+    color: var(--color-paper);
+  }
+  .engine-deck {
+    color: rgba(241,236,224,.72);
+    font-size: 1.02rem;
+    margin-bottom: 1.5rem;
+  }
+  .engine-deck em { font-style: italic; }
+
+  .traits {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .traits li {
+    display: flex;
+    gap: 0.8rem;
+    font-size: 0.95rem;
+    color: rgba(241,236,224,.88);
+    line-height: 1.4;
+  }
+  .traits li svg { flex: none; margin-top: 3px; }
+  .traits li strong { color: var(--color-paper); font-weight: 600; }
+
+  .engine-foot {
+    margin-top: 1.6rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(241,236,224,.14);
+    font-size: 0.84rem;
+    color: rgba(241,236,224,.62);
+  }
+  .engine-foot strong { color: var(--color-green-bright); font-weight: 600; }
+  .ag-foot strong { color: var(--color-amber-bright); }
+
+  .relation {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.98rem;
+    color: rgba(241,236,224,.72);
+    font-style: italic;
+    font-family: var(--font-serif);
+  }
+  .relation strong {
+    color: var(--color-amber-bright);
+    font-style: normal;
+    font-family: var(--font-sans);
+    font-weight: 600;
+  }
+
+  /* ── Why Pharma ── */
+  .why-section {
+    padding: 5.5rem 0;
+    background-color: var(--color-bg);
+  }
+  .sec-head {
+    max-width: 52em;
+    margin-bottom: 3rem;
+  }
+  .sec-head h2 { margin-top: 0.9rem; font-size: clamp(1.9rem, 3.8vw, 3rem); }
+  .sec-head p { margin-top: 1rem; font-size: 1.08rem; color: var(--color-text-2); line-height: 1.6; }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface);
+  }
+  .why-card {
+    padding: 2.1rem 1.9rem;
+    border-right: 1px solid var(--color-line-soft);
+    border-bottom: 1px solid var(--color-line-soft);
+    transition: background-color 200ms ease;
+  }
+  .why-card:hover { background-color: var(--color-surface-2); }
+  .why-card:nth-child(3n) { border-right: 0; }
+  .why-card:nth-child(n+4) { border-bottom: 0; }
+  .why-ic {
+    width: 38px;
+    height: 38px;
+    color: var(--color-accent);
+    margin-bottom: 1.1rem;
+  }
+  .why-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.28rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+  }
+  .why-card p { font-size: 0.93rem; color: var(--color-text-soft); line-height: 1.55; }
+
+  /* ── Decide ── */
+  .decide-section {
+    padding: 5.5rem 0;
+    background-color: var(--color-surface);
+  }
+
+  .cmp {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.8rem;
+  }
+  .cmp-col {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    padding: 2rem 1.75rem;
+  }
+  .cmp-col h3 {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-text);
+  }
+  .cmp-badge {
+    width: 11px;
+    height: 11px;
+    border-radius: 3px;
+    flex: none;
+  }
+  .wf-badge { background-color: var(--color-accent); }
+  .ag-badge { background-color: var(--color-signal); }
+  .cmp-when {
+    font-size: 0.78rem;
+    color: var(--color-text-soft);
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.4rem;
+  }
+  .cmp-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .cmp-col li {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    color: var(--color-text-2);
+    line-height: 1.45;
+  }
+  .cmp-col li svg { flex: none; margin-top: 3px; }
+  .cmp-wf li svg { color: var(--color-accent); }
+  .cmp-ag li svg { color: var(--color-signal); }
+
+  .converge {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    border-radius: var(--radius-md);
+    padding: 2.1rem 2rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  [data-theme='dark'] .converge {
+    background-color: var(--color-surface-2);
+    border: 1px solid var(--color-line);
+    color: var(--color-text);
+  }
+  .converge-ic {
+    width: 46px;
+    height: 46px;
+    color: var(--color-amber-bright);
+    flex: none;
+  }
+  .converge h3 {
+    font-family: var(--font-serif);
+    font-size: 1.38rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-paper);
+  }
+  [data-theme='dark'] .converge h3 { color: var(--color-text); }
+  .converge p { color: rgba(241,236,224,.78); font-size: 0.99rem; line-height: 1.55; }
+  [data-theme='dark'] .converge p { color: var(--color-text-2); }
+  .converge p strong { color: var(--color-green-bright); font-weight: 600; }
+
+  /* ── Next CTA ── */
+  .next-section { padding: 3.5rem 0 4.5rem; background-color: var(--color-bg); }
+  .next-inner { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .engines-grid,
+    .cmp { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    .why-card:nth-child(3n) { border-right: 1px solid var(--color-line-soft); }
+    .why-card:nth-child(2n) { border-right: 0; }
+    .converge { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .why-grid { grid-template-columns: 1fr; }
+    .why-card { border-right: 0 !important; }
+  }
+</style>

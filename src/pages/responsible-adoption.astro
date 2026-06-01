@@ -1,22 +1,191 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
-import StubPage from '~/components/StubPage.astro';
+import ContentLayout from '~/layouts/ContentLayout.astro';
+
+const principles = [
+  {
+    num: 'i.',
+    title: 'Validate everything',
+    body: 'Every automated workflow — however minor — must be validated to perform exactly as intended under 21 CFR Part 11, GCP, GLP and GMP, with deviations immediately detectable.',
+    code: '21 CFR Part 11 · GxP',
+  },
+  {
+    num: 'ii.',
+    title: 'Audit trails & e-signatures',
+    body: 'Signed steps, immutable history and design snapshots make a process independently auditable — the difference between speed and a finding in an inspection.',
+    code: null,
+  },
+  {
+    num: 'iii.',
+    title: 'Keep humans in the loop',
+    body: 'Agents augment clinical and regulatory judgement; they don\'t replace it. The most credible systems route decisions of consequence to a qualified human.',
+    code: null,
+  },
+  {
+    num: 'iv.',
+    title: 'Harmonise the data first',
+    body: 'Inconsistent field labels and units cause silent errors — like matching patient data to the wrong treatment arm. Clean definitions come before automation, not after.',
+    code: null,
+  },
+  {
+    num: 'v.',
+    title: 'Govern, upskill, protect equity',
+    body: 'Governance-first design, workforce training and equity safeguards have to be built in from inception, not retrofitted once something goes wrong.',
+    code: null,
+  },
+];
 ---
 
-<BaseLayout
+<ContentLayout
   title="Responsible Adoption"
-  description="What separates a deployable system from a liability in regulated medicine."
+  description="The non-negotiables that separate a deployable automation system from a liability in regulated medicine — validation, audit trails, human oversight, data harmonisation, governance."
+  eyebrow="04 — Doing It Responsibly"
+  heading='In medicine, "it mostly works" <em>is not good enough.</em>'
+  lede="Automation in life sciences lives or dies on trust. These are the non-negotiables that separate a deployable system from a liability."
 >
-  <StubPage
-    title="In medicine, 'it mostly works' is not good enough."
-    lede="Automation in life sciences lives or dies on trust. This section sets out the non-negotiables that separate a deployable system from a liability — validation, audit trails, human-in-the-loop, harmonised data, governance and limits."
-    willCover={[
-      'Validate everything (21 CFR Part 11, GCP, GLP, GMP)',
-      'Audit trails and e-signatures by design',
-      'Keep humans in the loop on decisions of consequence',
-      'Harmonise the data before you automate it',
-      'Govern, upskill, and protect equity from inception',
-      'Acknowledge the honest limits of the technology',
-    ]}
-  />
-</BaseLayout>
+
+  <section class="resp-section">
+    <div class="wrap">
+      <div class="resp-layout">
+
+        <!-- Principles list -->
+        <div class="resp-list">
+          {principles.map((p) => (
+            <div class="resp-row">
+              <span class="resp-num">{p.num}</span>
+              <div class="resp-content">
+                <h2>{p.title}</h2>
+                <p>
+                  {p.body}
+                  {p.code && <> <code>{p.code}</code></>}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Sticky aside -->
+        <aside class="resp-aside">
+          <span class="resp-aside-label">The honest takeaway</span>
+          <blockquote>
+            AI performs best when it automates <em>well-defined workflows</em> — and falls short
+            when asked to replace clinical judgement.
+          </blockquote>
+          <p>
+            That single sentence explains the whole architecture of this guide: deterministic
+            workflows for the structured majority, agents for the ambiguous middle, and humans
+            wherever the stakes are highest. Lasting progress comes from thoughtful integration
+            into care — not from early hype.
+          </p>
+        </aside>
+      </div>
+
+      <nav class="resp-nav">
+        <a href="/case-studies" class="btn btn-ghost">← Case Studies</a>
+        <a href="/road-ahead" class="btn btn-primary">The road ahead →</a>
+      </nav>
+    </div>
+  </section>
+
+</ContentLayout>
+
+<style>
+  .resp-section { padding: 3rem 0 5rem; }
+
+  .resp-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+    margin-bottom: 3rem;
+  }
+
+  /* Principle rows */
+  .resp-list { display: flex; flex-direction: column; gap: 0; }
+  .resp-row {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1.25rem;
+    padding: 1.6rem 0;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .resp-row:last-child { border-bottom: 0; }
+
+  .resp-num {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--color-signal);
+    padding-top: 4px;
+    font-weight: 500;
+  }
+  .resp-content h2 {
+    font-family: var(--font-serif);
+    font-size: 1.22rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+  }
+  .resp-content p {
+    font-size: 0.93rem;
+    color: var(--color-text-soft);
+    line-height: 1.55;
+  }
+  .resp-content code {
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    background-color: var(--color-surface-2);
+    padding: 2px 6px;
+    border-radius: var(--radius-xs);
+    color: var(--color-text-2);
+  }
+
+  /* Aside card */
+  .resp-aside {
+    background-color: var(--color-green-deep);
+    color: var(--color-paper);
+    border-radius: var(--radius-lg);
+    padding: 2.25rem 2rem;
+    position: sticky;
+    top: 5.5rem;
+  }
+  [data-theme='dark'] .resp-aside {
+    background-color: var(--color-surface-2);
+    border: 1px solid var(--color-line);
+    color: var(--color-text);
+  }
+  .resp-aside-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-amber-bright);
+  }
+  .resp-aside blockquote {
+    font-family: var(--font-serif);
+    font-size: 1.48rem;
+    line-height: 1.32;
+    font-weight: 500;
+    margin: 1.1rem 0;
+    letter-spacing: -0.01em;
+    color: var(--color-paper);
+  }
+  [data-theme='dark'] .resp-aside blockquote { color: var(--color-text); }
+  .resp-aside blockquote em {
+    font-style: italic;
+    color: var(--color-green-bright);
+  }
+  .resp-aside p {
+    font-size: 0.92rem;
+    color: rgba(241,236,224,.76);
+    line-height: 1.58;
+  }
+  [data-theme='dark'] .resp-aside p { color: var(--color-text-2); }
+
+  /* Nav */
+  .resp-nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  @media (max-width: 860px) {
+    .resp-layout { grid-template-columns: 1fr; }
+    .resp-aside { position: static; }
+  }
+</style>

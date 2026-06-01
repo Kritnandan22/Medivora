@@ -1,22 +1,206 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
-import StubPage from '~/components/StubPage.astro';
+import ContentLayout from '~/layouts/ContentLayout.astro';
+
+const cases = [
+  {
+    org: 'Insilico Medicine',
+    category: 'Discovery',
+    warn: false,
+    title: 'A candidate, in months not years',
+    body: 'Using a generative chemistry platform, the team nominated a preclinical candidate for idiopathic pulmonary fibrosis after screening only 78 molecules — a fraction of the thousands usually required — and later reported positive Phase IIa results.',
+    metric: '~18 months · <10% of typical cost',
+  },
+  {
+    org: 'Exscientia × Sumitomo',
+    category: 'Cautionary',
+    warn: true,
+    title: 'Faster discovery ≠ guaranteed success',
+    body: 'DSP-1181, an AI-designed molecule for OCD, became one of the first to enter human trials in under a year — then was discontinued after Phase I despite a favourable safety profile. Speed to the clinic doesn\'t guarantee a drug that works.',
+    metric: 'Discontinued after Phase I',
+  },
+  {
+    org: 'Recursion',
+    category: 'Discovery',
+    warn: false,
+    title: 'Phenotypic screening at scale',
+    body: 'Automated high-throughput cellular imaging paired with deep learning identifies phenotypic changes across millions of experiments — speeding both novel discovery and the repurposing of existing molecules.',
+    metric: 'Imaging + deep learning, industrialised',
+  },
+  {
+    org: 'GSK · Eli Lilly',
+    category: 'Signal',
+    warn: false,
+    title: 'Big pharma buys in',
+    body: 'In early 2026, GSK committed tens of millions upfront for access to an oncology foundation model, and Lilly signed a multi-year deal for a drug-design model — clear signals that AI-native discovery is moving from fringe to core.',
+    metric: 'Foundation-model access deals',
+  },
+  {
+    org: 'Argus-class safety systems',
+    category: 'Safety',
+    warn: false,
+    title: 'Pharmacovigilance, automated end to end',
+    body: 'Central safety databases ingest cases from email, portal and XML, auto-code with MedDRA, detect duplicates, enforce SOP workflows and keep a complete, e-signed audit trail — the regulated backbone of modern drug safety.',
+    metric: 'Thousands of cases / month',
+  },
+  {
+    org: 'AI pharmacy agents',
+    category: 'Medicine Mgmt',
+    warn: false,
+    title: 'The counter, unburdened',
+    body: 'Purpose-built agents handle inbound calls, refills, insurance checks and adherence outreach, read handwritten scripts via OCR, and reconcile medication lists — with one platform reporting a sharp drop in administrative processing time.',
+    metric: '~67% less admin time reported',
+  },
+];
 ---
 
-<BaseLayout
+<ContentLayout
   title="Case Studies"
-  description="Real deployments of automation in pharma — the wins and the honest limits."
+  description="Real deployments of automation in pharma and medicine management — the wins and the honest limits. From Insilico Medicine to AI pharmacy agents."
+  eyebrow="03 — In Practice"
+  heading="Real deployments — <em>the wins and the honest limits.</em>"
+  lede="The technology is past the demo stage in several areas. It has also produced cautionary tales worth keeping in view. Both matter."
 >
-  <StubPage
-    title="Case studies — real deployments, honest limits."
-    lede="The technology is past the demo stage in several areas. It has also produced cautionary tales worth keeping in view. This section presents both, filterable by domain and by success / cautionary outcome."
-    willCover={[
-      'Insilico Medicine — a preclinical candidate after screening ~78 molecules',
-      'Exscientia × Sumitomo (DSP-1181) — fast to the clinic, then discontinued',
-      'Recursion — industrialised phenotypic screening at scale',
-      'GSK and Eli Lilly — foundation-model access deals (early 2026)',
-      'Argus-class safety systems — pharmacovigilance automated end to end',
-      'AI pharmacy agents — ~67% reported cut in administrative processing time',
-    ]}
-  />
-</BaseLayout>
+
+  <section class="cases-section">
+    <div class="wrap">
+      <div class="cases-grid">
+        {cases.map((c) => (
+          <article class={`case-card${c.warn ? ' case-warn' : ''}`}>
+            <div class="case-org">
+              <span class="case-org-name">{c.org}</span>
+              <span class="case-pill">{c.category}</span>
+            </div>
+            <h2>{c.title}</h2>
+            <p>{c.body}</p>
+            <div class="case-metric">{c.metric}</div>
+          </article>
+        ))}
+      </div>
+
+      <aside class="disclaimer">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M10 9v5M10 6.5v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <p>Company examples, figures and outcomes are drawn from publicly reported industry sources
+        and analyses. They are illustrative — not endorsements, guarantees, medical advice, or
+        regulatory guidance. Verify any specific claim against primary sources.</p>
+      </aside>
+
+      <nav class="cases-nav">
+        <a href="/value-chain" class="btn btn-ghost">← The value chain</a>
+        <a href="/responsible-adoption" class="btn btn-primary">Doing it responsibly →</a>
+      </nav>
+    </div>
+  </section>
+
+</ContentLayout>
+
+<style>
+  .cases-section { padding: 3rem 0 5rem; }
+
+  .cases-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.4rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .case-card {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    padding: 1.9rem 1.75rem;
+    background-color: var(--color-surface);
+    transition: transform 240ms ease, box-shadow 240ms ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .case-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background-color: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 240ms ease;
+  }
+  .case-warn::before { background-color: var(--color-signal); }
+  .case-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); }
+  .case-card:hover::before { transform: scaleX(1); }
+
+  .case-warn {
+    border-color: color-mix(in oklab, var(--color-signal) 30%, transparent);
+  }
+
+  .case-org {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.85rem;
+  }
+  .case-org-name {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+  .case-warn .case-org-name { color: var(--color-signal); }
+
+  .case-pill {
+    font-size: 0.6rem;
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-line);
+    color: var(--color-text-soft);
+    letter-spacing: 0.08em;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+  }
+
+  .case-card h2 {
+    font-family: var(--font-serif);
+    font-size: 1.28rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+  }
+  .case-card p {
+    font-size: 0.93rem;
+    color: var(--color-text-2);
+    line-height: 1.55;
+  }
+  .case-metric {
+    margin-top: 1rem;
+    font-family: var(--font-serif);
+    font-size: 1.04rem;
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+  .case-warn .case-metric { color: var(--color-signal); }
+
+  /* Disclaimer */
+  .disclaimer {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-md);
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 2.5rem;
+  }
+  .disclaimer svg { flex: none; margin-top: 2px; color: var(--color-text-soft); }
+  .disclaimer p { font-size: 0.84rem; color: var(--color-text-soft); line-height: 1.55; }
+
+  /* Nav */
+  .cases-nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  @media (max-width: 720px) {
+    .cases-grid { grid-template-columns: 1fr; }
+  }
+</style>
