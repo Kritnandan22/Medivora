@@ -1,10 +1,10 @@
-# Render Blueprint — Rx Automata
+# Render Blueprint — Medivora
 # Spec reference: §10.5
 # Defines the deploy target as code so it is reproducible across environments.
 
 services:
   - type: web
-    name: rx-automata
+    name: medivora
     runtime: static
     buildCommand: npm ci && npm run build
     staticPublishPath: ./dist

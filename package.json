@@ -1,9 +1,9 @@
 {
-  "name": "rx-automata",
+  "name": "medivora",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Rx Automata — a field guide to workflow and agentic automation in pharma and medicine management.",
+  "description": "Medivora — a field guide to workflow and agentic automation in pharma and medicine management.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

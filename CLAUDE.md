@@ -1,11 +1,11 @@
-# CLAUDE.md — Rx Automata
+# CLAUDE.md — Medivora
 
 This file is the single source of context for every Claude Code session in this
 repository. Read it before making changes.
 
 ## What this is
 
-**Rx Automata** is a public, vendor-neutral, educational website that explains
+**Medivora** is a public, vendor-neutral, educational website that explains
 how workflow automation and agentic (AI agent) automation are reshaping
 pharmaceuticals and medicine management. The build is governed by
 [`docs/SPEC.md`](docs/SPEC.md) — when this file and the spec disagree, the

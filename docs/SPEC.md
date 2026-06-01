@@ -1,11 +1,11 @@
 > Auto-converted from `Rx-Automata-Website-Build-Spec.docx` via pandoc.
 > Source of truth for the build. If this contradicts `CLAUDE.md`, this wins.
 
-# Rx Automata — Build Specification & Content Master
+# Medivora — Build Specification & Content Master
 
 ### BUILD SPECIFICATION · CONTENT MASTER
 
-### Rx Automata
+### Medivora
 
 A production-grade website on agentic & workflow automation in pharmaceuticals and medicine management
 
@@ -27,7 +27,7 @@ Project Foundation
 
 ### 1.1 Vision & Purpose
 
-Rx Automata is a public, vendor-neutral, educational website that explains clearly and authoritatively how two kinds of automation — workflow automation and agentic (AI agent) automation — are transforming the way medicines are discovered, tested, approved, manufactured, distributed, and managed. The goal is a resource that a curious member of the public, a pharmacy student, and a senior pharma decision-maker can all read and come away better informed.
+Medivora is a public, vendor-neutral, educational website that explains clearly and authoritatively how two kinds of automation — workflow automation and agentic (AI agent) automation — are transforming the way medicines are discovered, tested, approved, manufactured, distributed, and managed. The goal is a resource that a curious member of the public, a pharmacy student, and a senior pharma decision-maker can all read and come away better informed.
 
 The site should be genuinely useful rather than promotional: explain how the technology actually works, show where it is applied across the life-sciences value chain, present real case studies (including honest failures), and set out what responsible, compliant adoption looks like.
 
@@ -845,4 +845,4 @@ Confirm each item before going live:
 
 - Deployment: custom domain connected with TLS; auto-deploy verified; 404 page works.
 
-*End of specification · Rx Automata*
+*End of specification · Medivora*
