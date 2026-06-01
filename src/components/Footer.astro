@@ -1,5 +1,6 @@
 ---
 import BrandMark from '~/components/BrandMark.astro';
+import NewsletterSignup from '~/components/NewsletterSignup.astro';
 
 const year = new Date().getFullYear();
 
@@ -57,6 +58,17 @@ const cols = [
           </div>
         ))
       }
+    </div>
+
+    <!-- Newsletter strip -->
+    <div class="foot-newsletter">
+      <div class="foot-nl-text">
+        <h4>Stay in the loop</h4>
+        <p>Get a note when new content is added to the guide. No noise.</p>
+      </div>
+      <div class="foot-nl-form">
+        <NewsletterSignup variant="footer" />
+      </div>
     </div>
 
     <div class="foot-bottom">
@@ -167,9 +179,42 @@ const cols = [
     font-style: italic;
   }
 
+  .mono { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.06em; }
+
+  /* Newsletter strip */
+  .foot-newsletter {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2.5rem;
+    align-items: center;
+    padding: 1.8rem 0;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    margin-bottom: 2rem;
+  }
+  .foot-nl-text h4 {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-paper);
+    margin-bottom: 0.35rem;
+    letter-spacing: -0.01em;
+  }
+  [data-theme='dark'] .foot-nl-text h4 { color: var(--color-text); }
+  .foot-nl-text p {
+    font-size: 0.87rem;
+    color: rgba(241,236,224,.55);
+    line-height: 1.5;
+  }
+  [data-theme='dark'] .foot-nl-text p { color: var(--color-text-soft); }
+
   @media (max-width: 980px) {
     .foot-top {
       grid-template-columns: 1fr 1fr;
+    }
+    .foot-newsletter {
+      grid-template-columns: 1fr;
+      gap: 1rem;
     }
   }
   @media (max-width: 640px) {

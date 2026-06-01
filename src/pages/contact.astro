@@ -1,20 +1,529 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
-import StubPage from '~/components/StubPage.astro';
+import ContentLayout from '~/layouts/ContentLayout.astro';
 ---
 
-<BaseLayout
+<ContentLayout
   title="Contact"
-  description="Reach the team behind Medivora."
+  description="Get in touch with the Medivora team — questions about the guide, the automation landscape, or how we can help."
+  eyebrow="Get in touch"
+  heading="Questions, feedback, <em>conversations.</em>"
+  lede="Whether you want to discuss something in the guide, flag a factual error, or simply talk pharma automation — this is the right place."
 >
-  <StubPage
-    title="Get in touch."
-    lede="The contact form, spam protection and newsletter sign-up arrive in Phase 4. Until then, reach out via the email address on the About page."
-    willCover={[
-      'Validated, spam-protected contact form (honeypot + rate limiting)',
-      'Optional newsletter sign-up (double opt-in)',
-      'Privacy notice for stored personal data',
-      'Clear response-time expectations',
-    ]}
-  />
-</BaseLayout>
+
+  <section class="contact-section">
+    <div class="wrap contact-layout">
+
+      <!-- Left: form -->
+      <div class="contact-form-col">
+
+        <!-- Success state (hidden by default) -->
+        <div class="form-success" id="form-success" aria-live="polite" hidden>
+          <div class="success-icon">✓</div>
+          <h3>Message received.</h3>
+          <p>We'll read it and get back to you within a few working days. Thank you.</p>
+          <button class="btn btn-ghost" id="form-reset">Send another →</button>
+        </div>
+
+        <!-- Contact form -->
+        <form
+          class="contact-form"
+          id="contact-form"
+          method="POST"
+          action="https://api.web3forms.com/submit"
+          novalidate
+        >
+          <!-- Web3Forms access key — replace with your key from web3forms.com -->
+          <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY" />
+          <input type="hidden" name="subject" value="Medivora — New message from contact form" />
+          <input type="hidden" name="from_name" value="Medivora Contact Form" />
+          <input type="checkbox" name="botcheck" class="honeypot" tabindex="-1" autocomplete="off" />
+
+          <div class="field-row">
+            <div class="field-group">
+              <label for="cf-name">Name <span class="req" aria-hidden="true">*</span></label>
+              <input
+                type="text"
+                id="cf-name"
+                name="name"
+                required
+                autocomplete="name"
+                placeholder="Your name"
+              />
+              <span class="field-error" id="cf-name-err">Please enter your name.</span>
+            </div>
+            <div class="field-group">
+              <label for="cf-email">Email <span class="req" aria-hidden="true">*</span></label>
+              <input
+                type="email"
+                id="cf-email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder="you@company.com"
+              />
+              <span class="field-error" id="cf-email-err">Please enter a valid email.</span>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="cf-org">Organisation <span class="optional">(optional)</span></label>
+            <input
+              type="text"
+              id="cf-org"
+              name="organisation"
+              autocomplete="organization"
+              placeholder="Pharma co., consultancy, university…"
+            />
+          </div>
+
+          <div class="field-group">
+            <label for="cf-subject">Topic <span class="req" aria-hidden="true">*</span></label>
+            <div class="select-wrap">
+              <select id="cf-subject" name="topic" required>
+                <option value="" disabled selected>Select a topic</option>
+                <option value="General question">General question</option>
+                <option value="Factual correction">Factual correction</option>
+                <option value="Collaboration">Collaboration</option>
+                <option value="Press / media">Press / media</option>
+                <option value="Other">Other</option>
+              </select>
+              <span class="select-arrow" aria-hidden="true">↓</span>
+            </div>
+            <span class="field-error" id="cf-subject-err">Please select a topic.</span>
+          </div>
+
+          <div class="field-group">
+            <label for="cf-message">Message <span class="req" aria-hidden="true">*</span></label>
+            <textarea
+              id="cf-message"
+              name="message"
+              required
+              rows="6"
+              placeholder="What's on your mind?"
+            ></textarea>
+            <span class="field-error" id="cf-message-err">Please enter a message.</span>
+          </div>
+
+          <!-- Newsletter opt-in -->
+          <div class="field-check">
+            <input type="checkbox" id="cf-newsletter" name="newsletter_optin" value="yes" />
+            <label for="cf-newsletter">
+              Also sign me up for occasional updates when new content is added to the guide.
+            </label>
+          </div>
+
+          <!-- Privacy notice -->
+          <p class="form-privacy">
+            Your data is used only to respond to you and, if opted in, to send
+            occasional guide updates. Read our <a href="/privacy">Privacy &amp; Disclaimer</a>.
+          </p>
+
+          <button type="submit" class="btn btn-primary submit-btn" id="cf-submit">
+            <span class="btn-label">Send message</span>
+            <span class="btn-spinner" aria-hidden="true"></span>
+          </button>
+
+          <div class="form-error-banner" id="form-error-banner" hidden>
+            Something went wrong — please try again or email us directly.
+          </div>
+        </form>
+      </div>
+
+      <!-- Right: info sidebar -->
+      <aside class="contact-aside">
+        <div class="aside-card">
+          <h3>What to expect</h3>
+          <ul>
+            <li>
+              <span class="asi-icon">⏱</span>
+              <span>We aim to respond within <strong>2–3 working days</strong>.</span>
+            </li>
+            <li>
+              <span class="asi-icon">🔍</span>
+              <span>Factual corrections and source suggestions are always welcome — cite your source if you have one.</span>
+            </li>
+            <li>
+              <span class="asi-icon">📬</span>
+              <span>Newsletter updates go out only when meaningful new content is added. No spam — ever.</span>
+            </li>
+            <li>
+              <span class="asi-icon">🔒</span>
+              <span>Your contact details are never shared with third parties.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="aside-card aside-guide">
+          <span class="aside-label">Not sure where to start?</span>
+          <p>The guide is structured to be read in order — but each section also stands alone.</p>
+          <a href="/foundations" class="btn btn-ghost aside-btn">Read the foundations →</a>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+</ContentLayout>
+
+<style>
+  .contact-section { padding: 2.5rem 0 5rem; }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  /* ── Form ── */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .field-group label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-text);
+    letter-spacing: 0.01em;
+  }
+  .req { color: var(--color-signal); margin-left: 2px; }
+  .optional { font-weight: 400; color: var(--color-text-soft); font-size: 0.78rem; }
+
+  input[type='text'],
+  input[type='email'],
+  select,
+  textarea {
+    width: 100%;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 0.85rem;
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+    color: var(--color-text);
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+    outline: none;
+    appearance: none;
+  }
+  input::placeholder, textarea::placeholder { color: var(--color-text-soft); }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-accent) 15%, transparent);
+  }
+  input:user-invalid, select:user-invalid, textarea:user-invalid {
+    border-color: var(--color-signal);
+  }
+  input:user-invalid:focus, select:user-invalid:focus, textarea:user-invalid:focus {
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-signal) 15%, transparent);
+  }
+
+  textarea { resize: vertical; min-height: 130px; line-height: 1.55; }
+
+  .select-wrap { position: relative; }
+  .select-wrap select { cursor: pointer; padding-right: 2.2rem; }
+  .select-arrow {
+    position: absolute;
+    right: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--color-text-soft);
+    font-size: 0.75rem;
+  }
+
+  /* Field errors */
+  .field-error {
+    font-size: 0.76rem;
+    color: var(--color-signal);
+    display: none;
+  }
+  .field-group.has-error .field-error { display: block; }
+  .field-group.has-error input,
+  .field-group.has-error select,
+  .field-group.has-error textarea {
+    border-color: var(--color-signal);
+  }
+
+  /* Honeypot */
+  .honeypot {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  /* Newsletter opt-in */
+  .field-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    cursor: pointer;
+  }
+  .field-check input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    margin-top: 2px;
+    accent-color: var(--color-accent);
+    cursor: pointer;
+    border: 1px solid var(--color-line);
+  }
+  .field-check label {
+    font-size: 0.87rem;
+    color: var(--color-text-soft);
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  /* Privacy */
+  .form-privacy {
+    font-size: 0.79rem;
+    color: var(--color-text-soft);
+    line-height: 1.5;
+  }
+  .form-privacy a { color: var(--color-accent); }
+
+  /* Submit */
+  .submit-btn {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    position: relative;
+  }
+  .submit-btn.loading { opacity: 0.8; pointer-events: none; }
+  .btn-spinner {
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,.4);
+    border-top-color: white;
+    border-radius: 50%;
+    display: none;
+    animation: spin 0.7s linear infinite;
+  }
+  .submit-btn.loading .btn-spinner { display: block; }
+  .submit-btn.loading .btn-label { opacity: 0.7; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Error banner */
+  .form-error-banner {
+    padding: 0.8rem 1rem;
+    background-color: color-mix(in oklab, var(--color-signal) 12%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-signal) 35%, transparent);
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
+    color: var(--color-signal);
+  }
+  .form-error-banner[hidden] { display: none; }
+
+  /* Success state */
+  .form-success {
+    text-align: center;
+    padding: 3rem 2rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-lg);
+    animation: dt-slide-in 320ms ease;
+  }
+  .form-success[hidden] { display: none !important; }
+  @keyframes dt-slide-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .success-icon {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background-color: color-mix(in oklab, var(--color-accent) 15%, transparent);
+    color: var(--color-accent);
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.1rem;
+    border: 2px solid var(--color-accent);
+  }
+  .form-success h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+  .form-success p { color: var(--color-text-soft); margin-bottom: 1.4rem; }
+
+  /* ── Aside ── */
+  .contact-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    position: sticky;
+    top: 5.5rem;
+  }
+  .aside-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-md);
+    padding: 1.6rem 1.5rem;
+  }
+  .aside-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+  .aside-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .aside-card li {
+    display: flex;
+    gap: 0.7rem;
+    font-size: 0.9rem;
+    color: var(--color-text-soft);
+    line-height: 1.5;
+  }
+  .aside-card li strong { color: var(--color-text); }
+  .asi-icon { flex: none; font-size: 1.05rem; margin-top: 1px; }
+
+  .aside-guide {
+    background-color: var(--color-green-deep);
+    border-color: transparent;
+    color: var(--color-paper);
+  }
+  [data-theme='dark'] .aside-guide {
+    background-color: var(--color-surface-2);
+    border-color: var(--color-line);
+  }
+  .aside-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--color-amber-bright);
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+  .aside-guide p {
+    font-size: 0.9rem;
+    color: rgba(241,236,224,.78);
+    line-height: 1.55;
+    margin-bottom: 1rem;
+  }
+  [data-theme='dark'] .aside-guide p { color: var(--color-text-2); }
+  .aside-btn { display: inline-flex; }
+
+  /* Responsive */
+  @media (max-width: 880px) {
+    .contact-layout { grid-template-columns: 1fr; }
+    .contact-aside { position: static; }
+  }
+  @media (max-width: 560px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  (function () {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const successEl = document.getElementById('form-success') as HTMLElement | null;
+    const resetBtn = document.getElementById('form-reset');
+    const submitBtn = document.getElementById('cf-submit') as HTMLButtonElement | null;
+    const errorBanner = document.getElementById('form-error-banner') as HTMLElement | null;
+
+    // Field IDs and their error IDs
+    const fields = [
+      { id: 'cf-name',    errId: 'cf-name-err' },
+      { id: 'cf-email',   errId: 'cf-email-err' },
+      { id: 'cf-subject', errId: 'cf-subject-err' },
+      { id: 'cf-message', errId: 'cf-message-err' },
+    ];
+
+    function validateField(el: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) {
+      const group = el.closest('.field-group') as HTMLElement | null;
+      if (!group) return el.validity.valid;
+      if (!el.validity.valid) {
+        group.classList.add('has-error');
+        return false;
+      } else {
+        group.classList.remove('has-error');
+        return true;
+      }
+    }
+
+    // Live validation on blur
+    fields.forEach(({ id }) => {
+      const el = document.getElementById(id) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
+      if (el) {
+        el.addEventListener('blur', () => validateField(el));
+        el.addEventListener('input', () => {
+          if (el.closest('.field-group')?.classList.contains('has-error')) {
+            validateField(el);
+          }
+        });
+      }
+    });
+
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Validate all required fields
+      let valid = true;
+      fields.forEach(({ id }) => {
+        const el = document.getElementById(id) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
+        if (el && !validateField(el)) valid = false;
+      });
+      if (!valid) return;
+
+      // Loading state
+      submitBtn?.classList.add('loading');
+      if (errorBanner) errorBanner.hidden = true;
+
+      try {
+        const data = new FormData(form);
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: data,
+        });
+        const json = await res.json();
+
+        if (json.success) {
+          form.hidden = true;
+          if (successEl) successEl.hidden = false;
+        } else {
+          throw new Error('Submission failed');
+        }
+      } catch {
+        if (errorBanner) errorBanner.hidden = false;
+      } finally {
+        submitBtn?.classList.remove('loading');
+      }
+    });
+
+    // Reset
+    resetBtn?.addEventListener('click', () => {
+      form?.reset();
+      form && (form.hidden = false);
+      if (successEl) successEl.hidden = true;
+      fields.forEach(({ id }) => {
+        document.getElementById(id)?.closest('.field-group')?.classList.remove('has-error');
+      });
+    });
+  })();
+</script>

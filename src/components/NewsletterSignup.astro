@@ -1,0 +1,229 @@
+---
+// Newsletter inline sign-up — used in footer and standalone
+export interface Props {
+  variant?: 'footer' | 'inline';
+}
+const { variant = 'inline' } = Astro.props;
+---
+
+<div class={`newsletter-wrap newsletter-${variant}`} id="newsletter-wrap">
+
+  <!-- Default state -->
+  <form
+    class="newsletter-form"
+    id="newsletter-form"
+    method="POST"
+    action="https://api.web3forms.com/submit"
+    novalidate
+  >
+    <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY" />
+    <input type="hidden" name="subject" value="Medivora — Newsletter sign-up" />
+    <input type="hidden" name="from_name" value="Medivora Newsletter" />
+    <input type="hidden" name="message" value="New newsletter subscription request." />
+    <input type="checkbox" name="botcheck" class="nl-honeypot" tabindex="-1" autocomplete="off" />
+
+    <div class="nl-fields">
+      <div class="nl-input-wrap">
+        <input
+          type="email"
+          id="nl-email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder="your@email.com"
+          aria-label="Email address for newsletter"
+        />
+        <span class="nl-error" id="nl-error" aria-live="polite"></span>
+      </div>
+      <button type="submit" class="btn btn-primary nl-btn" id="nl-submit">
+        <span class="nl-label">Subscribe</span>
+        <span class="nl-spinner" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <p class="nl-note">
+      Updates only when new content is added. No spam.
+      <a href="/privacy">Privacy policy.</a>
+    </p>
+  </form>
+
+  <!-- Success -->
+  <div class="nl-success" id="nl-success" hidden>
+    <span class="nl-check">✓</span>
+    <span>You're in! We'll be in touch when the guide grows.</span>
+  </div>
+
+</div>
+
+<style>
+  .newsletter-wrap { width: 100%; }
+
+  .nl-fields {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .nl-input-wrap {
+    flex: 1;
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  /* Inputs */
+  .newsletter-footer input[type='email'],
+  .newsletter-inline input[type='email'] {
+    width: 100%;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 0.9rem;
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    color: var(--color-text);
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+    outline: none;
+  }
+  .newsletter-footer input[type='email'] {
+    background-color: rgba(255,255,255,.06);
+    border-color: rgba(241,236,224,.2);
+    color: var(--color-paper);
+  }
+  .newsletter-footer input[type='email']::placeholder { color: rgba(241,236,224,.45); }
+  .newsletter-inline input[type='email']::placeholder { color: var(--color-text-soft); }
+  input[type='email']:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-accent) 15%, transparent);
+  }
+  input[type='email'].nl-invalid {
+    border-color: var(--color-signal);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-signal) 12%, transparent);
+  }
+
+  .nl-btn {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex: none;
+  }
+  .nl-btn.loading { opacity: 0.8; pointer-events: none; }
+  .nl-spinner {
+    width: 13px; height: 13px;
+    border: 2px solid rgba(255,255,255,.35);
+    border-top-color: white;
+    border-radius: 50%;
+    display: none;
+    animation: nl-spin 0.7s linear infinite;
+  }
+  .nl-btn.loading .nl-spinner { display: block; }
+  .nl-btn.loading .nl-label { opacity: 0.7; }
+  @keyframes nl-spin { to { transform: rotate(360deg); } }
+
+  /* Error */
+  .nl-error {
+    font-size: 0.74rem;
+    color: var(--color-signal);
+    min-height: 1em;
+  }
+
+  /* Note */
+  .nl-note {
+    font-size: 0.76rem;
+    margin-top: 0.55rem;
+    line-height: 1.5;
+    color: var(--color-text-soft);
+  }
+  .newsletter-footer .nl-note { color: rgba(241,236,224,.5); }
+  .nl-note a { color: var(--color-accent); }
+
+  /* Honeypot */
+  .nl-honeypot {
+    position: absolute;
+    opacity: 0;
+    width: 0; height: 0;
+    pointer-events: none;
+  }
+
+  /* Success */
+  .nl-success {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.92rem;
+    color: var(--color-accent);
+    padding: 0.6rem 0;
+    animation: nl-pop 280ms ease;
+  }
+  .nl-success[hidden] { display: none !important; }
+  @keyframes nl-pop {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .nl-check {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background-color: color-mix(in oklab, var(--color-accent) 15%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    border: 1.5px solid var(--color-accent);
+    flex: none;
+  }
+</style>
+
+<script>
+  (function () {
+    // Allow multiple newsletter instances on same page
+    document.querySelectorAll('.newsletter-form').forEach((form) => {
+      const fEl = form as HTMLFormElement;
+      const wrap = fEl.closest('.newsletter-wrap') as HTMLElement;
+      const emailEl = fEl.querySelector('input[type="email"]') as HTMLInputElement;
+      const submitBtn = fEl.querySelector('.nl-btn') as HTMLButtonElement;
+      const errorEl = fEl.querySelector('.nl-error') as HTMLElement;
+      const successEl = wrap.querySelector('.nl-success') as HTMLElement;
+
+      fEl.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Validate
+        if (!emailEl.validity.valid) {
+          emailEl.classList.add('nl-invalid');
+          errorEl.textContent = 'Please enter a valid email.';
+          emailEl.focus();
+          return;
+        }
+        emailEl.classList.remove('nl-invalid');
+        errorEl.textContent = '';
+
+        submitBtn.classList.add('loading');
+
+        try {
+          const data = new FormData(fEl);
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: data,
+          });
+          const json = await res.json();
+          if (json.success) {
+            fEl.hidden = true;
+            if (successEl) successEl.hidden = false;
+          } else {
+            throw new Error('failed');
+          }
+        } catch {
+          errorEl.textContent = 'Something went wrong — please try again.';
+        } finally {
+          submitBtn.classList.remove('loading');
+        }
+      });
+
+      emailEl.addEventListener('input', () => {
+        emailEl.classList.remove('nl-invalid');
+        errorEl.textContent = '';
+      });
+    });
+  })();
+</script>
