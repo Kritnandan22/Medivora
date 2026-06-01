@@ -196,17 +196,16 @@ const cols = [
     font-family: var(--font-serif);
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--color-paper);
+    /* use text token so it's visible in both light + dark */
+    color: var(--color-text);
     margin-bottom: 0.35rem;
     letter-spacing: -0.01em;
   }
-  [data-theme='dark'] .foot-nl-text h4 { color: var(--color-text); }
   .foot-nl-text p {
     font-size: 0.87rem;
-    color: rgba(241,236,224,.55);
+    color: var(--color-text-soft);
     line-height: 1.5;
   }
-  [data-theme='dark'] .foot-nl-text p { color: var(--color-text-soft); }
 
   @media (max-width: 980px) {
     .foot-top {

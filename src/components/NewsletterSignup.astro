@@ -71,11 +71,11 @@ const { variant = 'inline' } = Astro.props;
     gap: 0.25rem;
   }
 
-  /* Inputs */
+  /* Inputs — theme-aware for both variants */
   .newsletter-footer input[type='email'],
   .newsletter-inline input[type='email'] {
     width: 100%;
-    background-color: var(--color-bg);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-sm);
     padding: 0.6rem 0.9rem;
@@ -85,12 +85,7 @@ const { variant = 'inline' } = Astro.props;
     transition: border-color 180ms ease, box-shadow 180ms ease;
     outline: none;
   }
-  .newsletter-footer input[type='email'] {
-    background-color: rgba(255,255,255,.06);
-    border-color: rgba(241,236,224,.2);
-    color: var(--color-paper);
-  }
-  .newsletter-footer input[type='email']::placeholder { color: rgba(241,236,224,.45); }
+  .newsletter-footer input[type='email']::placeholder,
   .newsletter-inline input[type='email']::placeholder { color: var(--color-text-soft); }
   input[type='email']:focus {
     border-color: var(--color-accent);
@@ -135,7 +130,6 @@ const { variant = 'inline' } = Astro.props;
     line-height: 1.5;
     color: var(--color-text-soft);
   }
-  .newsletter-footer .nl-note { color: rgba(241,236,224,.5); }
   .nl-note a { color: var(--color-accent); }
 
   /* Honeypot */

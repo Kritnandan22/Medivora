@@ -6,16 +6,34 @@ import Footer from '~/components/Footer.astro';
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
 
 const {
   title,
   description = 'A field guide to workflow and agentic automation across pharmaceuticals and medicine management — from discovery to the pharmacy counter.',
+  ogImage = '/og-default.png',
 } = Astro.props;
 
 const siteName = 'Medivora';
 const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageUrl = new URL(ogImage, Astro.site).toString();
+
+// JSON-LD WebSite schema
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteName,
+  url: Astro.site?.toString(),
+  description,
+  inLanguage: 'en',
+  publisher: {
+    '@type': 'Organization',
+    name: siteName,
+    url: Astro.site?.toString(),
+  },
+};
 ---
 
 <!doctype html>
@@ -24,11 +42,36 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary SEO -->
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0e6b54" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#16a684" media="(prefers-color-scheme: dark)" />
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Fonts — preconnect then load -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -36,12 +79,8 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
       rel="stylesheet"
     />
 
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content={siteName} />
-    <meta name="twitter:card" content="summary_large_image" />
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     {/* Theme bootstrap — sets data-theme before first paint to avoid FOUC. */}
     <script is:inline>
@@ -61,11 +100,11 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
   </head>
   <body>
     <a id="top"></a>
-    <a href="#main" class="skip-link">Skip to content</a>
+    <a href="#main" class="skip-link">Skip to main content</a>
 
     <Header />
 
-    <main id="main">
+    <main id="main" tabindex="-1">
       <slot />
     </main>
 
@@ -85,10 +124,17 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
         font-size: 0.75rem;
         letter-spacing: 0.1em;
         text-transform: uppercase;
+        text-decoration: none;
       }
       .skip-link:focus {
         left: 1rem;
         top: 1rem;
+      }
+      /* Global focus ring */
+      :focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 3px;
+        border-radius: var(--radius-xs);
       }
     </style>
   </body>
