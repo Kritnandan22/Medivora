@@ -151,8 +151,12 @@
     gap: 1.4rem;
     overflow: hidden;
   }
+  /* Always dark — hardcoded to bypass Tailwind @theme variable resolution order */
+  .diagram-canvas {
+    background-color: #13201b;
+  }
   :global([data-theme='dark']) .diagram-canvas {
-    background-color: var(--color-surface-2);
+    background-color: #1b2c27;
     border: 1px solid var(--color-line);
   }
 

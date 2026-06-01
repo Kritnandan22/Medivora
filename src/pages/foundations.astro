@@ -285,11 +285,12 @@ import DecisionTool from '~/components/DecisionTool.astro';
   /* ── Engines ── */
   .engines-section {
     padding: 5rem 0;
-    background-color: var(--color-ink);
-    color: var(--color-paper);
+    background-color: #13201b;
+    /* Always cream text — var(--color-paper) flips to #0d1614 in dark mode! */
+    color: #f1ece0;
   }
   :global([data-theme='dark']) .engines-section {
-    background-color: color-mix(in oklab, var(--color-paper) 4%, var(--color-ink));
+    background-color: #14211d;
   }
   .engines-section .eyebrow { display: none; } /* hidden — eyebrow already in page-hero */
 
@@ -320,8 +321,8 @@ import DecisionTool from '~/components/DecisionTool.astro';
     border-radius: var(--radius-xs);
     display: inline-block;
   }
-  .wf-tag { background: var(--color-green-bright); color: var(--color-ink); }
-  .ag-tag { background: var(--color-amber-bright); color: var(--color-ink); }
+  .wf-tag { background: var(--color-green-bright); color: #0d1614; }
+  .ag-tag { background: var(--color-amber-bright); color: #0d1614; }
 
   .engine h2 {
     font-family: var(--font-serif);
@@ -329,7 +330,7 @@ import DecisionTool from '~/components/DecisionTool.astro';
     font-weight: 600;
     margin: 1.2rem 0 0.4rem;
     letter-spacing: -0.01em;
-    color: var(--color-paper);
+    color: #f1ece0;
   }
   .engine-deck {
     color: rgba(241,236,224,.72);
@@ -352,7 +353,7 @@ import DecisionTool from '~/components/DecisionTool.astro';
     line-height: 1.4;
   }
   .traits li svg { flex: none; margin-top: 3px; }
-  .traits li strong { color: var(--color-paper); font-weight: 600; }
+  .traits li strong { color: #f1ece0; font-weight: 600; }
 
   .engine-foot {
     margin-top: 1.6rem;
@@ -492,8 +493,8 @@ import DecisionTool from '~/components/DecisionTool.astro';
   .cmp-ag li svg { color: var(--color-signal); }
 
   .converge {
-    background-color: var(--color-ink);
-    color: var(--color-paper);
+    background-color: #13201b;
+    color: #f1ece0;
     border-radius: var(--radius-md);
     padding: 2.1rem 2rem;
     display: grid;
@@ -517,7 +518,7 @@ import DecisionTool from '~/components/DecisionTool.astro';
     font-size: 1.38rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: var(--color-paper);
+    color: #f1ece0;
   }
   :global([data-theme='dark']) .converge h3 { color: var(--color-text); }
   .converge p { color: rgba(241,236,224,.78); font-size: 0.99rem; line-height: 1.55; }
