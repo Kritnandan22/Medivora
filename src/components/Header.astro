@@ -8,6 +8,7 @@ const navLinks = [
   { href: '/case-studies', label: 'Case Studies' },
   { href: '/responsible-adoption', label: 'Responsible Adoption' },
   { href: '/road-ahead', label: 'Road Ahead' },
+  { href: '/glossary', label: 'Glossary' },
   { href: '/about', label: 'About' },
 ];
 
@@ -45,6 +46,20 @@ const isCurrent = (href: string) => {
     </nav>
 
     <div class="nav-tools">
+      <!-- Search button -->
+      <button
+        type="button"
+        id="search-btn"
+        class="search-btn"
+        aria-label="Search (Cmd+K)"
+        title="Search (Cmd+K)"
+      >
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <kbd class="search-btn-hint">⌘K</kbd>
+      </button>
       <ThemeToggle />
       <a href="/contact" class="nav-cta">Get in touch →</a>
       <button
@@ -166,6 +181,38 @@ const isCurrent = (href: string) => {
   .nav-cta:hover {
     background-color: var(--color-text);
     color: var(--color-bg);
+  }
+
+  /* Search button */
+  .search-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    color: var(--color-text-soft);
+    cursor: pointer;
+    transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease;
+  }
+  .search-btn:hover {
+    color: var(--color-text);
+    border-color: var(--color-accent);
+    background-color: var(--color-surface);
+  }
+  .search-btn-hint {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    padding: 1px 4px;
+    border: 1px solid var(--color-line);
+    border-radius: 3px;
+    background-color: var(--color-surface-2);
+    color: var(--color-text-soft);
+  }
+  @media (max-width: 980px) {
+    .search-btn-hint { display: none; }
   }
 
   .burger {

@@ -100,6 +100,68 @@ import DecisionTool from '~/components/DecisionTool.astro';
         They aren't rivals. The mature pattern is <strong>agents reasoning on top, deterministic
         workflows executing underneath</strong> — with a human reviewing the decisions that matter.
       </p>
+
+      <!-- ── Comparison Table ── -->
+      <div class="cmp-table-wrap" id="comparison">
+        <h2 class="cmp-table-title">Side-by-side: 8 dimensions</h2>
+        <div class="cmp-scroll">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th class="dim-col">Dimension</th>
+                <th class="wf-col">
+                  <span class="th-badge wf-badge-th">Workflow Automation</span>
+                </th>
+                <th class="ag-col">
+                  <span class="th-badge ag-badge-th">Agentic Automation</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="dim">Handles ambiguity</td>
+                <td class="wf-cell"><span class="cell-no">✗</span> Needs exact, structured input</td>
+                <td class="ag-cell"><span class="cell-yes">✓</span> Reasons through unclear inputs</td>
+              </tr>
+              <tr>
+                <td class="dim">Auditability</td>
+                <td class="wf-cell"><span class="cell-yes">✓</span> Full deterministic step log</td>
+                <td class="ag-cell"><span class="cell-half">~</span> Reasoning trace (must be captured)</td>
+              </tr>
+              <tr>
+                <td class="dim">Cost per run</td>
+                <td class="wf-cell"><span class="cell-yes">✓</span> Low — API calls only</td>
+                <td class="ag-cell"><span class="cell-no">✗</span> Higher — LLM tokens add up</td>
+              </tr>
+              <tr>
+                <td class="dim">Setup complexity</td>
+                <td class="wf-cell"><span class="cell-half">~</span> Days to weeks (flow design)</td>
+                <td class="ag-cell"><span class="cell-no">✗</span> Weeks to months (prompt + eval)</td>
+              </tr>
+              <tr>
+                <td class="dim">Failure mode</td>
+                <td class="wf-cell"><span class="cell-half">~</span> Predictable crash — easy to debug</td>
+                <td class="ag-cell"><span class="cell-no">✗</span> Silent hallucination — harder to catch</td>
+              </tr>
+              <tr>
+                <td class="dim">Handles exceptions</td>
+                <td class="wf-cell"><span class="cell-no">✗</span> Breaks — needs human escalation</td>
+                <td class="ag-cell"><span class="cell-yes">✓</span> Adapts and tries alternatives</td>
+              </tr>
+              <tr>
+                <td class="dim">GxP validation path</td>
+                <td class="wf-cell"><span class="cell-yes">✓</span> Well-established (GAMP 5)</td>
+                <td class="ag-cell"><span class="cell-no">✗</span> Emerging — industry still aligning</td>
+              </tr>
+              <tr>
+                <td class="dim">Best for</td>
+                <td class="wf-cell">High-volume, rule-based, regulated tasks</td>
+                <td class="ag-cell">Ambiguous, multi-step, judgment-heavy tasks</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -379,6 +441,65 @@ import DecisionTool from '~/components/DecisionTool.astro';
     font-family: var(--font-sans);
     font-weight: 600;
   }
+
+  /* ── Comparison table ── */
+  .cmp-table-wrap {
+    margin-top: 2.5rem;
+    background-color: rgba(241,236,224,.04);
+    border: 1px solid rgba(241,236,224,.12);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .cmp-table-title {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(241,236,224,.5);
+    padding: 1rem 1.4rem 0.6rem;
+    border-bottom: 1px solid rgba(241,236,224,.1);
+  }
+  .cmp-scroll { overflow-x: auto; }
+  .cmp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  .cmp-table thead th {
+    padding: 0.9rem 1.2rem;
+    text-align: left;
+    background-color: rgba(241,236,224,.06);
+    border-bottom: 1px solid rgba(241,236,224,.12);
+  }
+  .dim-col { width: 22%; color: rgba(241,236,224,.5); font-weight: 500; }
+  .th-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.67rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: var(--radius-xs);
+    font-weight: 700;
+  }
+  .wf-badge-th { background-color: var(--color-green-bright); color: #0d1614; }
+  .ag-badge-th { background-color: var(--color-amber-bright); color: #0d1614; }
+
+  .cmp-table tbody tr {
+    border-bottom: 1px solid rgba(241,236,224,.07);
+    transition: background-color 140ms ease;
+  }
+  .cmp-table tbody tr:hover { background-color: rgba(241,236,224,.04); }
+  .cmp-table tbody tr:last-child { border-bottom: 0; }
+
+  .cmp-table td { padding: 0.85rem 1.2rem; vertical-align: top; line-height: 1.5; }
+  .dim { color: rgba(241,236,224,.6); font-weight: 600; font-size: 0.82rem; }
+  .wf-cell { color: rgba(241,236,224,.8); }
+  .ag-cell { color: rgba(241,236,224,.8); }
+
+  .cell-yes { color: #16a684; font-weight: 700; }
+  .cell-no  { color: #c06a24; font-weight: 700; }
+  .cell-half { color: rgba(241,236,224,.55); font-weight: 700; }
 
   /* ── Diagram section ── */
   .diagram-section {

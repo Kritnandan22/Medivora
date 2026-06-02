@@ -1,0 +1,352 @@
+---
+// Search overlay — keyboard-driven, client-side, zero dependencies
+---
+
+<div class="search-overlay" id="search-overlay" role="dialog" aria-modal="true" aria-label="Search" hidden>
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <input
+        type="search"
+        id="search-input"
+        class="search-input"
+        placeholder="Search Medivora…"
+        autocomplete="off"
+        spellcheck="false"
+        aria-autocomplete="list"
+        aria-controls="search-results"
+      />
+      <kbd class="search-esc-hint">Esc</kbd>
+    </div>
+
+    <ul class="search-results" id="search-results" role="listbox" aria-label="Search results"></ul>
+
+    <div class="search-footer">
+      <span class="sf-item"><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span class="sf-item"><kbd>↵</kbd> open</span>
+      <span class="sf-item"><kbd>Esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ── Overlay shell ── */
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 900;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: clamp(4rem, 10vh, 7rem);
+  }
+  .search-overlay[hidden] { display: none; }
+
+  .search-backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(13, 22, 18, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  /* ── Panel ── */
+  .search-panel {
+    position: relative;
+    z-index: 1;
+    width: min(640px, calc(100vw - 2rem));
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    box-shadow:
+      0 4px 6px -1px rgba(13,32,27,.12),
+      0 24px 60px -8px rgba(10,79,63,.28);
+    overflow: hidden;
+  }
+
+  /* ── Input row ── */
+  .search-input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1.1rem;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .search-icon { color: var(--color-text-soft); flex: none; }
+
+  .search-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--color-text);
+    caret-color: var(--color-accent);
+  }
+  .search-input::placeholder { color: var(--color-text-soft); }
+  /* Remove browser search chrome */
+  .search-input::-webkit-search-cancel-button { display: none; }
+
+  .search-esc-hint {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    padding: 2px 6px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-soft);
+    background-color: var(--color-bg);
+    flex: none;
+  }
+
+  /* ── Results ── */
+  .search-results {
+    list-style: none;
+    max-height: 360px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0.4rem 0;
+    margin: 0;
+  }
+  .search-results:empty::after {
+    content: attr(data-empty);
+    display: block;
+    text-align: center;
+    padding: 2.2rem 1rem;
+    font-size: 0.9rem;
+    color: var(--color-text-soft);
+  }
+
+  .sr-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.1rem;
+    cursor: pointer;
+    transition: background-color 120ms ease;
+    border-radius: 0;
+    text-decoration: none;
+  }
+  .sr-item:hover,
+  .sr-item[aria-selected='true'] {
+    background-color: var(--color-surface-2);
+  }
+  .sr-item[aria-selected='true'] .sr-title { color: var(--color-accent); }
+
+  .sr-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    background-color: color-mix(in oklab, var(--color-accent) 12%, var(--color-bg));
+    color: var(--color-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+  }
+
+  .sr-body { flex: 1; min-width: 0; }
+  .sr-title {
+    font-size: 0.94rem;
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sr-meta {
+    font-size: 0.78rem;
+    color: var(--color-text-soft);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sr-section {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: var(--radius-xs);
+    background-color: color-mix(in oklab, var(--color-accent) 10%, transparent);
+    color: var(--color-accent);
+    flex: none;
+  }
+
+  /* ── Footer hints ── */
+  .search-footer {
+    display: flex;
+    gap: 1.2rem;
+    padding: 0.6rem 1.1rem;
+    border-top: 1px solid var(--color-line-soft);
+    background-color: var(--color-bg);
+  }
+  .sf-item {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.7rem;
+    color: var(--color-text-soft);
+  }
+  .sf-item kbd {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    padding: 1px 5px;
+    border: 1px solid var(--color-line);
+    border-radius: 3px;
+    background-color: var(--color-surface-2);
+    color: var(--color-text-soft);
+  }
+
+  /* ── Highlight match ── */
+  mark {
+    background: color-mix(in oklab, var(--color-accent) 22%, transparent);
+    color: var(--color-accent);
+    border-radius: 2px;
+  }
+</style>
+
+<script>
+(function () {
+  const overlay  = document.getElementById('search-overlay') as HTMLElement;
+  const backdrop = document.getElementById('search-backdrop') as HTMLElement;
+  const input    = document.getElementById('search-input') as HTMLInputElement;
+  const results  = document.getElementById('search-results') as HTMLUListElement;
+
+  if (!overlay || !input || !results) return;
+
+  let index: Array<{ title: string; url: string; section: string; excerpt: string; keywords: string[] }> = [];
+  let activeIdx = -1;
+
+  // Load index
+  fetch('/search-index.json')
+    .then(r => r.json())
+    .then(data => { index = data; })
+    .catch(() => {});
+
+  // ── Open / close ──
+  function openSearch() {
+    overlay.hidden = false;
+    input.value = '';
+    results.innerHTML = '';
+    results.removeAttribute('data-empty');
+    activeIdx = -1;
+    requestAnimationFrame(() => input.focus());
+  }
+
+  function closeSearch() {
+    overlay.hidden = true;
+    input.value = '';
+  }
+
+  // Cmd/Ctrl + K
+  document.addEventListener('keydown', (e: KeyboardEvent) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      overlay.hidden ? openSearch() : closeSearch();
+    }
+    if (e.key === 'Escape' && !overlay.hidden) closeSearch();
+  });
+
+  // Click backdrop
+  backdrop.addEventListener('click', closeSearch);
+
+  // Search button in nav (added below)
+  document.getElementById('search-btn')?.addEventListener('click', openSearch);
+
+  // ── Search logic ──
+  function highlight(text: string, query: string): string {
+    if (!query) return text;
+    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+  }
+
+  function doSearch(q: string) {
+    activeIdx = -1;
+    if (!q.trim()) {
+      results.innerHTML = '';
+      results.removeAttribute('data-empty');
+      return;
+    }
+
+    const lower = q.toLowerCase();
+    const hits = index.filter(item => {
+      return (
+        item.title.toLowerCase().includes(lower) ||
+        item.excerpt.toLowerCase().includes(lower) ||
+        item.keywords.some(k => k.toLowerCase().includes(lower))
+      );
+    }).slice(0, 8);
+
+    if (hits.length === 0) {
+      results.innerHTML = '';
+      results.dataset.empty = `No results for "${q}"`;
+      return;
+    }
+
+    results.removeAttribute('data-empty');
+    results.innerHTML = hits.map((item, i) => `
+      <li role="option" aria-selected="false" data-idx="${i}" data-url="${item.url}">
+        <a class="sr-item" href="${item.url}" tabindex="-1">
+          <span class="sr-icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+          </span>
+          <span class="sr-body">
+            <span class="sr-title">${highlight(item.title, q)}</span>
+            <span class="sr-meta">${highlight(item.excerpt.slice(0, 80), q)}…</span>
+          </span>
+          <span class="sr-section">${item.section}</span>
+        </a>
+      </li>
+    `).join('');
+
+    // Result click
+    results.querySelectorAll('.sr-item').forEach(a => {
+      a.addEventListener('click', closeSearch);
+    });
+  }
+
+  // Debounce
+  let timer: ReturnType<typeof setTimeout>;
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => doSearch(input.value), 120);
+  });
+
+  // ── Keyboard navigation ──
+  input.addEventListener('keydown', (e: KeyboardEvent) => {
+    const items = results.querySelectorAll('[role="option"]');
+    if (!items.length) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeIdx = Math.min(activeIdx + 1, items.length - 1);
+      updateActive(items);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeIdx = Math.max(activeIdx - 1, -1);
+      updateActive(items);
+    } else if (e.key === 'Enter' && activeIdx >= 0) {
+      e.preventDefault();
+      const url = (items[activeIdx] as HTMLElement).dataset.url;
+      if (url) { closeSearch(); window.location.href = url; }
+    }
+  });
+
+  function updateActive(items: NodeListOf<Element>) {
+    items.forEach((item, i) => {
+      const selected = i === activeIdx;
+      item.setAttribute('aria-selected', String(selected));
+      if (selected) (item as HTMLElement).scrollIntoView({ block: 'nearest' });
+    });
+  }
+})();
+</script>

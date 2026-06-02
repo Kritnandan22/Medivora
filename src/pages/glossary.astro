@@ -1,0 +1,353 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+
+const terms = [
+  // A
+  { term: 'Agent', section: 'A', def: 'An AI system that perceives its environment, reasons about a goal, and autonomously takes actions — calling tools, querying databases, and iterating until the task is complete. Distinguished from a simple chatbot by its ability to act, not just respond.' },
+  { term: 'Agentic Automation', section: 'A', def: 'Automation powered by AI agents that can reason through ambiguity, handle exceptions, and adapt to novel inputs. Unlike workflow automation, it is non-deterministic — the agent chooses its own steps based on its goal and current context.' },
+  { term: 'API (Application Programming Interface)', section: 'A', def: 'A contract that lets two software systems exchange data programmatically. Workflow automation tools like Make or Power Automate rely on APIs to move data between cloud apps without human intervention.' },
+  { term: 'Audit Trail', section: 'A', def: 'A timestamped, immutable log of every step in a process. Required in GxP-regulated environments. Workflow automation produces deterministic audit trails; agentic systems must be explicitly designed to generate reasoning traces.' },
+  // B
+  { term: 'BPM (Business Process Management)', section: 'B', def: 'A discipline focused on modelling, analysing, and optimising organisational processes. Traditional BPM tools (like Appian or Pega) are the predecessors to modern workflow automation platforms.' },
+  { term: 'Batch Record', section: 'B', def: 'In pharmaceutical manufacturing, a detailed record documenting every step taken to produce a specific batch of drug product. Workflow automation tools now assist with electronic batch record (eBR) completion and exception flagging.' },
+  // C
+  { term: 'CAPA (Corrective and Preventive Action)', section: 'C', def: 'A quality management process used in GxP environments to identify, investigate, and resolve non-conformances. Workflow automation routes CAPAs through defined approval chains; AI agents can assist with root-cause analysis.' },
+  { term: 'Chain-of-Thought (CoT)', section: 'C', def: 'A prompting technique that instructs an LLM to reason step-by-step before answering. CoT dramatically improves accuracy on multi-step problems and is a key building block in agentic pipelines.' },
+  { term: 'Clinical Trial', section: 'C', def: 'A structured study in human subjects that evaluates the safety and efficacy of a drug or intervention. Automation applies at protocol development, site activation, patient matching, data collection, and safety monitoring stages.' },
+  { term: 'Computer Vision', section: 'C', def: 'An AI capability that enables machines to interpret and act on visual data — images, video, or documents. In pharma, used for automated visual inspection of vials, label verification, and pathology slide analysis.' },
+  // D
+  { term: 'Data Extraction', section: 'D', def: 'The automated retrieval of structured information from unstructured sources (PDFs, clinical notes, images). Agentic tools combine OCR with LLM parsing to extract structured data from complex medical documents.' },
+  { term: 'Deterministic', section: 'D', def: 'A system where the same input always produces the same output, following a fixed set of rules. Workflow automation is deterministic. Agentic AI is not — the reasoning path can vary with context and model state.' },
+  { term: 'Drug Safety', section: 'D', def: 'The practice of monitoring, detecting, and managing adverse drug reactions throughout a drug\'s lifecycle. See also: Pharmacovigilance.' },
+  // E
+  { term: 'eCTD (Electronic Common Technical Document)', section: 'E', def: 'The standardised format for submitting new drug applications to regulatory agencies (FDA, EMA). Workflow automation tools assemble eCTD dossiers from source documents; agents help draft responses to agency questions.' },
+  { term: 'EHR / EMR (Electronic Health / Medical Record)', section: 'E', def: 'Digital systems that store patient health information. Agentic automation can read EHR data to support clinical decision-making, adverse event detection, and medication reconciliation — subject to strict access controls.' },
+  { term: 'Embeddings', section: 'E', def: 'Numerical vector representations of text (or other data) that capture semantic meaning. Used in RAG systems to find relevant context for an LLM. Similar concepts are semantically close; dissimilar ones are far apart in vector space.' },
+  // F
+  { term: 'Few-Shot Prompting', section: 'F', def: 'A technique where one or more examples are included in the prompt to guide the LLM\'s output format or reasoning style. More reliable than zero-shot prompting for structured extraction tasks.' },
+  { term: 'Fuzzy Matching', section: 'F', def: 'An algorithm that finds approximate rather than exact matches in data — useful for deduplicating patient records, matching drug names across databases, and reconciling supplier lists.' },
+  // G
+  { term: 'GxP', section: 'G', def: 'An umbrella term for Good Practice regulations in pharma: GMP (manufacturing), GCP (clinical), GLP (lab), and GDP (distribution). Automation in GxP environments must be validated per 21 CFR Part 11 or EU Annex 11.' },
+  { term: 'Guardrail', section: 'G', def: 'A constraint placed on an AI system to prevent harmful, incorrect, or out-of-scope outputs. In regulated pharma contexts, guardrails often include human review steps, output validators, and hard-coded rule checks.' },
+  // H
+  { term: 'Hallucination', section: 'H', def: 'When an LLM generates plausible-sounding but factually incorrect information. The primary safety risk in agentic pharma automation — mitigated through RAG, output validation, and human-in-the-loop review of critical outputs.' },
+  { term: 'Human-in-the-Loop (HITL)', section: 'H', def: 'A design pattern that requires a human to review or approve AI outputs before they take effect. Essential for regulated, safety-critical, or irreversible actions in pharma automation.' },
+  // I
+  { term: 'ICSR (Individual Case Safety Report)', section: 'I', def: 'A report submitted to regulatory authorities when a suspected adverse drug reaction occurs. Agentic AI tools assist with intake triage, MedDRA coding, causality assessment, and narrative generation.' },
+  // L
+  { term: 'LIMS (Laboratory Information Management System)', section: 'L', def: 'A software platform that manages laboratory samples, workflows, and results. Workflow automation connects LIMS to ERP and QMS systems; agents can assist with sample disposition decisions and out-of-specification investigations.' },
+  { term: 'LLM (Large Language Model)', section: 'L', def: 'A neural network trained on large text corpora that can generate, summarise, classify, and reason about language. GPT-4, Claude, and Gemini are examples. LLMs are the reasoning engine inside most modern AI agents.' },
+  // M
+  { term: 'MAS (Multi-Agent System)', section: 'M', def: 'An architecture where multiple AI agents collaborate — each with a specialised role — to complete complex tasks. A supervisor agent coordinates specialist sub-agents (e.g., a literature agent, a safety agent, a coding agent).' },
+  { term: 'MedDRA', section: 'M', def: 'The Medical Dictionary for Regulatory Activities — a hierarchical medical terminology used globally for coding adverse events in safety reports. Automation tools assist with accurate MedDRA coding, previously done manually by safety officers.' },
+  { term: 'Memory (Agent)', section: 'M', def: 'The mechanism by which an agent retains context across steps or sessions. Short-term memory is the active context window; long-term memory uses vector databases to retrieve past facts and prior reasoning.' },
+  // N
+  { term: 'NLP (Natural Language Processing)', section: 'N', def: 'The AI discipline focused on understanding and generating human language. Underpins document parsing, clinical note analysis, adverse event narrative extraction, and regulatory query response generation.' },
+  // O
+  { term: 'OCR (Optical Character Recognition)', section: 'O', def: 'Technology that converts scanned documents or images into machine-readable text. In pharma, used to digitise legacy batch records, clinical reports, and handwritten lab notes before further AI processing.' },
+  { term: 'Orchestration', section: 'O', def: 'Coordination of multiple agents, tools, or services to complete a complex task. The orchestrator (supervisor agent) receives a high-level goal, decomposes it into subtasks, and assigns them to specialist sub-agents.' },
+  // P
+  { term: 'Pharmacovigilance', section: 'P', def: 'The science of monitoring, detecting, assessing, and preventing adverse drug reactions throughout a drug\'s lifecycle. One of the highest-impact areas for agentic automation in pharma due to the volume and complexity of safety data.' },
+  { term: 'Pipeline (Automation)', section: 'P', def: 'A sequence of automated steps that transforms an input into an output. In workflow automation, the pipeline is defined in advance. In agentic automation, the pipeline is determined at runtime by the agent\'s reasoning.' },
+  { term: 'Prompt Engineering', section: 'P', def: 'The craft of designing LLM inputs (prompts) to reliably elicit accurate, structured, and useful outputs. Includes techniques like chain-of-thought, few-shot examples, role assignment, and output format specification.' },
+  // R
+  { term: 'RAG (Retrieval-Augmented Generation)', section: 'R', def: 'A pattern that grounds LLM responses in retrieved documents — reducing hallucination and enabling the model to answer questions based on internal knowledge bases, regulatory guidelines, or clinical literature.' },
+  { term: 'ReAct Loop', section: 'R', def: 'The core reasoning pattern used by AI agents: Reason about the goal → Act (call a tool) → Observe the result → repeat. Stands for Reason + Act. Most production agents follow this pattern or a close variant.' },
+  { term: 'Regulatory Submission', section: 'R', def: 'A formal package of data submitted to a health authority (FDA, EMA, PMDA) seeking approval for a drug or device. Workflow automation assists with dossier assembly; agents assist with authoring and query responses.' },
+  { term: 'RPA (Robotic Process Automation)', section: 'R', def: 'Software that mimics human UI interactions to automate repetitive tasks in legacy systems without APIs. Slower and more brittle than API-based automation, but the only option for systems that can\'t be integrated programmatically.' },
+  // S
+  { term: 'Safety Signal', section: 'S', def: 'Information that suggests a drug may cause an adverse event that was previously unknown or incompletely documented. Signal detection is a primary use case for agentic AI in pharmacovigilance.' },
+  { term: 'Structured Output', section: 'S', def: 'LLM output constrained to a defined format (e.g., JSON, XML). Achieved through function calling or constrained decoding. Essential for agentic workflows where downstream steps depend on machine-readable data.' },
+  // T
+  { term: 'Tool Calling', section: 'T', def: 'The ability of an LLM to invoke external functions or APIs — searching the web, querying a database, running code. The mechanism that transforms a text-generating model into an agent that can actually do things.' },
+  // V
+  { term: 'Validation (Computer Systems)', section: 'V', def: 'The documented process of demonstrating that a computerised system consistently produces results that meet predetermined specifications — required for GxP-relevant automation. Includes IQ, OQ, and PQ testing.' },
+  { term: 'Vector Database', section: 'V', def: 'A database that stores and queries embedding vectors, enabling semantic similarity search. Used as the retrieval component in RAG systems — given a question, the vector DB finds the most semantically relevant documents.' },
+  // W
+  { term: 'Workflow Automation', section: 'W', def: 'Automation that moves structured data between systems by following a predefined set of rules: if this, then that. Rule-based, deterministic, and auditable. Best suited to tasks where every input, output, and exception is well-defined in advance.' },
+  // Z
+  { term: 'Zero-Shot Prompting', section: 'Z', def: 'Asking an LLM to perform a task without providing any examples in the prompt — relying entirely on the model\'s pre-trained knowledge. Works well for common tasks; less reliable for highly specific or structured outputs.' },
+];
+
+// Group by first letter
+const alphabet = [...new Set(terms.map(t => t.section))].sort();
+const grouped = Object.fromEntries(
+  alphabet.map(letter => [letter, terms.filter(t => t.section === letter)])
+);
+---
+
+<BaseLayout title="Glossary" description="Plain-English definitions for 50+ AI and automation terms used in pharma — from Agent to Zero-shot prompting.">
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Reference</span>
+      <h1>Automation & AI <em>Glossary</em></h1>
+      <p class="page-lede">
+        Plain-English definitions for the terms you'll encounter across this guide.
+        No jargon, no assumptions about prior expertise.
+      </p>
+    </div>
+  </section>
+
+  <section class="glossary-section">
+    <div class="wrap">
+
+      <!-- Live filter -->
+      <div class="filter-row">
+        <div class="filter-input-wrap">
+          <svg class="filter-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <input
+            type="search"
+            id="gloss-filter"
+            class="filter-input"
+            placeholder="Filter terms…"
+            aria-label="Filter glossary terms"
+            autocomplete="off"
+          />
+        </div>
+        <span class="filter-count" id="gloss-count">{terms.length} terms</span>
+      </div>
+
+      <!-- Alpha index -->
+      <nav class="alpha-index" aria-label="Jump to letter">
+        {alphabet.map(letter => (
+          <a href={`#letter-${letter}`} class="alpha-btn" data-letter={letter}>{letter}</a>
+        ))}
+      </nav>
+
+      <!-- Terms -->
+      <dl class="glossary-list" id="glossary-list">
+        {alphabet.map(letter => (
+          <div class="letter-group" id={`letter-${letter}`} data-letter={letter}>
+            <h2 class="letter-heading">{letter}</h2>
+            {grouped[letter].map(item => (
+              <div class="term-item" data-term={item.term.toLowerCase()}>
+                <dt class="term-name">{item.term}</dt>
+                <dd class="term-def">{item.def}</dd>
+              </div>
+            ))}
+          </div>
+        ))}
+      </dl>
+
+      <p class="gloss-empty" id="gloss-empty" hidden>
+        No terms match "<span id="gloss-query"></span>" — try a shorter search.
+      </p>
+
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: 4.5rem 0 3.5rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .page-hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin-top: 1.2rem;
+    max-width: 22ch;
+  }
+  .page-lede {
+    margin-top: 1.4rem;
+    font-size: 1.12rem;
+    color: var(--color-text-2);
+    max-width: 44em;
+    line-height: 1.6;
+  }
+
+  .glossary-section { padding: 3rem 0 6rem; }
+
+  /* ── Filter row ── */
+  .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.6rem;
+    flex-wrap: wrap;
+  }
+  .filter-input-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+    max-width: 400px;
+  }
+  .filter-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-soft);
+    pointer-events: none;
+  }
+  .filter-input {
+    width: 100%;
+    padding: 0.65rem 1rem 0.65rem 2.4rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--color-text);
+    outline: none;
+    transition: border-color 180ms ease;
+  }
+  .filter-input:focus { border-color: var(--color-accent); }
+  .filter-input::-webkit-search-cancel-button { display: none; }
+  .filter-count {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--color-text-soft);
+    white-space: nowrap;
+  }
+
+  /* ── Alphabet index ── */
+  .alpha-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.6rem;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .alpha-btn {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-line-soft);
+    color: var(--color-text-soft);
+    transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+  }
+  .alpha-btn:hover,
+  .alpha-btn.active {
+    background-color: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+  .alpha-btn[hidden] { display: none; }
+
+  /* ── Letter groups ── */
+  .letter-group { margin-bottom: 3rem; }
+  .letter-group[hidden] { display: none; }
+
+  .letter-heading {
+    font-family: var(--font-serif);
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    letter-spacing: -0.02em;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--color-accent);
+    display: inline-block;
+    min-width: 2rem;
+  }
+
+  .glossary-list { margin: 0; }
+
+  .term-item {
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--color-line-soft);
+    display: grid;
+    grid-template-columns: 1fr 2.2fr;
+    gap: 1.5rem;
+    align-items: baseline;
+  }
+  .term-item[hidden] { display: none; }
+
+  .term-name {
+    font-family: var(--font-sans);
+    font-size: 0.96rem;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.005em;
+  }
+  .term-def {
+    font-size: 0.93rem;
+    color: var(--color-text-2);
+    line-height: 1.6;
+    margin: 0;
+  }
+  mark {
+    background: color-mix(in oklab, var(--color-accent) 18%, transparent);
+    color: var(--color-accent);
+    border-radius: 2px;
+  }
+
+  /* Empty state */
+  .gloss-empty {
+    text-align: center;
+    padding: 4rem 1rem;
+    font-size: 1rem;
+    color: var(--color-text-soft);
+  }
+
+  @media (max-width: 700px) {
+    .term-item {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  const filterInput = document.getElementById('gloss-filter') as HTMLInputElement;
+  const countEl     = document.getElementById('gloss-count') as HTMLElement;
+  const emptyEl     = document.getElementById('gloss-empty') as HTMLElement;
+  const queryEl     = document.getElementById('gloss-query') as HTMLElement;
+  const items       = document.querySelectorAll('.term-item') as NodeListOf<HTMLElement>;
+  const groups      = document.querySelectorAll('.letter-group') as NodeListOf<HTMLElement>;
+  const alphaBtns   = document.querySelectorAll('.alpha-btn') as NodeListOf<HTMLElement>;
+
+  if (!filterInput) return;
+
+  let timer: ReturnType<typeof setTimeout>;
+
+  function applyFilter(q: string) {
+    const lower = q.trim().toLowerCase();
+    let visible = 0;
+
+    // Show/hide individual terms
+    items.forEach(item => {
+      const match = !lower || item.dataset.term?.includes(lower) ||
+        (item.querySelector('.term-def')?.textContent?.toLowerCase().includes(lower) ?? false);
+      item.hidden = !match;
+      if (match) visible++;
+    });
+
+    // Show/hide letter groups + alpha buttons
+    groups.forEach(group => {
+      const letter = group.dataset.letter ?? '';
+      const hasVisible = Array.from(group.querySelectorAll('.term-item')).some(
+        (el: Element) => !(el as HTMLElement).hidden
+      );
+      group.hidden = !hasVisible;
+      const btn = document.querySelector(`.alpha-btn[data-letter="${letter}"]`) as HTMLElement;
+      if (btn) btn.hidden = !hasVisible;
+    });
+
+    countEl.textContent = `${visible} term${visible !== 1 ? 's' : ''}`;
+    emptyEl.hidden = visible > 0;
+    if (queryEl) queryEl.textContent = q;
+  }
+
+  filterInput.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => applyFilter(filterInput.value), 140);
+  });
+})();
+</script>

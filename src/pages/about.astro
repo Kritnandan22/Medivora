@@ -1,21 +1,365 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import StubPage from '~/components/StubPage.astro';
+
+const audiences = [
+  {
+    icon: '🏢',
+    role: 'Pharma & Biotech Operations Leaders',
+    desc: 'Making the case for automation investment, evaluating vendors, or understanding where AI actually fits in your processes.',
+  },
+  {
+    icon: '🔧',
+    role: 'IT Architects & Integration Engineers',
+    desc: 'Designing the automation layer: choosing between workflow tools and agentic AI, scoping validation requirements, planning rollout.',
+  },
+  {
+    icon: '🔬',
+    role: 'Innovation & Digital Health Teams',
+    desc: 'Exploring what\'s possible with LLMs and agents — separating genuine capability from vendor hype.',
+  },
+  {
+    icon: '📋',
+    role: 'Regulatory & Quality Professionals',
+    desc: 'Assessing what automation means for your GxP environment, validation obligations, and human oversight responsibilities.',
+  },
+];
+
+const howTo = [
+  {
+    step: '01',
+    title: 'Start with Foundations',
+    desc: 'Learn the difference between workflow and agentic automation — everything else in the guide builds on this distinction.',
+    link: '/foundations',
+    linkLabel: 'Read Foundations →',
+  },
+  {
+    step: '02',
+    title: 'Map your value chain',
+    desc: 'Use the interactive Value Chain to see where automation is already being applied across each stage of pharma development and operations.',
+    link: '/value-chain',
+    linkLabel: 'Explore Value Chain →',
+  },
+  {
+    step: '03',
+    title: 'Go deep where it matters',
+    desc: 'Case studies, responsible adoption guidelines, and the road-ahead section give context for real-world decisions.',
+    link: '/case-studies',
+    linkLabel: 'See Case Studies →',
+  },
+];
 ---
 
-<BaseLayout
-  title="About"
-  description="Medivora — purpose, scope, methodology, and the informational disclaimer."
->
-  <StubPage
-    title="About Medivora."
-    lede="Medivora is a public, vendor-neutral, educational resource explaining how workflow and agentic automation are reshaping how medicines are discovered, approved, manufactured, distributed and managed. This page sets out the purpose, scope and methodology behind the guide."
-    willCover={[
-      'Purpose & audiences (professionals, clinical staff, students, executives, the curious public)',
-      'Scope: what we cover and what we deliberately leave out',
-      'Methodology: how sources are selected and synthesised',
-      'The informational disclaimer in full',
-      'How to suggest a correction or a missing case study',
-    ]}
-  />
+<BaseLayout title="About" description="Medivora is an independent field guide for pharma and biotech teams navigating AI automation — not a vendor, not a consultancy.">
+
+  <!-- Hero -->
+  <section class="about-hero">
+    <div class="wrap">
+      <span class="eyebrow">About Medivora</span>
+      <h1>A field guide, <em>not a pitch deck</em></h1>
+      <p class="hero-lede">
+        Medivora exists because the pharma industry deserves a clear, honest,
+        vendor-neutral account of what AI automation can and cannot do.
+        No case studies invented for marketing. No hype. No vendor logos.
+      </p>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="mission-section">
+    <div class="wrap mission-grid">
+      <div class="mission-text">
+        <h2>What this guide <em>is</em></h2>
+        <p>
+          A structured reference for anyone trying to understand, evaluate, or build
+          automation in a pharma or biotech context. The content is organised around
+          practical questions: What kind of automation do I need? Where does it fit in
+          my value chain? What are the real risks? What's actually coming next?
+        </p>
+        <p>
+          Every section is written to be useful whether you're a first-time evaluator
+          or a practitioner who has been running automation programmes for years.
+        </p>
+      </div>
+      <div class="mission-card">
+        <div class="mc-row">
+          <span class="mc-icon">🚫</span>
+          <div>
+            <strong>Not a vendor</strong>
+            <p>No product is being sold. No software is recommended by name unless the context requires a concrete example.</p>
+          </div>
+        </div>
+        <div class="mc-row">
+          <span class="mc-icon">🚫</span>
+          <div>
+            <strong>Not a consultancy</strong>
+            <p>This is not a lead generation tool. There's no team waiting to take your call. The guide stands alone.</p>
+          </div>
+        </div>
+        <div class="mc-row">
+          <span class="mc-icon">✓</span>
+          <div>
+            <strong>An independent reference</strong>
+            <p>Written to evolve with the field. If something here is wrong or outdated, we want to know — contact us.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Audience -->
+  <section class="audience-section">
+    <div class="wrap">
+      <span class="eyebrow">Who it's for</span>
+      <h2>Built for the people making the decisions</h2>
+      <div class="audience-grid">
+        {audiences.map(a => (
+          <article class="audience-card">
+            <span class="aud-icon">{a.icon}</span>
+            <h3>{a.role}</h3>
+            <p>{a.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How to use -->
+  <section class="howto-section">
+    <div class="wrap">
+      <span class="eyebrow">How to use this guide</span>
+      <h2>Three ways in</h2>
+      <div class="howto-steps">
+        {howTo.map(s => (
+          <div class="howto-step">
+            <span class="step-num">{s.step}</span>
+            <div class="step-body">
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+              <a href={s.link} class="step-link">{s.linkLabel}</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Contribute CTA -->
+  <section class="contrib-section">
+    <div class="wrap contrib-inner">
+      <div>
+        <h2>Help make it better</h2>
+        <p>
+          Spotted an error? Know a better case study? Working on something that belongs here?
+          Medivora is only as good as the practitioners who use it and push back on it.
+        </p>
+      </div>
+      <a href="/contact" class="btn-primary">Get in touch →</a>
+    </div>
+  </section>
+
 </BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .about-hero {
+    padding: 5rem 0 4rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .about-hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin-top: 1.2rem;
+    max-width: 20ch;
+  }
+  .hero-lede {
+    margin-top: 1.4rem;
+    font-size: 1.12rem;
+    color: var(--color-text-2);
+    max-width: 52em;
+    line-height: 1.6;
+  }
+
+  /* ── Mission ── */
+  .mission-section { padding: 4.5rem 0; border-bottom: 1px solid var(--color-line-soft); }
+  .mission-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+  .mission-text h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.4rem;
+    line-height: 1.1;
+  }
+  .mission-text p {
+    font-size: 1rem;
+    color: var(--color-text-2);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .mission-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-md);
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .mc-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .mc-icon { font-size: 1.3rem; flex: none; margin-top: 2px; }
+  .mc-row strong {
+    display: block;
+    font-size: 0.96rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.3rem;
+  }
+  .mc-row p {
+    font-size: 0.88rem;
+    color: var(--color-text-2);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ── Audience ── */
+  .audience-section {
+    padding: 4.5rem 0;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .audience-section h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 1rem 0 2.4rem;
+    line-height: 1.1;
+  }
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.4rem;
+  }
+  .audience-card {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-md);
+    padding: 1.8rem;
+    transition: transform 240ms ease, border-color 240ms ease;
+  }
+  .audience-card:hover { transform: translateY(-3px); border-color: var(--color-accent); }
+  .aud-icon { font-size: 1.8rem; display: block; margin-bottom: 0.9rem; }
+  .audience-card h3 {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.6rem;
+  }
+  .audience-card p {
+    font-size: 0.9rem;
+    color: var(--color-text-2);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── How-to ── */
+  .howto-section { padding: 4.5rem 0; border-bottom: 1px solid var(--color-line-soft); }
+  .howto-section h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 1rem 0 2.4rem;
+  }
+  .howto-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .howto-step {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    font-weight: 700;
+    min-width: 2rem;
+    padding-top: 4px;
+  }
+  .step-body h3 {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+  .step-body p {
+    font-size: 0.95rem;
+    color: var(--color-text-2);
+    line-height: 1.6;
+    margin-bottom: 0.9rem;
+    max-width: 52em;
+  }
+  .step-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    font-weight: 600;
+    transition: letter-spacing 180ms ease;
+  }
+  .step-link:hover { letter-spacing: 0.14em; }
+
+  /* ── Contribute ── */
+  .contrib-section {
+    padding: 5rem 0;
+    background-color: #13201b;
+  }
+  .contrib-inner {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .contrib-section h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 600;
+    color: #f1ece0;
+    margin-bottom: 0.7rem;
+    letter-spacing: -0.02em;
+  }
+  .contrib-section p {
+    font-size: 0.98rem;
+    color: rgba(241,236,224,.72);
+    line-height: 1.6;
+    max-width: 50em;
+  }
+
+  @media (max-width: 780px) {
+    .mission-grid,
+    .audience-grid { grid-template-columns: 1fr; }
+    .contrib-inner { flex-direction: column; gap: 2rem; }
+  }
+</style>
