@@ -4,47 +4,70 @@ import ContentLayout from '~/layouts/ContentLayout.astro';
 const principles = [
   {
     num: 'i.',
-    title: 'Validate everything',
-    body: 'Every automated workflow — however minor — must be validated to perform exactly as intended under 21 CFR Part 11, GCP, GLP and GMP, with deviations immediately detectable.',
-    code: '21 CFR Part 11 · GxP',
+    title: 'Validate to GVP Module VI',
+    body: 'Every automated PV workflow — whether case intake or auto-coding — must be validated to perform exactly as intended under Good Pharmacovigilance Practices (GVP) and 21 CFR Part 11. Computer Systems Validation (CSV) must adapt to algorithmic non-determinism, utilizing locked model weights during validation.',
+    code: 'GVP Module VI · 21 CFR Part 11',
   },
   {
     num: 'ii.',
-    title: 'Audit trails & e-signatures',
-    body: 'Signed steps, immutable history and design snapshots make a process independently auditable — the difference between speed and a finding in an inspection.',
-    code: null,
+    title: 'E2B (R3) Audit Trails',
+    body: 'Signed steps, immutable history, and strict adherence to ICH E2B (R3) data standards make an AI pipeline independently auditable. Regulators require an unbroken chain of custody showing exactly what data the AI ingested and what it outputted.',
+    code: 'ICH E2B (R3)',
   },
   {
     num: 'iii.',
-    title: 'Keep humans in the loop',
-    body: 'Agents augment clinical and regulatory judgement; they don\'t replace it. The most credible systems route decisions of consequence to a qualified human.',
-    code: null,
+    title: 'Human-in-the-loop for Seriousness',
+    body: 'Agents augment drug safety physicians; they don\'t replace them. The most credible systems route decisions of consequence — like Seriousness, Expectedness, and Causality — to a qualified human reviewer (QPPV). Automation handles the rote extraction, humans handle the medical judgement.',
+    code: 'Medical Review',
   },
   {
     num: 'iv.',
-    title: 'Harmonise the data first',
-    body: 'Inconsistent field labels and units cause silent errors — like matching patient data to the wrong treatment arm. Clean definitions come before automation, not after.',
-    code: null,
+    title: 'Grounding prevents Hallucinations',
+    body: 'In adverse event extraction, LLM hallucinations are dangerous. Zero-shot generation must be replaced with strict semantic grounding (RAG architectures) and explicit source-text linking to ensure 100% factual accuracy before committing data to the safety database.',
+    code: 'RAG · Semantic Grounding',
   },
   {
     num: 'v.',
-    title: 'Govern, upskill, protect equity',
-    body: 'Governance-first design, workforce training and equity safeguards have to be built in from inception, not retrofitted once something goes wrong.',
-    code: null,
+    title: 'Algorithmic Traceability & Explainability',
+    body: 'Black-box neural networks are unacceptable in regulatory environments. Every decision made by the AI (e.g., mapping a verbatim term to a MedDRA LLT) must be accompanied by an explainable "reasoning trace" that a human auditor can easily interpret.',
+    code: 'XAI · Traceability',
   },
+  {
+    num: 'vi.',
+    title: 'Data Privacy & Anonymisation',
+    body: 'Processing patient narratives requires stringent adherence to HIPAA and GDPR. AI models must be deployed in secure, single-tenant environments, and Personally Identifiable Information (PII) should be anonymised before hitting external reasoning endpoints.',
+    code: 'HIPAA · GDPR',
+  },
+  {
+    num: 'vii.',
+    title: 'Continuous Drift Monitoring',
+    body: 'Language models and data distributions shift over time. Continuous drift monitoring, automated regression testing against golden PV datasets, and periodic re-validation must be built in from inception, not retrofitted once a regulatory agency flags a missed signal.',
+    code: 'QPPV Oversight',
+  },
+  {
+    num: 'viii.',
+    title: 'Shadow Mode Deployment',
+    body: 'Before live production, AI agents should run in a "shadow mode" parallel to existing human workflows. This allows QPPVs to evaluate the agent\'s decisions against human benchmarks without risking compliance, ensuring the system meets a 99%+ accuracy threshold before taking over.',
+    code: 'Deployment Strategy',
+  }
 ];
 ---
 
 <ContentLayout
   title="Responsible Adoption"
-  description="The non-negotiables that separate a deployable automation system from a liability in regulated medicine — validation, audit trails, human oversight, data harmonisation, governance."
+  description="The non-negotiables that separate a deployable AI system from a liability in Pharmacovigilance — validation, audit trails, human oversight, grounding, and governance."
   eyebrow="04 — Doing It Responsibly"
-  heading='In medicine, "it mostly works" <em>is not good enough.</em>'
-  lede="Automation in life sciences lives or dies on trust. These are the non-negotiables that separate a deployable system from a liability."
+  heading='In Drug Safety, "it mostly works" <em>is not good enough.</em>'
+  lede="Automation in Pharmacovigilance lives or dies on trust. These are the non-negotiables that separate a deployable system from a regulatory liability."
 >
 
   <section class="resp-section">
     <div class="wrap">
+      
+      <div class="hero-image-container">
+        <video src="/videos/hero-governance.mp4" autoplay loop muted playsinline class="hero-image"></video>
+      </div>
+
       <div class="resp-layout">
 
         <!-- Principles list -->
@@ -67,14 +90,11 @@ const principles = [
         <aside class="resp-aside">
           <span class="resp-aside-label">The honest takeaway</span>
           <blockquote>
-            AI performs best when it automates <em>well-defined workflows</em> — and falls short
-            when asked to replace clinical judgement.
+            AI performs best when it automates <em>well-defined workflows</em> like data extraction — and falls short when asked to replace clinical judgement like <em>Seriousness</em> or <em>Expectedness</em>.
           </blockquote>
           <p>
             That single sentence explains the whole architecture of this guide: deterministic
-            workflows for the structured majority, agents for the ambiguous middle, and humans
-            wherever the stakes are highest. Lasting progress comes from thoughtful integration
-            into care — not from early hype.
+            workflows for the structured majority, AI agents for the ambiguous unstructured data, and humans wherever the regulatory stakes are highest. Lasting progress comes from thoughtful integration into drug safety — not from early hype.
           </p>
         </aside>
       </div>
@@ -90,6 +110,21 @@ const principles = [
 
 <style>
   .resp-section { padding: 3rem 0 5rem; }
+
+  .hero-image-container {
+    margin-bottom: 3rem;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+  }
+  .hero-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    max-height: 500px;
+  }
 
   .resp-layout {
     display: grid;
@@ -141,10 +176,14 @@ const principles = [
 
   /* Aside card */
   .resp-aside {
-    background-color: var(--color-green-deep);
+    background: linear-gradient(135deg, rgba(6, 14, 11, 0.9) 0%, rgba(13, 26, 21, 0.95) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     color: #f1ece0;
     border-radius: var(--radius-lg);
-    padding: 2.25rem 2rem;
+    padding: 3rem 2.5rem;
     position: sticky;
     top: 5.5rem;
   }

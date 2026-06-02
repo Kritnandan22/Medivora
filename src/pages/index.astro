@@ -3,79 +3,144 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import BrandMark from '~/components/BrandMark.astro';
 
 const stats = [
-  { n: '~50-60%', l: 'Of pharmacovigilance budgets absorbed by case processing' },
+  { n: '~50-60%', l: 'Of pharmacovigilance budgets absorbed by manual case processing' },
   { n: '€50-200', l: 'Fully-loaded processing cost per individual case (ICSR)', amber: true },
   { n: '70-85%', l: 'Of ICSR processing steps proven automatable by agentic AI' },
-  { n: '15 → <5', l: 'Days from intake to submission achieved in recent pilots', amber: true },
+  { n: '15 → <5', l: 'Days from intake to submission achieved in recent automation pilots', amber: true },
+];
+
+const capabilities = [
+  {
+    title: 'Unstructured Ingestion',
+    body: 'Extract exact adverse events and medical histories from rambling patient emails, unstructured PDFs, and complex literature using semantically grounded Large Language Models.',
+    icon: '⎔'
+  },
+  {
+    title: 'Semantic MedDRA Coding',
+    body: 'Move beyond rigid keyword matching. Autonomous coding agents map verbatim terms to the Lowest Level Term (LLT) by understanding clinical context and temporal relationships.',
+    icon: '∿'
+  },
+  {
+    title: 'Automated Narrative Generation',
+    body: 'Synthesize highly structured PSUR and PBRER narratives from millions of data points instantly. The AI drafts the report, while the QPPV retains final approval.',
+    icon: '≡'
+  }
 ];
 
 const sections = [
   {
     href: '/foundations',
-    eyebrow: '01 — Foundations',
+    eyebrow: 'Phase 01: Foundations',
     title: 'One follows the rules. One writes its own.',
-    body: 'Two distinct capabilities — workflow automation and agentic automation — sit underneath everything in this guide. Knowing which is which is the whole game.',
+    body: 'Two distinct capabilities sit underneath everything in this guide: deterministic workflow automation and agentic AI. Knowing which is which is the whole game.',
   },
   {
     href: '/safety-pipeline',
-    eyebrow: '02 — The Safety Pipeline',
+    eyebrow: 'Phase 02: The Safety Pipeline',
     title: 'From adverse event to signal detection.',
-    body: 'The entire ICSR lifecycle mapped out. Here is where workflow and agentic automation are being applied across the drug safety pipeline.',
+    body: 'Explore the entire ICSR lifecycle mapped out. Discover exactly where workflow and agentic automation are actively reshaping the drug safety pipeline today.',
   },
   {
     href: '/case-studies',
-    eyebrow: '03 — In Practice',
-    title: 'Real deployments — the wins and the honest limits.',
-    body: 'The technology is past the demo stage. See the evidence for MedDRA coding, case duplication, and the cautionary tales.',
+    eyebrow: 'Phase 03: In Practice',
+    title: 'Real deployments, real wins, and honest limits.',
+    body: 'The technology is past the demonstration stage. See the rigorous evidence for MedDRA coding efficiency, case duplication accuracy, and the cautionary tales.',
   },
   {
     href: '/responsible-adoption',
-    eyebrow: '04 — Doing It Responsibly',
+    eyebrow: 'Phase 04: Doing It Responsibly',
     title: 'In drug safety, "it mostly works" is a liability.',
-    body: 'Validation, audit trails, human-in-the-loop, FDA Elsa, CIOMS XIV — the non-negotiables that separate a deployable PV system from a hazard.',
+    body: 'Validation, ironclad audit trails, human-in-the-loop oversight, FDA Elsa, and CIOMS XIV are the non-negotiables that separate a deployable system from a hazard.',
   },
 ];
 ---
 
-<BaseLayout title="Medivora">
+<BaseLayout title="Medivora | The Agentic AI Pharmacovigilance Guide">
   <section class="hero">
     <div class="wrap">
       <div class="hero-grid">
-        <div>
-          <span class="eyebrow">A Field Guide · Pharmacovigilance & Drug Safety</span>
-          <h1 class="hero-h">
+        <div class="hero-content">
+          <span class="eyebrow fade-up" style="--stagger: 1">A Field Guide · Pharmacovigilance & Drug Safety</span>
+          <h1 class="hero-h fade-up" style="--stagger: 2">
             Drug safety that <em>keeps up</em>.
           </h1>
-          <p class="hero-sub">
+          <p class="hero-sub fade-up" style="--stagger: 3">
             The definitive field guide to agentic AI in pharmacovigilance. 
-            <strong>Workflow automation</strong> routes E2B files and enforces timelines.
-            <strong>Agentic automation</strong> reasons through rambling patient emails, extracts events, and suggests MedDRA codes. Here is how autonomous agents are reshaping the post-market safety pipeline.
+            <strong>Workflow automation</strong> perfectly routes E2B files and enforces critical timelines.
+            <strong>Agentic automation</strong> flawlessly reasons through rambling patient emails, extracts events, and suggests MedDRA codes. Here is exactly how autonomous agents are radically reshaping the post-market safety pipeline.
           </p>
-          <div class="hero-actions">
-            <a href="/safety-pipeline" class="btn btn-primary"
+          <div class="hero-actions fade-up" style="--stagger: 4">
+            <a href="/safety-pipeline" class="btn btn-primary magnetic"
               >See the safety pipeline →</a
             >
-            <a href="/foundations" class="btn btn-ghost"
+            <a href="/foundations" class="btn btn-ghost magnetic"
               >Understand the difference</a
             >
           </div>
         </div>
 
-        <div class="hero-visual" aria-hidden="true">
-          <div class="hero-mark">
-            <BrandMark size={220} />
+        <div class="hero-visual fade-up" style="--stagger: 5" aria-hidden="true">
+          <!-- Wrap parallax target OUTSIDE the hidden overflow container so border-radius works perfectly -->
+          <div class="parallax-target">
+            <div class="video-container">
+              <video
+                src="/videos/hero-dna.mp4"
+                autoplay
+                loop
+                muted
+                playsinline
+                class="hero-video"
+              ></video>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="stats">
-      <div class="wrap stats-in">
+    <!-- Floating Glassmorphism Stats -->
+    <div class="stats-container fade-up" style="--stagger: 6">
+      <div class="wrap">
+        <div class="stats-glass">
+          {
+            stats.map((s) => (
+              <div class="stat">
+                <div class={`n${s.amber ? ' amb' : ''}`}>{s.n}</div>
+                <div class="l">{s.l}</div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="qppv-quote reveal">
+    <div class="wrap">
+      <div class="quote-inner">
+        <blockquote class="cinematic-quote">
+          "Automation in Pharmacovigilance is not about replacing the medical reviewer. It is about removing the operational friction so the reviewer can focus entirely on what matters: patient safety and signal detection."
+        </blockquote>
+        <div class="quote-author">
+          <span class="author-name">The QPPV Imperative</span>
+          <span class="author-role">Human-in-the-loop Governance</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="capabilities reveal">
+    <div class="wrap">
+      <div class="cap-head">
+        <span class="eyebrow">Core Capabilities</span>
+        <h2>The triad of safety automation.</h2>
+      </div>
+      <div class="cap-grid">
         {
-          stats.map((s) => (
-            <div class="stat">
-              <div class={`n${s.amber ? ' amb' : ''}`}>{s.n}</div>
-              <div class="l">{s.l}</div>
+          capabilities.map((c) => (
+            <div class="cap-card">
+              <div class="cap-icon">{c.icon}</div>
+              <h3>{c.title}</h3>
+              <p>{c.body}</p>
             </div>
           ))
         }
@@ -83,14 +148,14 @@ const sections = [
     </div>
   </section>
 
-  <section class="map">
+  <section class="map reveal">
     <div class="wrap">
       <div class="map-head">
         <span class="eyebrow">The map</span>
         <h2>Where to start.</h2>
         <p>
-          Four sections, each building on the last — from the fundamentals through to real
-          deployments, responsible principles, and what's coming next.
+          Four sections, each building upon the last: from the fundamental architectures through to real-world
+          deployments, responsible GVP principles, and what the road ahead looks like.
         </p>
       </div>
       <div class="map-grid">
@@ -109,7 +174,99 @@ const sections = [
   </section>
 </BaseLayout>
 
+<script>
+  // Intersection Observer for scroll-based cinematic reveals
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach((el) => {
+    observer.observe(el);
+  });
+
+  // Magnetic Buttons
+  document.querySelectorAll('.magnetic').forEach(btn => {
+    // Treat HTML element as HTMLElement to satisfy TypeScript/strict typings if needed, but in standard JS this is fine.
+    const button = btn as HTMLElement;
+    button.addEventListener('mousemove', (e) => {
+      const rect = button.getBoundingClientRect();
+      const h = rect.width / 2;
+      const v = rect.height / 2;
+      const x = e.clientX - rect.left - h;
+      const y = e.clientY - rect.top - v;
+      button.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
+    });
+    button.addEventListener('mouseleave', () => {
+      button.style.transform = `translate(0px, 0px)`;
+    });
+  });
+
+  // Mouse Parallax for Video Container
+  const heroGrid = document.querySelector('.hero-grid') as HTMLElement;
+  const parallaxTarget = document.querySelector('.parallax-target') as HTMLElement;
+  
+  if (heroGrid && parallaxTarget) {
+    heroGrid.addEventListener('mousemove', (e) => {
+      const rect = heroGrid.getBoundingClientRect();
+      // Normalize mouse position from center (-1 to 1)
+      const x = (e.clientX - rect.left - (rect.width / 2)) / (rect.width / 2);
+      const y = (e.clientY - rect.top - (rect.height / 2)) / (rect.height / 2);
+      
+      // Rotate by max 12 degrees
+      parallaxTarget.style.transform = `perspective(1000px) rotateY(${x * 12}deg) rotateX(${y * -12}deg) translateZ(10px)`;
+    });
+    
+    heroGrid.addEventListener('mouseleave', () => {
+      parallaxTarget.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg) translateZ(0px)`;
+    });
+  }
+</script>
+
 <style>
+  /* Cinematic Animations */
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes breathingGlow {
+    0% {
+      box-shadow: 0 0 40px rgba(28, 201, 163, 0.15), inset 0 0 20px rgba(28, 201, 163, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 60px rgba(28, 201, 163, 0.35), inset 0 0 40px rgba(28, 201, 163, 0.2);
+    }
+    100% {
+      box-shadow: 0 0 40px rgba(28, 201, 163, 0.15), inset 0 0 20px rgba(28, 201, 163, 0.1);
+    }
+  }
+
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(var(--stagger) * 0.15s);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   .hero {
     padding: 4.5rem 0 0;
     position: relative;
@@ -120,6 +277,7 @@ const sections = [
     grid-template-columns: 1.18fr 0.82fr;
     gap: 3rem;
     align-items: center;
+    perspective: 1000px; /* For child parallax */
   }
   .hero-h {
     font-family: var(--font-serif);
@@ -147,42 +305,74 @@ const sections = [
     gap: 1rem;
     flex-wrap: wrap;
   }
+  
+  /* Magnetic Button Reset */
+  .magnetic {
+    transition: transform 0.1s linear, background-color 0.2s ease, color 0.2s ease;
+    will-change: transform;
+  }
+
   .hero-visual {
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .hero-mark {
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle at 30% 30%,
-      color-mix(in oklab, var(--color-accent) 18%, transparent),
-      transparent 70%
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-accent);
+  
+  .parallax-target {
+    transition: transform 0.15s linear;
+    will-change: transform;
+    transform-style: preserve-3d;
   }
 
-  /* Stats strip */
-  .stats {
-    border-top: 1px solid var(--color-line);
-    border-bottom: 1px solid var(--color-line);
-    margin-top: 3.5rem;
+  .video-container {
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    /* Use mask to force clip in webkit when using 3d transforms on parents */
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    overflow: hidden;
+    position: relative;
+    border: 4px solid var(--color-surface);
+    animation: breathingGlow 4s ease-in-out infinite;
+    background: #000;
   }
-  .stats-in {
+  
+  .hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+    mix-blend-mode: screen;
+  }
+
+  /* Glassmorphism Stats */
+  .stats-container {
+    margin-top: 4.5rem; 
+    position: relative;
+    z-index: 10;
+    padding: 0 1rem;
+  }
+  .stats-glass {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    background: color-mix(in oklab, var(--color-surface) 60%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    overflow: hidden;
   }
   .stat {
-    padding: 1.8rem 1.5rem;
+    padding: 2.2rem 1.5rem;
     border-right: 1px solid var(--color-line-soft);
+    transition: transform 0.3s ease, background-color 0.3s ease;
   }
   .stat:last-child {
     border-right: 0;
+  }
+  .stat:hover {
+    background-color: color-mix(in oklab, var(--color-surface) 90%, var(--color-accent));
   }
   .stat .n {
     font-family: var(--font-serif);
@@ -202,9 +392,100 @@ const sections = [
     line-height: 1.45;
   }
 
+  /* QPPV Quote Section */
+  .qppv-quote {
+    padding: 6rem 0;
+    margin-top: 4rem;
+    background: color-mix(in oklab, var(--color-green-deep) 15%, transparent);
+    border-top: 1px solid var(--color-line-soft);
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .quote-inner {
+    max-width: 48em;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .cinematic-quote {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+  }
+  .quote-author {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .author-name {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+  .author-role {
+    font-size: 0.9rem;
+    color: var(--color-text-soft);
+  }
+
+  /* Capabilities Section */
+  .capabilities {
+    padding: 7rem 0 3rem;
+  }
+  .cap-head {
+    max-width: 46em;
+    margin-bottom: 4rem;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cap-head span.eyebrow {
+    justify-content: center;
+  }
+  .cap-head h2 {
+    margin-top: 1rem;
+    font-size: clamp(1.9rem, 4vw, 3.2rem);
+  }
+  .cap-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .cap-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-md);
+    padding: 2.5rem;
+    transition: transform 300ms ease, box-shadow 300ms ease;
+  }
+  .cap-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+  }
+  .cap-icon {
+    font-size: 2.2rem;
+    color: var(--color-accent);
+    margin-bottom: 1.2rem;
+    font-family: var(--font-mono);
+  }
+  .cap-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+  }
+  .cap-card p {
+    font-size: 0.98rem;
+    color: var(--color-text-2);
+    line-height: 1.65;
+  }
+
   /* Map of sections */
   .map {
-    padding: 6rem 0 2rem;
+    padding: 4rem 0 6rem;
   }
   .map-head {
     max-width: 46em;
@@ -223,74 +504,97 @@ const sections = [
   .map-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.4rem;
+    gap: 1.5rem;
   }
   .map-card {
     display: block;
     background-color: var(--color-surface);
     border: 1px solid var(--color-line-soft);
     border-radius: var(--radius-md);
-    padding: 1.9rem 1.7rem;
+    padding: 2.5rem;
     color: var(--color-text);
+    position: relative;
+    overflow: hidden;
     transition:
-      transform 220ms ease,
-      box-shadow 220ms ease,
-      border-color 220ms ease;
+      transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .map-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--color-accent), transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 300ms ease;
   }
   .map-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-soft);
-    border-color: var(--color-accent);
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 25px 50px -12px rgba(28, 201, 163, 0.15);
+    border-color: transparent;
+  }
+  .map-card:hover::before {
+    opacity: 1;
   }
   .map-eyebrow {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.13em;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-signal);
+    font-weight: 500;
   }
   .map-card h3 {
-    margin-top: 0.9rem;
-    font-size: 1.35rem;
+    margin-top: 1rem;
+    font-size: 1.55rem;
     font-weight: 600;
-    line-height: 1.2;
+    line-height: 1.25;
     letter-spacing: -0.01em;
   }
   .map-card p {
-    margin-top: 0.7rem;
-    font-size: 0.94rem;
+    margin-top: 0.85rem;
+    font-size: 0.98rem;
     color: var(--color-text-2);
-    line-height: 1.55;
+    line-height: 1.6;
   }
   .map-arrow {
     display: inline-block;
-    margin-top: 1.2rem;
+    margin-top: 1.5rem;
     font-family: var(--font-mono);
-    font-size: 0.74rem;
-    letter-spacing: 0.1em;
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--color-accent);
+    font-weight: 500;
+    transition: transform 200ms ease;
+  }
+  .map-card:hover .map-arrow {
+    transform: translateX(4px);
   }
 
   /* Responsive */
   @media (max-width: 980px) {
     .hero-grid {
       grid-template-columns: 1fr;
-      gap: 1rem;
+      gap: 1.5rem;
     }
     .hero-visual {
       order: -1;
+      margin-bottom: 2rem;
     }
-    .hero-mark {
-      width: 160px;
-      height: 160px;
+    .video-container {
+      width: 260px;
+      height: 260px;
     }
-    .map-grid {
+    .map-grid, .cap-grid {
       grid-template-columns: 1fr;
     }
-  }
-  @media (max-width: 640px) {
-    .stats-in {
+    .stats-glass {
       grid-template-columns: 1fr 1fr;
     }
     .stat:nth-child(2n) {

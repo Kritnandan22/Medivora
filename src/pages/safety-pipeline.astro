@@ -1,0 +1,471 @@
+---
+import ContentLayout from '~/layouts/ContentLayout.astro';
+import SafetyPipelineMap from '~/components/SafetyPipelineMap.astro';
+
+const stages = [
+  {
+    num: '01',
+    title: 'Case Intake & Validity',
+    slug: 'case-intake',
+    lead: 'The initial ingestion layer. Spontaneous reports arrive via unstructured emails, literature abstracts, patient portals, and call center transcripts. The immediate regulatory objective: is this a valid ICSR?',
+    wf: {
+      label: 'E2B (R3) AS2 Gateways',
+      items: [
+        'Automated ingestion of structured E2B(R3) XML payloads directly from health authorities and license partners',
+        'Deterministic routing of portal submissions straight into safety databases (e.g. Oracle Argus, ArisG)',
+        'Assigning a new Worldwide Unique Case Identification Number (MCCI) and assigning to an intake queue',
+      ],
+    },
+    ag: {
+      label: 'Unstructured Intake Agents',
+      items: [
+        'Parsing unstructured patient emails and messy fax PDFs via OCR and semantic NLP',
+        'Extracting the four required elements: an identifiable patient, an identifiable reporter, a suspect drug, and an adverse event',
+        'Filtering out "junk" emails and non-valid cases autonomously to prevent database pollution',
+      ],
+    },
+    proof: 'The bottleneck: Manual intake accounts for up to 30% of PV operating costs. Agentic extraction converts unstructured mess into structured E2B fields instantly.',
+  },
+  {
+    num: '02',
+    title: 'Data Extraction',
+    slug: 'data-extraction',
+    lead: 'Isolating critical clinical facts from narrative noise. A patient or physician might provide a 3-page discharge summary containing pre-existing conditions, lab results, and concomitant medications.',
+    wf: {
+      label: 'Field-level Validation',
+      items: [
+        'Mapping structured web-form fields directly into corresponding E2B data elements',
+        'Enforcing mandatory data capture fields (e.g., reporter country, event date) before saving the case',
+      ],
+    },
+    ag: {
+      label: 'Semantic Entity Extraction',
+      items: [
+        'Reasoning through clinical narratives to accurately identify timelines (onset dates, de-challenge, re-challenge intervals)',
+        'Extracting and structuring complex lab results (e.g., LFTs) buried deep within physician progress notes',
+        'Distinguishing the primary suspect adverse event from a long list of pre-existing medical conditions',
+      ],
+    },
+    proof: 'The precision: LLMs excel at Named Entity Recognition (NER), pulling medical entities with far greater accuracy than legacy regex-based NLP tools.',
+  },
+  {
+    num: '03',
+    title: 'MedDRA Coding',
+    slug: 'meddra-coding',
+    lead: 'Translating verbatim descriptions (e.g., "my tummy hurt badly") into standardized medical ontologies (MedDRA Lowest Level Terms) and coding drugs against WHO-DD.',
+    wf: {
+      label: 'Dictionary Auto-coding',
+      items: [
+        'Auto-coding verbatim terms that have a perfect, character-for-character match in the current MedDRA dictionary version',
+        'Applying rigid synonym lists manually maintained by clinical data management teams',
+      ],
+    },
+    ag: {
+      label: 'Context-Aware Coding',
+      items: [
+        'Understanding clinical context to code ambiguous terms (e.g., distinguishing between "feeling sick" as nausea vs "feeling sick" as an infection)',
+        'Suggesting the top 3 most statistically probable MedDRA LLTs for a human reviewer to approve',
+        'Flagging when a verbatim term lacks sufficient context to be coded accurately without a query',
+      ],
+    },
+    proof: 'The upgrade: Agentic coding systems are achieving >85% accuracy on first-pass coding, virtually eliminating the backlog for medical coders.',
+  },
+  {
+    num: '04',
+    title: 'Seriousness & Expectedness',
+    slug: 'seriousness',
+    lead: 'Determining if the event triggers expedited regulatory reporting (e.g., 15-day SUSARs). Is the event life-threatening? Did it require hospitalization? Is it listed on the Core Data Sheet?',
+    wf: {
+      label: 'Deterministic Rules Engine',
+      items: [
+        'Automatically marking a case as expedited if a user checked the "hospitalized" or "death" Boolean fields',
+        'Checking the coded MedDRA PT against a static Expectedness list (IB or SmPC)',
+      ],
+    },
+    ag: {
+      label: 'Clinical Reasoning Agents',
+      items: [
+        'Inferring seriousness from unstructured text when checkboxes are missing (e.g., reading "patient was rushed to the ER and admitted")',
+        'Cross-referencing the event with complex, multi-layered Investigator Brochure (IB) PDF documents',
+        'Drafting a clinical justification for why an event is considered unexpected',
+      ],
+    },
+    proof: 'The risk: Missing a 15-day expedited reporting deadline is a critical compliance failure. Agents act as an always-on safety net.',
+  },
+  {
+    num: '05',
+    title: 'Duplicate Detection',
+    slug: 'duplicate-detection',
+    lead: 'Protecting the integrity of the safety database. A patient might report an event on Monday via a portal, and their physician might report the identical event on Wednesday via a fax.',
+    wf: {
+      label: 'Deterministic SQL Matching',
+      items: [
+        'Flagging cases with exact string matches on Patient Initials, Date of Birth, and Gender',
+        'Running SQL queries for identical drug/event combinations within a narrow +/- 5 day window',
+      ],
+    },
+    ag: {
+      label: 'Fuzzy Clinical Matching',
+      items: [
+        'Identifying duplicates where the data is misaligned (e.g., "John Smith" vs "J.S.", or differing dates of onset due to patient memory)',
+        'Reviewing narratives of potential duplicates to determine if they describe the exact same clinical episode',
+      ],
+    },
+    proof: 'The clean up: Duplicate detection prevents false signal generation and ensures denominator accuracy in aggregate reporting (PSUR/DSUR).',
+  },
+  {
+    num: '06',
+    title: 'Narrative Drafting',
+    slug: 'narrative-drafting',
+    lead: 'Generating the formal clinical story. Every case requires a coherent, chronological medical narrative summarizing the event for regulatory review and CIOMS generation.',
+    wf: {
+      label: 'String Concatenation',
+      items: [
+        'Auto-generating narratives by concatenating structured data: "This is a case of a [Age] year old [Gender] who experienced [Event]."',
+        'Resulting in robotic, fragmented narratives that medical reviewers almost always have to rewrite manually.',
+      ],
+    },
+    ag: {
+      label: 'Generative Medical Drafting',
+      items: [
+        'Writing fluid, grammatically correct medical narratives based on all extracted structured data',
+        'Summarizing complex medical history, lab panels, and concomitant medications into a concise clinical picture',
+        'Formatting the output according to strict company SOPs (Standard Operating Procedures) and style guides',
+      ],
+    },
+    proof: 'The time saver: Generative AI is uniquely suited to drafting text. This step alone saves medical reviewers up to 15 minutes per case.',
+  },
+  {
+    num: '07',
+    title: 'Final Medical Review',
+    slug: 'medical-review',
+    lead: 'The critical human checkpoint. The AI has pre-populated the E2B fields, coded the terms, and drafted the narrative. Now, a Qualified Person Responsible for Pharmacovigilance (QPPV) reviews it.',
+    wf: {
+      label: 'Gateway Submission',
+      items: [
+        'Routing the completed case to the appropriate medical reviewer based on geographic region or product assignment',
+        'Collecting 21 CFR Part 11 compliant electronic signatures',
+        'Transmitting the final E2B(R3) XML payload directly to the FDA ESG or EMA EudraVigilance gateway',
+      ],
+    },
+    ag: {
+      label: 'Reviewer Copilot',
+      items: [
+        'Highlighting areas of low algorithmic confidence for the doctor to focus their attention on',
+        'Providing reasoning traces (e.g., "I coded this as Nausea because... [link to source document]")',
+        'Running a final pre-submission consistency check across all E2B fields before sign-off',
+      ],
+    },
+    proof: 'The principle: Agentic systems in PV are "Human-in-the-Loop" by design. The AI does the heavy lifting; the QPPV makes the medical decision.',
+  },
+];
+---
+
+<ContentLayout
+  title="The Safety Pipeline"
+  description="The Individual Case Safety Report (ICSR) lifecycle. Here is where deterministic workflow and agentic automation are applied to drug safety."
+  eyebrow="02 — The Safety Pipeline"
+  heading="The ICSR Lifecycle: <em>From intake to E2B submission.</em>"
+  lede="From the moment an adverse event is reported to the final regulatory submission, here is how agentic AI handles the drug safety pipeline. Click any stage in the map to open it."
+>
+
+  <section class="vc-section">
+    <div class="wrap">
+      <SafetyPipelineMap />
+    </div>
+
+    <!-- Cinematic Reviewer Image -->
+    <div class="wrap">
+      <div class="cinematic-image-wrapper">
+        <img src="/images/pv_safety_reviewer.png" alt="A highly realistic photograph of a medical reviewer looking at a digital dashboard" class="cinematic-img">
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="vc-accordion" id="vc-accordion">
+        {stages.map((stage, i) => (
+          <div class={`vc-item${i === 0 ? ' vc-open' : ''}`} id={`stage-${stage.slug}`}>
+            <button
+              class="vc-btn"
+              aria-expanded={i === 0 ? 'true' : 'false'}
+              aria-controls={`panel-${stage.slug}`}
+            >
+              <span class="vc-num">{stage.num}</span>
+              <span class="vc-title">{stage.title}</span>
+              <span class="vc-toggle" aria-hidden="true"></span>
+            </button>
+            <div
+              class="vc-panel"
+              id={`panel-${stage.slug}`}
+              role="region"
+              aria-labelledby={`btn-${stage.slug}`}
+            >
+              <div class="vc-inner">
+                <p class="vc-lead">{stage.lead}</p>
+
+                <div class="vc-block vc-wf">
+                  <div class="vc-bt">
+                    <span class="chip wf-chip">Deterministic</span>
+                    <span class="vc-bt-label">{stage.wf.label}</span>
+                  </div>
+                  <ul>
+                    {stage.wf.items.map(item => <li>{item}</li>)}
+                  </ul>
+                </div>
+
+                <div class="vc-block vc-ag">
+                  <div class="vc-bt">
+                    <span class="chip ag-chip">Agentic</span>
+                    <span class="vc-bt-label">{stage.ag.label}</span>
+                  </div>
+                  <ul>
+                    {stage.ag.items.map(item => <li>{item}</li>)}
+                  </ul>
+                </div>
+
+                <p class="vc-proof">{stage.proof}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom nav -->
+  <section class="vc-footer-nav">
+    <div class="wrap vc-footer-inner">
+      <a href="/foundations" class="btn btn-ghost">← Foundations</a>
+      <a href="/case-studies" class="btn btn-primary magnetic">See it in practice →</a>
+    </div>
+  </section>
+
+</ContentLayout>
+
+<style>
+  .vc-section { padding: 2rem 0 5rem; }
+
+  /* ── Cinematic Images ── */
+  .cinematic-image-wrapper {
+    margin: 1rem auto 3.5rem;
+    max-width: 1000px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  }
+  .cinematic-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+    transition: transform 0.8s ease;
+  }
+  .cinematic-image-wrapper:hover .cinematic-img {
+    transform: scale(1.02);
+  }
+
+  /* Accordion container */
+  .vc-accordion { border-top: 1px solid var(--color-line); }
+  .vc-item { border-bottom: 1px solid var(--color-line); }
+
+  /* Toggle button */
+  .vc-btn {
+    width: 100%;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.9rem 0.4rem;
+    font-family: inherit;
+    transition: padding-left 200ms ease;
+  }
+  .vc-btn:hover { padding-left: 0.85rem; }
+
+  .vc-num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-signal);
+    letter-spacing: 0.06em;
+    min-width: 2rem;
+  }
+  .vc-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.25rem, 2.4vw, 1.85rem);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    color: var(--color-text);
+  }
+  .vc-toggle {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--color-line);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    transition: background-color 240ms ease, border-color 240ms ease;
+    position: relative;
+  }
+  .vc-toggle::before,
+  .vc-toggle::after {
+    content: '';
+    position: absolute;
+    background-color: var(--color-text);
+    transition: transform 240ms ease, opacity 240ms ease;
+  }
+  .vc-toggle::before { width: 13px; height: 1.8px; }
+  .vc-toggle::after  { width: 1.8px; height: 13px; }
+
+  .vc-item.vc-open .vc-toggle {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  .vc-item.vc-open .vc-toggle::before,
+  .vc-item.vc-open .vc-toggle::after { background-color: white; }
+  .vc-item.vc-open .vc-toggle::after { transform: scaleY(0); }
+
+  /* Panel */
+  .vc-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 460ms cubic-bezier(.4, 0, .2, 1);
+  }
+  .vc-inner {
+    padding: 0.25rem 0.4rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.8rem;
+  }
+  .vc-lead {
+    grid-column: 1 / -1;
+    font-size: 1.06rem;
+    color: var(--color-text-2);
+    max-width: 62em;
+    line-height: 1.6;
+  }
+
+  /* Content blocks */
+  .vc-block {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-md);
+    padding: 1.5rem 1.4rem;
+  }
+  .vc-bt {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: var(--radius-xs);
+  }
+  .wf-chip { background-color: var(--color-accent); color: white; }
+  .ag-chip { background-color: var(--color-signal); color: white; }
+  .vc-bt-label { font-weight: 600; font-size: 0.96rem; color: var(--color-text); }
+
+  .vc-block ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+  .vc-block li {
+    font-size: 0.92rem;
+    color: var(--color-text-2);
+    line-height: 1.45;
+    padding-left: 1.1rem;
+    position: relative;
+  }
+  .vc-block li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .vc-wf li::before { background-color: var(--color-accent); }
+  .vc-ag li::before { background-color: var(--color-signal); }
+
+  /* Proof quote */
+  .vc-proof {
+    grid-column: 1 / -1;
+    font-size: 0.9rem;
+    color: var(--color-text-soft);
+    font-style: italic;
+    border-left: 2px solid var(--color-signal);
+    padding: 0.25rem 0 0.25rem 1rem;
+    line-height: 1.55;
+  }
+
+  /* Footer nav */
+  .vc-footer-nav { padding: 2rem 0 4.5rem; }
+  .vc-footer-inner { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .vc-inner { grid-template-columns: 1fr; }
+    .vc-btn { gap: 1rem; }
+  }
+</style>
+
+<script>
+  (function () {
+    const accordion = document.getElementById('vc-accordion');
+    if (!accordion) return;
+
+    // Open first panel on load
+    const firstItem = accordion.querySelector('.vc-item.vc-open');
+    if (firstItem) {
+      const panel = firstItem.querySelector('.vc-panel') as HTMLElement | null;
+      if (panel) panel.style.maxHeight = panel.scrollHeight + 'px';
+    }
+
+    // Toggle handler
+    accordion.querySelectorAll('.vc-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.vc-item') as HTMLElement;
+        const panel = item.querySelector('.vc-panel') as HTMLElement;
+        const isOpen = item.classList.contains('vc-open');
+
+        // Close all
+        accordion.querySelectorAll('.vc-item').forEach((it) => {
+          it.classList.remove('vc-open');
+          const p = it.querySelector('.vc-panel') as HTMLElement;
+          if (p) p.style.maxHeight = '';
+          const b = it.querySelector('.vc-btn');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+
+        // Open clicked (if it was closed)
+        if (!isOpen) {
+          item.classList.add('vc-open');
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // Resize sync
+    window.addEventListener('resize', () => {
+      const open = accordion.querySelector('.vc-item.vc-open .vc-panel') as HTMLElement | null;
+      if (open) open.style.maxHeight = open.scrollHeight + 'px';
+    });
+  })();
+</script>

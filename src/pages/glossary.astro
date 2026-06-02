@@ -20,6 +20,7 @@ const terms = [
   { term: 'Deterministic', section: 'D', def: 'A system where the same input always produces the same output, following a fixed set of rules. Workflow automation is deterministic. Agentic AI is not — the reasoning path can vary with context and model state.' },
   { term: 'Drug Safety', section: 'D', def: 'The practice of monitoring, detecting, and managing adverse drug reactions throughout a drug\'s lifecycle. See also: Pharmacovigilance.' },
   // E
+  { term: 'E2B (R3)', section: 'E', def: 'The international standard for the electronic transmission of ICSRs (Individual Case Safety Reports). Agentic systems in pharmacovigilance must output structured data that complies with E2B elements.' },
   { term: 'eCTD (Electronic Common Technical Document)', section: 'E', def: 'The standardised format for submitting new drug applications to regulatory agencies (FDA, EMA). Workflow automation tools assemble eCTD dossiers from source documents; agents help draft responses to agency questions.' },
   { term: 'EHR / EMR (Electronic Health / Medical Record)', section: 'E', def: 'Digital systems that store patient health information. Agentic automation can read EHR data to support clinical decision-making, adverse event detection, and medication reconciliation — subject to strict access controls.' },
   { term: 'Embeddings', section: 'E', def: 'Numerical vector representations of text (or other data) that capture semantic meaning. Used in RAG systems to find relevant context for an LLM. Similar concepts are semantically close; dissimilar ones are far apart in vector space.' },
@@ -58,6 +59,7 @@ const terms = [
   // S
   { term: 'Safety Signal', section: 'S', def: 'Information that suggests a drug may cause an adverse event that was previously unknown or incompletely documented. Signal detection is a primary use case for agentic AI in pharmacovigilance.' },
   { term: 'Structured Output', section: 'S', def: 'LLM output constrained to a defined format (e.g., JSON, XML). Achieved through function calling or constrained decoding. Essential for agentic workflows where downstream steps depend on machine-readable data.' },
+  { term: 'SUSAR', section: 'S', def: 'Suspected Unexpected Serious Adverse Reaction. An adverse event that is suspected to be caused by a drug, is serious (e.g., life-threatening), and is not listed in the investigator\'s brochure or label. Requires expedited reporting.' },
   // T
   { term: 'Tool Calling', section: 'T', def: 'The ability of an LLM to invoke external functions or APIs — searching the web, querying a database, running code. The mechanism that transforms a text-generating model into an agent that can actually do things.' },
   // V

@@ -1,0 +1,147 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Case Study: Literature Intake at Scale — Medivora"
+  description="How Novartis and global top 10 pharma use AI to automate Pharmacovigilance literature and social media intake."
+>
+  <article class="case-study-page">
+    <header class="cs-hero">
+      <div class="wrap">
+        <a href="/case-studies" class="back-link">← All Case Studies</a>
+        <div class="cs-meta">
+          <span class="cs-pill">Intake</span>
+          <span class="cs-org">Novartis / Top 10 Pharma</span>
+        </div>
+        <h1>Literature Intake at Scale</h1>
+        <p class="cs-lede">Automating the extraction of valid ICSRs from thousands of weekly journal articles using fine-tuned Large Language Models.</p>
+
+        <div class="cinematic-image-wrapper">
+          <img src="/images/pv_cs_literature.png" alt="Realistic photograph of glowing medical journals being scanned" class="cinematic-img">
+        </div>
+      </div>
+    </header>
+
+    <div class="wrap cs-content">
+      <div class="cs-main">
+        <h2>The Challenge</h2>
+        <p>
+          With adverse event (AE) case volumes growing annually by 15-20%, large sponsors face an insurmountable challenge monitoring unstructured data sources. Traditional literature screening and social media listening require extensive manual effort by highly trained scientists. The majority of this time is spent filtering out noise—general medical inquiries, product complaints without an AE, or irrelevant studies—rather than focusing on true safety signals.
+        </p>
+
+        <h2>The Automation Solution</h2>
+        <p>
+          To address this, Novartis developed and deployed a tool known as <strong>AE Brain</strong>. By leveraging artificial intelligence, natural language processing, and automation, AE Brain continuously monitors and evaluates thousands of messages weekly across social media and digital channels.
+        </p>
+        <p>
+          The pipeline utilizes advanced NLP to:
+        </p>
+        <ul>
+          <li><strong>Filter Noise:</strong> Automatically discard irrelevant mentions or spam.</li>
+          <li><strong>Identify ICSR Criteria:</strong> Recognize the four minimum criteria for an Individual Case Safety Report (identifiable patient, identifiable reporter, suspect drug, and adverse event).</li>
+          <li><strong>Extract Entities:</strong> Structure the unstructured text into standardized E2B data points for seamless ingestion into the central safety database.</li>
+        </ul>
+
+        <h2>The Outcomes</h2>
+        <p>
+          By automating the intake and triage process, the sponsor achieved significant efficiency gains. The AI-driven approach drastically reduced the manual burden on safety teams, allowing them to focus on medical assessment rather than data entry. Furthermore, by modernizing their drug development data infrastructure in partnership with AWS, query speeds improved by 72%, eliminating over 160 hours of manual work in patient safety domains.
+        </p>
+      </div>
+
+      <aside class="cs-sidebar">
+        <div class="metrics-card">
+          <h4>Key Results</h4>
+          <div class="metric">
+            <span class="m-val">70%+</span>
+            <span class="m-lbl">Reduction in manual triage time</span>
+          </div>
+          <div class="metric">
+            <span class="m-val">160 hrs</span>
+            <span class="m-lbl">Manual work eliminated per cycle</span>
+          </div>
+          <div class="metric">
+            <span class="m-val">High</span>
+            <span class="m-lbl">Precision on unstructured data</span>
+          </div>
+        </div>
+
+        <div class="sources-card">
+          <h4>References &amp; Sources</h4>
+          <ul>
+            <li>
+              <a href="https://www.pharmafocuseurope.com/" target="_blank" rel="noopener">Pharma Focus Europe: Novartis AI in Pharmacovigilance</a>
+            </li>
+            <li>
+              <a href="https://www.novartis.com/news/artificial-intelligence-novartis" target="_blank" rel="noopener">Novartis Official: Artificial Intelligence Strategy</a>
+            </li>
+            <li>
+              <a href="https://aws.amazon.com/health/biopharma/" target="_blank" rel="noopener">AWS Biopharma Case Studies</a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .case-study-page { background: var(--color-bg); padding-bottom: 5rem; }
+  
+  .cs-hero { background: var(--color-surface); padding: 4rem 0; border-bottom: 1px solid var(--color-line); margin-bottom: 3rem; }
+  .back-link { display: inline-block; font-size: 0.85rem; color: var(--color-text-soft); text-decoration: none; margin-bottom: 2rem; transition: color 200ms ease; }
+  .back-link:hover { color: var(--color-accent); }
+  
+  .cs-meta { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+  .cs-pill { background: rgba(28,201,163,0.1); color: #1cc9a3; padding: 4px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-mono); }
+  .cs-org { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-text-soft); letter-spacing: 0.05em; }
+  
+  .cs-hero h1 { font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.2; color: var(--color-text); margin-bottom: 1rem; }
+  .cs-lede { font-size: 1.15rem; color: var(--color-text-2); max-width: 45em; line-height: 1.6; margin-bottom: 2rem; }
+
+  /* ── Cinematic Images ── */
+  .cinematic-image-wrapper {
+    margin: 0 auto 3rem;
+    max-width: 100%;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+  .cinematic-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    object-position: center 50%;
+    display: block;
+    transition: transform 0.8s ease;
+  }
+  .cinematic-image-wrapper:hover .cinematic-img {
+    transform: scale(1.02);
+  }
+  
+  .cs-content { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
+  @media (max-width: 800px) { .cs-content { grid-template-columns: 1fr; gap: 3rem; } }
+  
+  .cs-main h2 { font-family: var(--font-serif); font-size: 1.8rem; color: var(--color-text); margin-top: 2.5rem; margin-bottom: 1rem; }
+  .cs-main h2:first-child { margin-top: 0; }
+  .cs-main p { font-size: 1.05rem; line-height: 1.7; color: var(--color-text-2); margin-bottom: 1.5rem; }
+  .cs-main ul { font-size: 1.05rem; line-height: 1.7; color: var(--color-text-2); margin-bottom: 1.5rem; padding-left: 1.5rem; }
+  .cs-main li { margin-bottom: 0.5rem; }
+  .cs-main strong { color: var(--color-text); }
+  
+  .metrics-card, .sources-card { background: var(--color-surface); border: 1px solid var(--color-line); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
+  .metrics-card h4, .sources-card h4 { font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text); margin-bottom: 1.5rem; border-bottom: 1px solid var(--color-line); padding-bottom: 0.5rem; }
+  
+  .metric { margin-bottom: 1.2rem; }
+  .metric:last-child { margin-bottom: 0; }
+  .m-val { display: block; font-family: var(--font-mono); font-size: 1.8rem; font-weight: 700; color: #1cc9a3; line-height: 1.2; }
+  .m-lbl { display: block; font-size: 0.85rem; color: var(--color-text-soft); }
+  
+  .sources-card ul { list-style: none; padding: 0; margin: 0; }
+  .sources-card li { margin-bottom: 1rem; font-size: 0.85rem; line-height: 1.5; }
+  .sources-card li:last-child { margin-bottom: 0; }
+  .sources-card a { color: var(--color-accent); text-decoration: none; transition: color 200ms ease; }
+  .sources-card a:hover { color: color-mix(in srgb, var(--color-accent) 80%, white); text-decoration: underline; }
+</style>

@@ -15,19 +15,27 @@
       <div class="outer-label">Multi-Agent System</div>
       <div class="agent-ring">
         <div class="sub-agent sa-supervisor">
-          <span class="sa-icon">⬡</span>
+          <span class="sa-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L3 7v10l9 5 9-5V7z" /></svg>
+          </span>
           <span>Supervisor</span>
         </div>
         <div class="sub-agent sa-chemist">
-          <span class="sa-icon">🧪</span>
-          <span>Chemist Agent</span>
+          <span class="sa-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM4 10h16M12 10v5M9 13l3 2 3-2" /></svg>
+          </span>
+          <span>Triage Agent</span>
         </div>
         <div class="sub-agent sa-lab">
-          <span class="sa-icon">🔬</span>
-          <span>Lab Agent</span>
+          <span class="sa-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
+          </span>
+          <span>Coding Agent</span>
         </div>
         <div class="sub-agent sa-safety">
-          <span class="sa-icon">🛡</span>
+          <span class="sa-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </span>
           <span>Safety Guardrail</span>
         </div>
       </div>
@@ -40,7 +48,9 @@
       <div class="react-loop">
         <!-- Goal -->
         <div class="loop-node goal-node">
-          <div class="node-icon">🎯</div>
+          <div class="node-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
           <div class="node-title">Goal</div>
           <div class="node-sub">Human instruction</div>
         </div>
@@ -53,7 +63,9 @@
 
         <!-- Reason -->
         <div class="loop-node reason-node">
-          <div class="node-icon">🧠</div>
+          <div class="node-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1m-1.636 5.636l-.707-.707M3 12h1m1.636-5.636l.707.707M12 21v-1M7 12c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5-5-2.24-5-5z" /></svg>
+          </div>
           <div class="node-title">Reason</div>
           <div class="node-sub">LLM interprets &amp; plans</div>
         </div>
@@ -66,7 +78,9 @@
 
         <!-- Act -->
         <div class="loop-node act-node">
-          <div class="node-icon">⚡</div>
+          <div class="node-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
+          </div>
           <div class="node-title">Act</div>
           <div class="node-sub">Calls tools &amp; APIs</div>
         </div>
@@ -79,7 +93,9 @@
 
         <!-- Observe -->
         <div class="loop-node observe-node">
-          <div class="node-icon">👁</div>
+          <div class="node-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
           <div class="node-title">Observe</div>
           <div class="node-sub">Result &amp; feedback</div>
         </div>
@@ -88,7 +104,7 @@
         <div class="loop-back" aria-hidden="true">
           <svg viewBox="0 0 220 44" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
-              d="M210 22 L20 22 Q6 22 6 36 L6 44"
+              d="M210 22 L60 22 Q46 22 46 8 L46 0"
               class="loop-path"
               stroke-dasharray="6 4"
               marker-end="url(#arr)"
@@ -105,7 +121,9 @@
 
       <!-- Memory / RAG side node -->
       <div class="memory-node">
-        <div class="node-icon">📚</div>
+        <div class="node-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4z" /><path d="M4 8h16" /><path d="M4 16h16" /><path d="M8 4v16" /></svg>
+        </div>
         <div class="node-title">Memory &amp; RAG</div>
         <div class="node-sub">Context, docs, history</div>
         <div class="memory-arrow" aria-hidden="true">feeds into Reason ↑</div>
@@ -116,13 +134,20 @@
     <div class="tools-row">
       <div class="tools-label">Tools the agent can call</div>
       <div class="tools-list">
-        {['Search', 'Database', 'Lab API', 'File system', 'Email', 'Workflow bots'].map(t => (
+        {['E2B Parser', 'MedDRA DB', 'Literature API', 'Vector DB', 'Safety DB', 'Workflow bots'].map(t => (
           <span class="tool-chip">{t}</span>
         ))}
       </div>
     </div>
 
   </div><!-- /diagram-canvas -->
+  
+  <div class="diagram-legend">
+    <div class="legend-item"><strong>Goal:</strong> The initial ICSR text or PV task assigned.</div>
+    <div class="legend-item"><strong>Reason:</strong> The LLM thinks step-by-step about what medical context is needed.</div>
+    <div class="legend-item"><strong>Act:</strong> The agent calls external tools (like a MedDRA DB).</div>
+    <div class="legend-item"><strong>Observe:</strong> The agent reads the tool's output, then <em>loops back</em> to Reason until the goal is met.</div>
+  </div>
 </div>
 
 <style>
@@ -204,7 +229,12 @@
     50%      { opacity: 1; }
   }
   @media (prefers-reduced-motion: reduce) { .sub-agent { animation: none; } }
-  .sa-icon { font-size: 1rem; }
+  .sa-icon { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    color: var(--color-amber-bright);
+  }
 
   /* ── Inner ReAct loop ── */
   .layer-inner {
@@ -238,10 +268,10 @@
     animation: node-glow 3.6s ease-in-out infinite;
   }
   .loop-node:hover { transform: translateY(-3px); background: rgba(255,255,255,.1); }
-  .goal-node    { animation-delay: 0s;    border-color: rgba(22,166,132,.5); }
-  .reason-node  { animation-delay: .9s;   border-color: rgba(22,166,132,.5); }
-  .act-node     { animation-delay: 1.8s;  border-color: rgba(224,138,43,.5); }
-  .observe-node { animation-delay: 2.7s;  border-color: rgba(22,166,132,.5); }
+  .goal-node    { animation-delay: 0s;    border-color: rgba(22,166,132,.5); color: var(--color-green-bright); }
+  .reason-node  { animation-delay: .9s;   border-color: rgba(22,166,132,.5); color: var(--color-green-bright); }
+  .act-node     { animation-delay: 1.8s;  border-color: rgba(224,138,43,.5); color: var(--color-amber-bright); }
+  .observe-node { animation-delay: 2.7s;  border-color: rgba(22,166,132,.5); color: var(--color-green-bright); }
   @keyframes node-glow {
     0%,100% { box-shadow: none; }
     50%      { box-shadow: 0 0 14px rgba(22,166,132,.25); }
@@ -250,7 +280,12 @@
     .loop-node { animation: none; }
   }
 
-  .node-icon  { font-size: 1.3rem; margin-bottom: .25rem; }
+  .node-icon  { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    margin-bottom: .4rem; 
+  }
   .node-title { font-size: 0.82rem; font-weight: 700; color: rgba(241,236,224,.96); font-family: var(--font-sans); }
   .node-sub   { font-size: 0.7rem; color: rgba(241,236,224,.55); margin-top: .18rem; line-height: 1.3; }
 
@@ -295,6 +330,7 @@
     min-width: 130px;
     grid-column: 2;
     align-self: center;
+    color: var(--color-amber-bright);
   }
   .memory-arrow {
     font-size: 0.65rem;
@@ -336,10 +372,27 @@
   .tool-chip:hover { background: rgba(22,166,132,.14); }
 
   /* Responsive */
+  .diagram-legend {
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    padding: 0 1rem;
+  }
+  .legend-item {
+    font-size: 0.85rem;
+    color: var(--color-text-2);
+    line-height: 1.5;
+  }
+  .legend-item strong {
+    color: var(--color-accent);
+  }
+
   @media (max-width: 680px) {
     .layer-inner { grid-template-columns: 1fr; }
     .memory-node { grid-column: 1; }
     .react-loop { justify-content: center; }
     .loop-node { min-width: 90px; }
+    .diagram-legend { grid-template-columns: 1fr; }
   }
 </style>

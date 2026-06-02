@@ -1,0 +1,137 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Case Study: Industrialised MedDRA Coding — Medivora"
+  description="How Bayer and Genpact automated adverse event case processing and MedDRA coding using AI."
+>
+  <article class="case-study-page">
+    <header class="cs-hero">
+      <div class="wrap">
+        <a href="/case-studies" class="back-link">← All Case Studies</a>
+        <div class="cs-meta">
+          <span class="cs-pill">Coding</span>
+          <span class="cs-org">Bayer / Genpact</span>
+        </div>
+        <h1>Industrialised MedDRA Coding & Case Processing</h1>
+        <p class="cs-lede">Leveraging machine learning and PVAI platforms to automate the extraction and coding of adverse event data, reducing manual processing overhead.</p>
+      </div>
+    </header>
+
+    <div class="wrap cs-content">
+      <div class="cs-main">
+        <h2>The Challenge</h2>
+        <p>
+          Bayer, like all global pharmaceutical companies, faces an ever-increasing volume of adverse event (AE) reports. Manual processing of these cases—particularly the medical coding of verbatim AE terms to the standardized MedDRA dictionary—is highly resource-intensive, prone to human inconsistency, and expensive to scale as reporting requirements grow.
+        </p>
+
+        <h2>The Automation Solution</h2>
+        <p>
+          To offset these challenges, Bayer partnered with Genpact to implement the Pharmacovigilance Artificial Intelligence (PVAI) platform. The solution integrates AI, Machine Learning (ML), Natural Language Processing (NLP), and Robotic Process Automation (RPA) into the core safety workflow.
+        </p>
+        <p>
+          Key technical implementations include:
+        </p>
+        <ul>
+          <li><strong>Automated Data Extraction:</strong> Using NLP to parse source documents and directly extract reporter details, patient demographics, and suspect drugs without manual data entry.</li>
+          <li><strong>Semantic MedDRA Auto-Coding:</strong> Utilizing ML models, like those deployed on Amazon SageMaker, to evaluate the verbatim clinical term within its full narrative context, mapping it accurately to the correct MedDRA Lowest Level Term (LLT).</li>
+          <li><strong>Confidence-Based Routing:</strong> Ambiguous or complex cases that fall below a strict confidence threshold are automatically routed to human medical coders, ensuring a "Human-in-the-Loop" safety net.</li>
+        </ul>
+
+        <h2>The Outcomes</h2>
+        <p>
+          The integration of PVAI transformed Bayer's case processing operations. The automation of routine medical coding and case intake allowed safety teams to shift their focus from administrative data entry to complex analytical tasks and proactive risk-minimization measures. The system maintains high compliance and quality standards while providing the scalability needed to handle surging global AE volumes.
+        </p>
+      </div>
+
+      <aside class="cs-sidebar">
+        <div class="metrics-card">
+          <h4>Key Results</h4>
+          <div class="metric">
+            <span class="m-val">High</span>
+            <span class="m-lbl">Auto-coding success rate</span>
+          </div>
+          <div class="metric">
+            <span class="m-val">Scalable</span>
+            <span class="m-lbl">Case processing volume</span>
+          </div>
+          <div class="metric">
+            <span class="m-val">Shift</span>
+            <span class="m-lbl">From data-entry to risk-analysis</span>
+          </div>
+        </div>
+
+        <div class="sources-card">
+          <h4>References &amp; Sources</h4>
+          <ul>
+            <li>
+              <a href="https://aws.amazon.com/solutions/case-studies/bayer-sagemaker/" target="_blank" rel="noopener">AWS Case Study: Bayer & Amazon SageMaker</a>
+            </li>
+            <li>
+              <a href="https://www.genpact.com/insight/case-study/transforming-pharmacovigilance-with-ai" target="_blank" rel="noopener">Genpact PVAI Platform Overview</a>
+            </li>
+            <li>
+              <a href="https://pharmaboardroom.com/interviews/interview-with-michael-devoy-bayer/" target="_blank" rel="noopener">PharmaBoardroom: Bayer's Digital PV Strategy</a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  /* Same CSS as literature-intake.astro */
+  .case-study-page { background: var(--color-bg); padding-bottom: 5rem; }
+  .cs-hero { background: var(--color-surface); padding: 4rem 0; border-bottom: 1px solid var(--color-line); margin-bottom: 3rem; }
+  .back-link { display: inline-block; font-size: 0.85rem; color: var(--color-text-soft); text-decoration: none; margin-bottom: 2rem; transition: color 200ms ease; }
+  .back-link:hover { color: var(--color-accent); }
+  .cs-meta { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+  .cs-pill { background: rgba(28,201,163,0.1); color: #1cc9a3; padding: 4px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-mono); }
+  .cs-org { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-text-soft); letter-spacing: 0.05em; }
+  .cs-hero h1 { font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.2; color: var(--color-text); margin-bottom: 1rem; }
+  .cs-lede { font-size: 1.15rem; color: var(--color-text-2); max-width: 45em; line-height: 1.6; margin-bottom: 2rem; }
+
+  /* ── Cinematic Images ── */
+  .cinematic-image-wrapper {
+    margin: 0 auto 3rem;
+    max-width: 100%;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+  .cinematic-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    object-position: center 50%;
+    display: block;
+    transition: transform 0.8s ease;
+  }
+  .cinematic-image-wrapper:hover .cinematic-img {
+    transform: scale(1.02);
+  }
+
+  .cs-content { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
+  @media (max-width: 800px) { .cs-content { grid-template-columns: 1fr; gap: 3rem; } }
+  .cs-main h2 { font-family: var(--font-serif); font-size: 1.8rem; color: var(--color-text); margin-top: 2.5rem; margin-bottom: 1rem; }
+  .cs-main h2:first-child { margin-top: 0; }
+  .cs-main p { font-size: 1.05rem; line-height: 1.7; color: var(--color-text-2); margin-bottom: 1.5rem; }
+  .cs-main ul { font-size: 1.05rem; line-height: 1.7; color: var(--color-text-2); margin-bottom: 1.5rem; padding-left: 1.5rem; }
+  .cs-main li { margin-bottom: 0.5rem; }
+  .cs-main strong { color: var(--color-text); }
+  .metrics-card, .sources-card { background: var(--color-surface); border: 1px solid var(--color-line); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
+  .metrics-card h4, .sources-card h4 { font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text); margin-bottom: 1.5rem; border-bottom: 1px solid var(--color-line); padding-bottom: 0.5rem; }
+  .metric { margin-bottom: 1.2rem; }
+  .metric:last-child { margin-bottom: 0; }
+  .m-val { display: block; font-family: var(--font-mono); font-size: 1.8rem; font-weight: 700; color: #1cc9a3; line-height: 1.2; }
+  .m-lbl { display: block; font-size: 0.85rem; color: var(--color-text-soft); }
+  .sources-card ul { list-style: none; padding: 0; margin: 0; }
+  .sources-card li { margin-bottom: 1rem; font-size: 0.85rem; line-height: 1.5; }
+  .sources-card li:last-child { margin-bottom: 0; }
+  .sources-card a { color: var(--color-accent); text-decoration: none; transition: color 200ms ease; }
+  .sources-card a:hover { color: color-mix(in srgb, var(--color-accent) 80%, white); text-decoration: underline; }
+</style>

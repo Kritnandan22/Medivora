@@ -1,0 +1,172 @@
+---
+import ContentLayout from '~/layouts/ContentLayout.astro';
+
+const regulations = [
+  {
+    agency: 'FDA',
+    region: 'United States',
+    title: 'Artificial Intelligence & Medical Products',
+    status: 'Discussion Paper',
+    date: '2023 - Ongoing',
+    desc: 'Focuses on the use of AI in drug manufacturing, clinical trials, and post-market safety surveillance. Emphasizes human-in-the-loop and explainability.',
+    link: 'https://www.fda.gov/science-research/science-and-research-special-topics/artificial-intelligence-and-medical-products'
+  },
+  {
+    agency: 'EMA',
+    region: 'Europe',
+    title: 'Reflection paper on the use of AI in the medicinal product lifecycle',
+    status: 'Adopted',
+    date: 'July 2023',
+    desc: 'Provides guidance on the principles for using AI/ML in drug development and pharmacovigilance, highlighting the need for validation of AI systems replacing manual PV tasks.',
+    link: 'https://www.ema.europa.eu/en/news/reflection-paper-use-artificial-intelligence-lifecycle-medicines'
+  },
+  {
+    agency: 'MHRA',
+    region: 'United Kingdom',
+    title: 'Software and AI as a Medical Device Change Programme',
+    status: 'Implementation',
+    date: '2022 - Ongoing',
+    desc: 'While focused heavily on SaMD, the MHRA sets clear expectations for algorithmic fairness and validation that apply to AI agents used in regulatory workflows.',
+    link: 'https://www.gov.uk/government/publications/software-and-ai-as-a-medical-device-change-programme'
+  },
+  {
+    agency: 'CIOMS',
+    region: 'Global',
+    title: 'CIOMS Working Group XIV: Artificial Intelligence in Pharmacovigilance',
+    status: 'Drafting',
+    date: '2023 - Present',
+    desc: 'A dedicated global working group drafting the consensus standards for using AI in signal detection, case processing, and aggregate reporting.',
+    link: 'https://cioms.ch/working-groups/artificial-intelligence-in-pharmacovigilance/'
+  }
+];
+---
+
+<ContentLayout
+  title="Regulatory Tracker"
+  description="Tracking global agency guidance on the use of Agentic AI in Pharmacovigilance."
+  eyebrow="04 — Regulatory Tracker"
+  heading="The rules of the road."
+  lede="Deploying AI in drug safety means adhering to strict regulatory frameworks. This tracker monitors the latest guidance from global health authorities regarding AI in pharmacovigilance."
+>
+
+  <section class="tracker-section">
+    <div class="wrap">
+      <div class="tracker-grid">
+        {regulations.map((reg) => (
+          <div class="reg-card">
+            <div class="reg-header">
+              <span class="reg-agency">{reg.agency}</span>
+              <span class="reg-region">{reg.region}</span>
+            </div>
+            <h3 class="reg-title">{reg.title}</h3>
+            <div class="reg-meta">
+              <span class="reg-status" data-status={reg.status}>{reg.status}</span>
+              <span class="reg-date">{reg.date}</span>
+            </div>
+            <p class="reg-desc">{reg.desc}</p>
+            <a href={reg.link} target="_blank" rel="noopener noreferrer" class="reg-link">Read official guidance ↗</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</ContentLayout>
+
+<style>
+  .tracker-section {
+    padding: 3rem 0 6rem;
+  }
+  .tracker-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .reg-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .reg-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-soft);
+    border-color: var(--color-accent);
+  }
+  .reg-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .reg-agency {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+  .reg-region {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-soft);
+  }
+  .reg-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+  .reg-meta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+  .reg-status {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    padding: 3px 8px;
+    border-radius: 4px;
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+  .reg-status[data-status="Adopted"] {
+    background-color: var(--color-green-bright);
+    color: #0d1614;
+  }
+  .reg-date {
+    font-size: 0.85rem;
+    color: var(--color-text-soft);
+  }
+  .reg-desc {
+    font-size: 0.95rem;
+    color: var(--color-text-2);
+    line-height: 1.55;
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+  }
+  .reg-link {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    text-decoration: none;
+    align-self: flex-start;
+  }
+  .reg-link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 800px) {
+    .tracker-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

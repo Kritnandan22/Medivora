@@ -1,0 +1,257 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+
+const domainColor = '#f59e0b'; // Amber for Medical Review
+---
+
+<BaseLayout
+  title="Medical Review Agent — Medivora"
+  description="Architecture and capabilities of the Medivora Medical Review Agent for automating seriousness, expectedness, and causality assessments."
+>
+  <article class="agent-detail-page">
+    
+    <!-- ── HERO ─────────────────────────────────────────────── -->
+    <header class="agent-hero">
+      <div class="wrap">
+        <div class="breadcrumb">
+          <a href="/agents">← Back to Agents</a>
+        </div>
+        
+        <div class="hero-meta">
+          <span class="domain-tag" style={`--dc: ${domainColor}`}>Pharmacovigilance</span>
+          <span class="phase-tag">Phase 3 · Assessment</span>
+        </div>
+        
+        <h1 class="agent-title">Medical Review Copilot</h1>
+        <p class="agent-tagline">AI reasoning assistant for the human QPPV or medical reviewer.</p>
+
+        <div class="cinematic-image-wrapper">
+          <img src="/images/pv_agent_review.png" alt="Realistic photograph of a doctor reviewing a digital holographic patient file" class="cinematic-img">
+        </div>
+        
+        <div class="agent-metrics">
+          <div class="metric-box">
+            <span class="mb-val">98%</span>
+            <span class="mb-lbl">Agreement with human physicians on Expectedness</span>
+          </div>
+          <div class="metric-box">
+            <span class="mb-val">100%</span>
+            <span class="mb-lbl">Adherence to Core Data Sheet (CCDS)</span>
+          </div>
+          <div class="metric-box">
+            <span class="mb-val">5x</span>
+            <span class="mb-lbl">Faster case throughput</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── THE PROBLEM ──────────────────────────────────────── -->
+    <section class="section-light problem-section">
+      <div class="wrap content-grid">
+        <div class="cg-main">
+          <h2>The Cognitive Load on Physicians</h2>
+          <p class="lead-text">
+            Medical review is the most expensive and critical step in PV. Highly trained physicians spend hours comparing coded adverse events against hundreds of pages of Reference Safety Information (RSI) or Investigator Brochures (IB) to determine expectedness and causality.
+          </p>
+          <p>
+            The Medivora Medical Review Agent acts as a co-pilot for safety physicians. It instantly cross-references the coded case against the current, approved product label, drafts a causality assessment with clinical rationale, and highlights discrepancies for the human reviewer to make the final call.
+          </p>
+        </div>
+        <aside class="cg-side info-panel">
+          <h4>Agent Profile</h4>
+          <dl class="agent-specs">
+            <dt>Data Inputs</dt>
+            <dd>Fully coded ICSRs, CCDS, SmPC, USPI, Investigator Brochures.</dd>
+            <dt>Core AI Models</dt>
+            <dd>Clinical-reasoning LLMs integrated with strict Rule Engines.</dd>
+            <dt>Key Outputs</dt>
+            <dd>Seriousness criteria, Expectedness flags (Listed/Unlisted), Causality narrative draft.</dd>
+            <dt>Standards</dt>
+            <dd>ICH E2A (Expectedness), CIOMS guidelines.</dd>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ── ARCHITECTURE ─────────────────────────────────────── -->
+    <section class="section-dark arch-section">
+      <div class="wrap">
+        <h2>Agent Architecture &amp; Workflow</h2>
+        <p class="section-desc">
+          Because medical assessment directly triggers regulatory reporting (e.g., a SUSAR), this agent utilizes a highly constrained architecture. Expectedness is driven by a deterministic rule engine querying the RSI, while causality narratives are drafted by the LLM for human approval.
+        </p>
+        
+        <div class="diagram-container">
+          <pre class="mermaid">
+flowchart LR
+    classDef external fill:#1a1a1a,stroke:#333,stroke-width:1px,color:#888
+    classDef input fill:#112a22,stroke:#f59e0b,stroke-width:1px,color:#fff
+    classDef agent fill:#0a192f,stroke:#64ffda,stroke-width:1px,color:#fff
+    classDef db fill:#2d1b2e,stroke:#e05c8a,stroke-width:1px,color:#fff
+    classDef hitl fill:#3a2a00,stroke:#e8a838,stroke-width:1px,color:#fff
+    classDef output fill:#112a22,stroke:#f59e0b,stroke-width:2px,color:#fff
+
+    subgraph "Case Data"
+        Case["Coded Case (AEs, Drugs)"]:::external
+    end
+
+    subgraph "Assessment Layer"
+        direction TB
+        Expectedness["Expectedness Engine<br>(Deterministic)"]:::input
+        Causality(["Causality Reasoning Agent<br>(LLM)"]):::agent
+        RSIDB[("Label / RSI / CCDS<br>Database")]:::db
+    end
+
+    subgraph "Human Review & Action"
+        direction TB
+        Draft["Assessment Draft & Narrative"]:::agent
+        Physician["Safety Physician<br>(Final Sign-off)"]:::hitl
+        ReportDB["Reporting Engine (SUSAR/ICSR)"]:::output
+    end
+
+    Case --> Expectedness
+    Case --> Causality
+    
+    RSIDB -- "Listed Terms" --> Expectedness
+    RSIDB -- "Known MOA" --> Causality
+
+    Expectedness --> Draft
+    Causality --> Draft
+
+    Draft --> Physician
+    Physician -- "Approves / Edits" --> ReportDB
+
+    linkStyle default stroke:#444,stroke-width:2px;
+          </pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CORE CAPABILITIES ────────────────────────────────── -->
+    <section class="section-light caps-section">
+      <div class="wrap">
+        <h2 class="section-title-dark">Core Capabilities</h2>
+        <div class="caps-grid">
+          <div class="cap-card">
+            <div class="cap-icon">1</div>
+            <h3>Deterministic Expectedness</h3>
+            <p>Maps the MedDRA PT exactly against the approved product label for the specific market. Never hallucinates whether an event is "listed" or "unlisted", relying on strict database querying.</p>
+          </div>
+          <div class="cap-card">
+            <div class="cap-icon">2</div>
+            <h3>Automated Causality Drafting</h3>
+            <p>Generates a draft clinical narrative evaluating temporal relationship, de-challenge/re-challenge results, and alternative etiologies (e.g., patient's medical history of hypertension) to propose a causality outcome.</p>
+          </div>
+          <div class="cap-card">
+            <div class="cap-icon">3</div>
+            <h3>Seriousness Upgrading</h3>
+            <p>Detects if the reporter missed a seriousness criterion (e.g., the narrative mentions "hospitalized overnight" but the Seriousness flag was left unchecked) and prompts the human reviewer to upgrade the case.</p>
+          </div>
+          <div class="cap-card">
+            <div class="cap-icon">4</div>
+            <h3>Regulatory Reporting Router</h3>
+            <p>If an event is deemed Serious, Unlisted, and Related, the agent immediately flags the case as a potential SUSAR/15-day report and alerts the submissions team.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </article>
+</BaseLayout>
+
+<script is:inline type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#f59e0b',
+      primaryTextColor: '#fff',
+      primaryBorderColor: '#333',
+      lineColor: '#666',
+      secondaryColor: '#0a192f',
+      tertiaryColor: '#111'
+    },
+    fontFamily: 'Inter, sans-serif'
+  });
+</script>
+
+<style>
+  /* Reuse standard agent layout styles */
+  .agent-detail-page { background: var(--color-bg); min-height: 100vh; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+  .section-light { padding: 5rem 0; background: var(--color-bg); border-bottom: 1px solid var(--color-line); }
+  .section-dark { padding: 6rem 0; background: #060e0b; color: #f1ece0; border-bottom: 1px solid rgba(245,158,11,.15); }
+  
+  .content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
+  @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; gap: 3rem; } }
+
+  .agent-hero { background: #060e0b; padding: 3rem 0 5rem; border-bottom: 1px solid rgba(245,158,11,.15); color: #f1ece0; }
+  .breadcrumb { margin-bottom: 3rem; }
+  .breadcrumb a { font-size: 0.85rem; color: rgba(241,236,224,.5); text-decoration: none; transition: color 200ms ease; }
+  .breadcrumb a:hover { color: #f59e0b; }
+
+  .hero-meta { display: flex; gap: 0.8rem; margin-bottom: 1.5rem; align-items: center; }
+  .domain-tag { font-size: 0.75rem; font-weight: 600; color: var(--dc); background: color-mix(in srgb, var(--dc) 15%, transparent); padding: 4px 10px; border-radius: 100px; }
+  .phase-tag { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.05em; color: rgba(241,236,224,.6); border: 1px solid rgba(241,236,224,.2); padding: 4px 10px; border-radius: 100px; }
+
+  .agent-title { font-family: var(--font-serif); font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 700; line-height: 1.1; margin-bottom: 1rem; letter-spacing: -0.02em; }
+  .agent-tagline { font-size: 1.2rem; color: rgba(241,236,224,.7); max-width: 45em; line-height: 1.5; margin-bottom: 2rem; }
+
+  /* ── Cinematic Images ── */
+  .cinematic-image-wrapper {
+    margin: 0 auto 3rem;
+    max-width: 100%;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+  .cinematic-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    object-position: center 50%;
+    display: block;
+    transition: transform 0.8s ease;
+  }
+  .cinematic-image-wrapper:hover .cinematic-img {
+    transform: scale(1.02);
+  }
+
+  .agent-metrics { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .metric-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 1.5rem; border-radius: 8px; min-width: 220px; }
+  .mb-val { display: block; font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: #f59e0b; line-height: 1; margin-bottom: 0.5rem; }
+  .mb-lbl { display: block; font-size: 0.85rem; color: rgba(241,236,224,.6); line-height: 1.4; }
+
+  .problem-section h2 { font-family: var(--font-serif); font-size: 2rem; margin-bottom: 1.5rem; color: var(--color-text); }
+  .lead-text { font-size: 1.15rem; line-height: 1.7; color: var(--color-text); font-weight: 500; margin-bottom: 1.5rem; }
+  .cg-main p { font-size: 1.05rem; line-height: 1.7; color: var(--color-text-2); margin-bottom: 1.5rem; }
+
+  .info-panel { background: var(--color-surface); border: 1px solid var(--color-line); padding: 2rem; border-radius: 8px; height: fit-content; }
+  .info-panel h4 { font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text); margin-bottom: 1.5rem; border-bottom: 1px solid var(--color-line); padding-bottom: 0.5rem; }
+  .agent-specs dt { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #f59e0b; margin-top: 1.2rem; margin-bottom: 0.3rem; }
+  .agent-specs dt:first-child { margin-top: 0; }
+  .agent-specs dd { margin: 0; font-size: 0.9rem; color: var(--color-text-2); line-height: 1.5; }
+
+  .arch-section h2 { font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 1rem; }
+  .section-desc { font-size: 1.1rem; color: rgba(241,236,224,.7); max-width: 50em; line-height: 1.6; margin-bottom: 3rem; }
+  .diagram-container { background: #0d1a15; border: 1px solid rgba(245,158,11,.2); border-radius: 12px; padding: 2rem; overflow-x: auto; }
+
+  :global(.mermaid .edgePath path) { stroke-dasharray: 8 4; animation: flowLines 1.5s linear infinite; }
+  @keyframes flowLines { to { stroke-dashoffset: -12; } }
+  :global(.mermaid .node) { transition: transform 0.3s ease, filter 0.3s ease; cursor: pointer; }
+  :global(.mermaid .node:hover) { transform: scale(1.03); filter: drop-shadow(0 0 12px rgba(245,158,11,0.4)); }
+
+  .caps-section { background: var(--color-surface); }
+  .section-title-dark { font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 2rem; color: var(--color-text); }
+  .caps-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+  @media (max-width: 768px) { .caps-grid { grid-template-columns: 1fr; } }
+  .cap-card { background: var(--color-bg); border: 1px solid var(--color-line); padding: 2rem; border-radius: 8px; transition: transform 200ms ease; }
+  .cap-card:hover { transform: translateY(-3px); border-color: #f59e0b; }
+  .cap-icon { width: 40px; height: 40px; background: rgba(245,158,11,.1); color: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: bold; font-size: 1.2rem; margin-bottom: 1.2rem; }
+  .cap-card h3 { font-size: 1.2rem; margin-bottom: 0.8rem; color: var(--color-text); }
+  .cap-card p { font-size: 0.95rem; color: var(--color-text-2); line-height: 1.6; }
+</style>

@@ -23,7 +23,11 @@ const domainColor = '#1cc9a3'; // Regulatory Affairs color
         </div>
         
         <h1 class="agent-title">Regulatory Intelligence Agent</h1>
-        <p class="agent-tagline">Continuous multi-agency monitoring, synthesised into actionable intelligence.</p>
+        <p class="agent-tagline">Real-time monitoring of global health authority guidelines and mandates.</p>
+
+        <div class="cinematic-image-wrapper">
+          <img src="/images/pv_agent_regulatory.png" alt="Realistic photograph of a glowing globe with regulatory data nodes" class="cinematic-img">
+        </div>
         
         <div class="agent-metrics">
           <div class="metric-box">
@@ -320,19 +324,31 @@ flowchart LR
     margin-bottom: 1rem;
     letter-spacing: -0.02em;
   }
-  .agent-tagline {
-    font-size: 1.2rem;
-    color: rgba(241,236,224,.7);
-    max-width: 45em;
-    line-height: 1.5;
-    margin-bottom: 3rem;
+  .agent-tagline { font-size: 1.2rem; color: rgba(241,236,224,.7); max-width: 45em; line-height: 1.5; margin-bottom: 2rem; }
+
+  /* ── Cinematic Images ── */
+  .cinematic-image-wrapper {
+    margin: 0 auto 3rem;
+    max-width: 100%;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+  .cinematic-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    object-position: center 50%;
+    display: block;
+    transition: transform 0.8s ease;
+  }
+  .cinematic-image-wrapper:hover .cinematic-img {
+    transform: scale(1.02);
   }
 
-  .agent-metrics {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
+  .agent-metrics { display: flex; gap: 1.5rem; flex-wrap: wrap; }
   .metric-box {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.08);

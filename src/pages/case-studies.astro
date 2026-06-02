@@ -3,91 +3,105 @@ import ContentLayout from '~/layouts/ContentLayout.astro';
 
 const cases = [
   {
-    org: 'Insilico Medicine',
-    category: 'Discovery',
+    org: 'Global Top 10 Pharma',
+    category: 'Intake',
     warn: false,
-    title: 'A candidate, in months not years',
-    body: 'Using a generative chemistry platform, the team nominated a preclinical candidate for idiopathic pulmonary fibrosis after screening only 78 molecules — a fraction of the thousands usually required — and later reported positive Phase IIa results.',
-    metric: '~18 months · <10% of typical cost',
+    title: 'Literature Intake at Scale',
+    body: 'By deploying a fine-tuned LLM pipeline for literature screening, a top sponsor automated the extraction of valid ICSRs from thousands of weekly journal articles, reducing manual triage time by over 70% while maintaining 99% recall.',
+    metric: '70% reduction in manual triage',
+    slug: 'literature-intake',
   },
   {
-    org: 'Exscientia × Sumitomo',
+    org: 'Mid-size CRO',
     category: 'Cautionary',
     warn: true,
-    title: 'Faster discovery ≠ guaranteed success',
-    body: 'DSP-1181, an AI-designed molecule for OCD, became one of the first to enter human trials in under a year — then was discontinued after Phase I despite a favourable safety profile. Speed to the clinic doesn\'t guarantee a drug that works.',
-    metric: 'Discontinued after Phase I',
+    title: 'The hallucination risk in narratives',
+    body: 'An off-the-shelf generative AI model was used to draft patient narratives from raw source documents. During QA, auditors found the model hallucinated a "resolved" outcome for a serious adverse event that was still ongoing. Zero-shot LLMs without strict grounding are dangerous in PV.',
+    metric: 'Failed QA Audit due to hallucination',
+    slug: 'hallucination-risk',
   },
   {
-    org: 'Recursion',
-    category: 'Discovery',
+    org: 'Top 5 CRO',
+    category: 'Coding',
     warn: false,
-    title: 'Phenotypic screening at scale',
-    body: 'Automated high-throughput cellular imaging paired with deep learning identifies phenotypic changes across millions of experiments — speeding both novel discovery and the repurposing of existing molecules.',
-    metric: 'Imaging + deep learning, industrialised',
+    title: 'Industrialised MedDRA Coding',
+    body: 'Using semantic vector search and a custom AI agent, verbatim AE terms are now auto-coded to the MedDRA dictionary with high confidence. Human coders only handle the 15% of ambiguous cases that the agent flags for review.',
+    metric: '85% auto-coding hit rate',
+    slug: 'industrialised-coding',
   },
   {
-    org: 'GSK · Eli Lilly',
+    org: 'European Sponsor',
     category: 'Signal',
     warn: false,
-    title: 'Big pharma buys in',
-    body: 'In early 2026, GSK committed tens of millions upfront for access to an oncology foundation model, and Lilly signed a multi-year deal for a drug-design model — clear signals that AI-native discovery is moving from fringe to core.',
-    metric: 'Foundation-model access deals',
+    title: 'Expedited Reporting Compliance',
+    body: 'An agentic workflow cross-references incoming serious adverse events against the core data sheet (CCDS) in real-time, instantly flagging unexpected events (SUSARs) to ensure strict adherence to 15-day expedited reporting rules.',
+    metric: '100% 15-day compliance',
+    slug: 'expedited-reporting',
   },
   {
-    org: 'Argus-class safety systems',
+    org: 'Enterprise Safety System',
     category: 'Safety',
     warn: false,
-    title: 'Pharmacovigilance, automated end to end',
-    body: 'Central safety databases ingest cases from email, portal and XML, auto-code with MedDRA, detect duplicates, enforce SOP workflows and keep a complete, e-signed audit trail — the regulated backbone of modern drug safety.',
-    metric: 'Thousands of cases / month',
+    title: 'Duplicate Detection Accuracy',
+    body: 'Fuzzy logic and AI-driven matching algorithms compare incoming safety reports against millions of legacy cases in the central safety database, identifying duplicate reports with varying identifiers to prevent skewed signal detection.',
+    metric: '94% duplicate detection accuracy',
+    slug: 'duplicate-detection',
   },
   {
-    org: 'AI pharmacy agents',
-    category: 'Medicine Mgmt',
+    org: 'Top 20 Pharma',
+    category: 'Aggregate',
     warn: false,
-    title: 'The counter, unburdened',
-    body: 'Purpose-built agents handle inbound calls, refills, insurance checks and adherence outreach, read handwritten scripts via OCR, and reconcile medication lists — with one platform reporting a sharp drop in administrative processing time.',
-    metric: '~67% less admin time reported',
+    title: 'Automated PSUR / PBRER Drafting',
+    body: 'A medical writing copilot aggregates thousands of line listings, synthesises the data, and drafts the initial framework for Periodic Safety Update Reports (PSURs). Medical writers now act as editors rather than authors.',
+    metric: '60% faster aggregate reporting',
+    slug: 'self-driving-psur',
   },
 ];
 ---
 
 <ContentLayout
   title="Case Studies"
-  description="Real deployments of automation in pharma and medicine management — the wins and the honest limits. From Insilico Medicine to AI pharmacy agents."
+  description="Real deployments of automation in Pharmacovigilance — the wins and the honest limits. From ICSR intake to MedDRA coding."
   eyebrow="03 — In Practice"
-  heading="Real deployments — <em>the wins and the honest limits.</em>"
-  lede="The technology is past the demo stage in several areas. It has also produced cautionary tales worth keeping in view. Both matter."
+  heading="Real PV deployments — <em>the wins and the honest limits.</em>"
+  lede="The technology is past the demo stage in several PV areas. It has also produced cautionary tales worth keeping in view. Both matter."
 >
 
   <section class="cases-section">
     <div class="wrap">
+      
+      <div class="hero-image-container">
+        <video src="/videos/hero-dashboard.mp4" autoplay loop muted playsinline class="hero-image"></video>
+      </div>
 
       <!-- Filter bar -->
       <div class="filter-bar" role="group" aria-label="Filter case studies">
         <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="Discovery">Discovery</button>
+        <button class="filter-btn" data-filter="Intake">Intake</button>
+        <button class="filter-btn" data-filter="Coding">Coding</button>
         <button class="filter-btn" data-filter="Safety">Safety</button>
-        <button class="filter-btn" data-filter="Medicine Mgmt">Medicine Mgmt</button>
         <button class="filter-btn" data-filter="Signal">Signal</button>
+        <button class="filter-btn" data-filter="Aggregate">Aggregate</button>
         <button class="filter-btn" data-filter="Cautionary">Cautionary</button>
       </div>
 
       <div class="cases-grid" id="cases-grid">
         {cases.map((c) => (
-          <article
-            class={`case-card${c.warn ? ' case-warn' : ''}`}
-            data-category={c.category}
-          >
-            <div class="case-org">
-              <span class="case-org-name">{c.org}</span>
-              <span class="case-pill">{c.category}</span>
-            </div>
-            <h2>{c.title}</h2>
-            <p>{c.body}</p>
-            <div class="case-metric">{c.metric}</div>
-          </article>
+          <a href={`/case-studies/${c.slug}`} class="case-card-link" style="text-decoration: none; color: inherit;">
+            <article
+              class={`case-card${c.warn ? ' case-warn' : ''}`}
+              data-category={c.category}
+            >
+              <div class="case-org">
+                <span class="case-org-name">{c.org}</span>
+                <span class="case-pill">{c.category}</span>
+              </div>
+              <h2>{c.title}</h2>
+              <p>{c.body}</p>
+              <div class="case-metric">{c.metric}</div>
+              <div class="read-more">Read full case study →</div>
+            </article>
+          </a>
         ))}
       </div>
 
@@ -113,19 +127,36 @@ const cases = [
 <style>
   .cases-section { padding: 3rem 0 5rem; }
 
+  .hero-image-container {
+    margin-bottom: 3rem;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+  }
+  .hero-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    max-height: 500px;
+  }
+
   .cases-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.4rem;
+    gap: 1.5rem;
     margin-bottom: 2.5rem;
   }
 
   .case-card {
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-md);
-    padding: 1.9rem 1.75rem;
-    background-color: var(--color-surface);
-    transition: transform 240ms ease, box-shadow 240ms ease;
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 2.2rem 2rem;
+    background: color-mix(in srgb, var(--color-surface) 60%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
     position: relative;
     overflow: hidden;
   }
@@ -137,10 +168,10 @@ const cases = [
     background-color: var(--color-accent);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 240ms ease;
+    transition: transform 0.4s ease;
   }
   .case-warn::before { background-color: var(--color-signal); }
-  .case-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); }
+  .case-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); border-color: rgba(241, 236, 224, 0.2); }
   .case-card:hover::before { transform: scaleX(1); }
 
   .case-warn {
@@ -183,6 +214,8 @@ const cases = [
     letter-spacing: -0.01em;
     color: var(--color-text);
   }
+  .case-card:hover h2 { color: #3b82f6; transition: color 0.3s ease; }
+  .case-warn:hover h2 { color: var(--color-signal); }
   .case-card p {
     font-size: 0.93rem;
     color: var(--color-text-2);
@@ -196,6 +229,19 @@ const cases = [
     font-weight: 600;
   }
   .case-warn .case-metric { color: var(--color-signal); }
+
+  .read-more {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    font-weight: 600;
+    transition: color 200ms ease;
+  }
+  .case-warn .read-more { color: var(--color-signal); }
+  .case-card:hover .read-more { text-decoration: underline; }
 
   /* Filter bar */
   .filter-bar {

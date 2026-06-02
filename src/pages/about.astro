@@ -3,74 +3,53 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 
 const coverageAreas = [
   {
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>`,
-    title: 'Drug Discovery & Development',
-    desc: 'AI-assisted target identification, molecular simulation, compound screening, lead optimisation, and preclinical modelling using tools such as AlphaFold, Schrödinger, and transformer-based generative chemistry.',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>`,
+    title: 'Case Intake & Triage',
+    desc: 'Automating the extraction of the four valid ICSR elements from unstructured source documents, emails, and faxes to eliminate manual data entry.',
   },
   {
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
-    title: 'Clinical Trials & Research',
-    desc: 'Adaptive trial design, AI-powered patient recruitment and stratification, protocol deviation detection, real-world evidence synthesis, and clinical data management automation across Phase I–IV trials.',
-  },
-  {
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
-    title: 'Pharmacovigilance & Drug Safety',
-    desc: 'Automated ICSR intake and triage, MedDRA coding assistance, signal detection algorithms, disproportionality analysis, periodic safety report generation, and regulatory submission preparation.',
-  },
-  {
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
-    title: 'Regulatory Affairs & Submissions',
-    desc: 'Intelligent eCTD dossier assembly, AI-assisted clinical study report authoring, label change monitoring, agency query response generation, and post-market surveillance automation.',
-  },
-  {
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M6.34 17.66l-1.41 1.41M2 12h2M20 12h2M17.66 6.34l1.41-1.41M4.93 19.07l1.41-1.41M12 2v2M12 20v2"/></svg>`,
-    title: 'Manufacturing & Quality (GxP)',
-    desc: 'Computer vision for in-process quality inspection, AI-driven CAPA root cause analysis, predictive equipment maintenance, electronic batch record (eBR) automation, and deviation management in GMP environments.',
-  },
-  {
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
-    title: 'Clinical Decision Support',
-    desc: 'LLM-powered drug-drug interaction checking, AI-assisted differential diagnosis, dosing optimisation for special populations, clinical guideline summarisation, and real-time medication reconciliation.',
-  },
-  {
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
-    title: 'Pharmacy Operations & Medicine Management',
-    desc: 'Autonomous medication dispensing systems, AI pharmacist decision support, prescription validation automation, medication therapy management, and intelligent formulary optimisation for health systems.',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"/></svg>`,
+    title: 'Data & Narrative Extraction',
+    desc: 'Using LLMs to pull clinical facts, timelines, and lab results from messy patient narratives, distinguishing primary adverse events from medical history.',
   },
   {
     icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
-    title: 'Supply Chain & Serialisation',
-    desc: 'AI-driven demand forecasting for essential medicines, cold chain anomaly detection, track-and-trace automation, shortage prediction, and multi-tier supplier intelligence for pharmaceutical supply networks.',
+    title: 'MedDRA & WHO-DD Coding',
+    desc: 'Applying semantic reasoning to code verbatim terms against MedDRA dictionaries, drastically reducing the manual burden on medical coders.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+    title: 'Seriousness & Expectedness',
+    desc: 'Cross-referencing core data sheets to determine if events trigger expedited reporting, ensuring 100% compliance with 15-day rules.',
   },
 ];
 
 const principles = [
-  { num: '01', title: 'Clinical Accuracy', desc: 'Every technical claim is grounded in peer-reviewed literature, regulatory guidance documents, or validated industry reports. Where evidence is incomplete, we say so explicitly.' },
-  { num: '02', title: 'Vendor Neutrality', desc: 'Medivora is independent of all technology vendors, consultancies, and pharmaceutical companies. No content is sponsored. No product recommendation reflects a commercial arrangement.' },
-  { num: '03', title: 'Regulatory Fidelity', desc: 'Content reflects the current regulatory frameworks of the FDA, EMA, PMDA, ICH, and WHO. Regulatory references are cited precisely, not paraphrased to suit a narrative.' },
-  { num: '04', title: 'Practitioner Primacy', desc: 'Written for the practitioner, not the regulator or the investor. We prioritise operational clarity — what does this mean for the team implementing it — over theoretical completeness.' },
-  { num: '05', title: 'Transparent Limitations', desc: 'AI in medicine is a field with significant unsolved problems. Medivora does not suppress failure cases, emerging risks, or unresolved debates. The honest picture is the useful one.' },
-  { num: '06', title: 'Living Document', desc: 'Medicine and AI both evolve. Content is reviewed and updated as the evidence base, regulatory landscape, and deployed technology shift. Readers can flag outdated content directly.' },
+  { num: '01', title: 'Clinical Accuracy', desc: 'Every technical claim is grounded in peer-reviewed literature, regulatory guidance documents, or validated industry reports.' },
+  { num: '02', title: 'Vendor Neutrality', desc: 'Medivora is independent of all technology vendors. No product recommendation reflects a commercial arrangement.' },
+  { num: '03', title: 'Regulatory Fidelity', desc: 'Content reflects the current PV frameworks of the FDA, EMA, PMDA, and ICH (e.g., E2B R3, GVP Module VI).' },
+  { num: '04', title: 'Practitioner Primacy', desc: 'Written for the practitioner, not the regulator or the investor. We prioritise operational clarity over theoretical completeness.' },
+  { num: '05', title: 'Transparent Limitations', desc: 'AI in PV has unsolved problems. Medivora does not suppress failure cases, hallucination risks, or unresolved debates.' },
+  { num: '06', title: 'Living Document', desc: 'Content is reviewed and updated as the evidence base, regulatory landscape, and deployed technology shift.' },
 ];
 
 const audience = [
-  { title: 'Pharmaceutical & Biotech Operations', items: ['VP/Director of Digital Innovation', 'Automation Programme Leads', 'IT Architects (Life Sciences)', 'Process Excellence / Lean Teams'] },
-  { title: 'Clinical & Regulatory Professionals', items: ['Clinical Informaticists', 'Regulatory Affairs Directors', 'Pharmacovigilance Officers', 'Clinical Data Managers'] },
-  { title: 'Quality & Manufacturing', items: ['GxP Validation Engineers', 'Quality Systems Managers', 'Manufacturing IT Leads', 'CMO / Contract Manufacturing Teams'] },
-  { title: 'Healthcare & Pharmacy', items: ['Hospital Chief Pharmacy Officers', 'Clinical Decision Support Analysts', 'Health System IT Directors', 'Academic Medical Centre Informaticists'] },
+  { title: 'Drug Safety & PV Operations', items: ['VP/Director of Pharmacovigilance', 'PV Operations Managers', 'Case Processing Leads', 'Safety Systems IT'] },
+  { title: 'Medical & Clinical Safety', items: ['Drug Safety Physicians', 'Medical Reviewers', 'Qualified Persons for PV (QPPV)', 'Clinical Safety Scientists'] },
+  { title: 'Regulatory & Compliance', items: ['Regulatory Affairs Directors', 'PV QA Auditors', 'Compliance Officers', 'Submission Strategists'] },
+  { title: 'Data Management', items: ['Medical Coders', 'Safety Database Administrators', 'Clinical Data Managers'] },
 ];
 
 const roadmap = [
-  { phase: 'Current', label: 'Free Access', desc: 'All foundational content, value chain guides, case studies, glossary, and decision tools — freely accessible to every practitioner.', status: 'live' },
-  { phase: 'Q3 2025', label: 'Premium Modules', desc: 'In-depth technical implementation guides, validation frameworks, and regulatory compliance checklists for specific automation use cases.', status: 'soon' },
-  { phase: 'Q4 2025', label: 'Interactive Learning', desc: 'Structured reading pathways with assessment tools for professional development in pharma automation — CPD/CME aligned.', status: 'planned' },
-  { phase: '2026', label: 'Institutional Licences', desc: 'Enterprise access for pharmaceutical companies, health systems, and academic institutions including team dashboards and custom content tracks.', status: 'planned' },
+  { phase: 'Current', label: 'PV Frameworks', desc: 'All foundational content, the safety pipeline guides, and PV agent blueprints — freely accessible.', status: 'live' },
+  { phase: 'Q3 2026', label: 'Signal Detection', desc: 'Expanding coverage to proactive signal detection across EHR, literature, and real-world evidence.', status: 'soon' },
+  { phase: '2027', label: 'Aggregate Reporting', desc: 'Guides for automating PSUR, PBRER, and DSUR drafting using generative agent architectures.', status: 'planned' },
 ];
 ---
 
 <BaseLayout
   title="About Medivora"
-  description="Medivora is an independent clinical intelligence platform providing evidence-based analysis of AI and automation across pharmaceutical development, clinical medicine, and pharmacy operations."
+  description="Medivora is an independent intelligence platform providing evidence-based analysis of Agentic AI in Pharmacovigilance and Drug Safety."
 >
 
   <!-- ── Publication Masthead ── -->
@@ -78,32 +57,32 @@ const roadmap = [
     <div class="wrap">
       <div class="masthead-inner">
         <div class="masthead-identity">
-          <span class="pub-tag">Independent Clinical Intelligence Platform</span>
+          <span class="pub-tag">Independent PV Intelligence Platform</span>
           <h1>About <em>Medivora</em></h1>
           <p class="masthead-mission">
             A peer-informed, editorially independent reference for practitioners navigating
-            the application of artificial intelligence and automation across pharmaceutical
-            development, clinical medicine, and pharmacy operations.
+            the application of artificial intelligence and automation in Pharmacovigilance
+            and the ICSR lifecycle.
           </p>
           <div class="masthead-meta">
             <div class="meta-item">
-              <span class="meta-label">Coverage</span>
-              <span class="meta-val">Medicine · Pharma · Pharmacy · Clinical AI</span>
+               <span class="meta-label">Coverage</span>
+               <span class="meta-val">Pharmacovigilance · Drug Safety · AI Case Processing</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">Audience</span>
-              <span class="meta-val">Practitioners, clinical informaticists, regulatory professionals</span>
+              <span class="meta-val">Drug Safety Physicians, PV Operations, QPPVs</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">Access</span>
-              <span class="meta-val">Free foundational content · Premium modules (forthcoming)</span>
+              <span class="meta-val">Free foundational content & open blueprints</span>
             </div>
           </div>
         </div>
         <div class="masthead-card">
-          <div class="mc-stat"><span class="mcs-n">8</span><span class="mcs-l">Core clinical domains covered</span></div>
-          <div class="mc-stat"><span class="mcs-n">45+</span><span class="mcs-l">Glossary terms defined</span></div>
-          <div class="mc-stat"><span class="mcs-n">7</span><span class="mcs-l">Value chain stages mapped</span></div>
+          <div class="mc-stat"><span class="mcs-n">7</span><span class="mcs-l">ICSR lifecycle stages mapped</span></div>
+          <div class="mc-stat"><span class="mcs-n">6</span><span class="mcs-l">PV specialist agents detailed</span></div>
+          <div class="mc-stat"><span class="mcs-n">10+</span><span class="mcs-l">Regulatory frameworks covered</span></div>
           <div class="mc-stat"><span class="mcs-n">0</span><span class="mcs-l">Vendor relationships. Zero.</span></div>
         </div>
       </div>
@@ -117,20 +96,18 @@ const roadmap = [
         <span class="eyebrow">Editorial Mission</span>
         <h2>The gap this publication fills</h2>
         <p>
-          The application of AI to medicine and pharmacy is advancing faster than the practitioner
+          The application of AI to pharmacovigilance is advancing faster than the practitioner
           literature that should explain it. Vendor documentation describes products. Academic papers
           describe experiments. Neither reliably answers the operational question that matters most
-          to the professional in the field: <em>what does this actually mean for how we work?</em>
+          to the professional in the field: <em>what does this actually mean for how we process safety cases?</em>
         </p>
         <p>
           Medivora occupies the space between those two bodies of literature. It translates
           clinical AI research and regulatory frameworks into operational knowledge — grounded
-          in the specific contexts of drug development, clinical care delivery, and medicine
-          management — for the practitioners and decision-makers who implement these systems.
+          in the specific contexts of ICH E2B, MedDRA coding, and expedited reporting — for the practitioners and decision-makers who implement these systems.
         </p>
         <p>
-          This is not an advocacy publication. We do not promote the rapid adoption of AI in
-          clinical settings. We provide the accurate technical and contextual knowledge that
+          This is not an advocacy publication. We do not promote the rapid adoption of AI without rigorous validation. We provide the accurate technical and contextual knowledge that
           enables informed, evidence-based decisions about when adoption is appropriate,
           what it requires, and what it risks.
         </p>
@@ -148,6 +125,7 @@ const roadmap = [
             <span>Sponsored articles or "native advertising"</span>
           </div>
           <div class="ib-row">
+            <span class="ib-row">
             <span class="ib-no">✗</span>
             <span>Product recommendations for commercial consideration</span>
           </div>
@@ -159,15 +137,6 @@ const roadmap = [
             <span class="ib-no">✗</span>
             <span>Consulting relationships with profiled organisations</span>
           </div>
-          <div class="ib-divider"></div>
-          <div class="ib-row">
-            <span class="ib-yes">✓</span>
-            <span>Revenue from direct reader access (Premium Modules)</span>
-          </div>
-          <div class="ib-row">
-            <span class="ib-yes">✓</span>
-            <span>Institutional subscription licences (forthcoming)</span>
-          </div>
         </div>
       </div>
     </div>
@@ -178,12 +147,9 @@ const roadmap = [
     <div class="wrap">
       <div class="coverage-head">
         <span class="eyebrow">Scope of Coverage</span>
-        <h2>Eight clinical and operational domains</h2>
+        <h2>The Pharmacovigilance AI Landscape</h2>
         <p class="coverage-sub">
-          Medivora covers the application of AI and automation across the full pharmaceutical
-          and clinical medicine value chain — from molecule to medicine management.
-          Coverage is limited to these domains. Adjacent topics in general digital health,
-          medical devices, or consumer health technology are outside scope.
+          Medivora is focused exclusively on the application of agentic automation within Pharmacovigilance. We dissect the ICSR lifecycle step-by-step to understand where AI works today, and where it falls short.
         </p>
       </div>
       <div class="coverage-grid">
@@ -225,10 +191,8 @@ const roadmap = [
       <span class="eyebrow">Intended Readership</span>
       <h2>Written for practitioners, not for the general public</h2>
       <p class="aud-intro">
-        Content assumes familiarity with pharmaceutical development processes or clinical healthcare
-        environments. It does not require technical AI expertise — that is what the guide provides.
-        It does require operational context: an understanding of what GxP means in practice,
-        what a regulatory submission involves, or what a clinical pharmacy service does.
+        Content assumes familiarity with pharmacovigilance processes and safety databases. It does not require technical AI expertise — that is what the guide provides.
+        It does require operational context: an understanding of what MedDRA coding is, what expectedness means, and why expedited reporting matters.
       </p>
       <div class="audience-grid">
         {audience.map(group => (
@@ -249,12 +213,9 @@ const roadmap = [
   <section class="roadmap-section">
     <div class="wrap">
       <span class="eyebrow">Access & Development Roadmap</span>
-      <h2>From open reference to professional learning platform</h2>
+      <h2>Where we are heading</h2>
       <p class="roadmap-intro">
-        Medivora is designed to evolve into a full professional development platform for clinical
-        AI literacy. The foundational reference content will remain free. Structured learning
-        modules, implementation guides, and institutional resources will be available through
-        direct reader access.
+        We are starting with the core ICSR processing pipeline. In the future, we will expand our technical coverage into complex PV workflows like aggregate reporting and signal detection.
       </p>
       <div class="roadmap-track">
         {roadmap.map((item, i) => (
@@ -281,15 +242,14 @@ const roadmap = [
     <div class="wrap contact-inner">
       <div class="contact-text">
         <span class="eyebrow">Corrections & Contributions</span>
-        <h2>Clinical knowledge is a collaborative project</h2>
+        <h2>PV knowledge is a collaborative project</h2>
         <p>
           If you identify an error — factual, regulatory, or technical — we want to know immediately.
-          If you are a practitioner with direct operational experience in one of our coverage areas
+          If you are a practitioner with direct operational experience in drug safety
           and are willing to review content for accuracy, we are interested in hearing from you.
-          If you believe an important use case or clinical context is missing, make the case.
         </p>
         <p>
-          Medivora's credibility depends on getting the clinical details right. Reader challenge
+          Medivora's credibility depends on getting the PV details right. Reader challenge
           is part of the editorial process, not an exception to it.
         </p>
         <div class="contact-actions">
@@ -305,10 +265,6 @@ const roadmap = [
           or regulatory counsel for any specific situation. Practitioners should apply
           professional judgement and consult applicable regulatory authorities before
           implementing any automated system in a clinical or GxP environment.
-        </p>
-        <p>
-          The depiction of any specific technology, tool, or organisation does not imply
-          endorsement of its safety, efficacy, or regulatory compliance for any particular use.
         </p>
       </div>
     </div>

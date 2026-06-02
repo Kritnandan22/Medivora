@@ -1,0 +1,161 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Case Study: The Hallucination Risk — Medivora"
+  description="A cautionary tale of using zero-shot generative AI for drafting patient safety narratives."
+>
+  <article class="case-study-page">
+    <header class="cs-hero case-warn-header">
+      <div class="wrap">
+        <a href="/case-studies" class="back-link">← All Case Studies</a>
+        <div class="cs-meta">
+          <span class="cs-pill pill-warn">Cautionary</span>
+          <span class="cs-org">Mid-size CRO</span>
+        </div>
+        <h1>The Hallucination Risk in Narratives</h1>
+        <p class="cs-lede">A cautionary tale on deploying off-the-shelf generative AI without strict semantic grounding and explicit source-text linking.</p>
+
+        <div class="cinematic-image-wrapper">
+          <img src="/images/pv_cs_hallucination.png" alt="Realistic photograph of a glowing red server rack" class="cinematic-img">
+        </div>
+      </div>
+    </header>
+
+    <div class="wrap cs-content">
+      <div class="cs-main">
+        <h2>The Temptation of Zero-Shot Generation</h2>
+        <p>
+          Writing patient narratives for serious adverse events (SAEs) is one of the most time-consuming tasks for medical writers. Seeking to cut costs, a mid-size Clinical Research Organization (CRO) deployed a popular, off-the-shelf generative AI model to draft narratives directly from raw source documents and investigator notes.
+        </p>
+
+        <h2>The Point of Failure</h2>
+        <p>
+          The implementation used "zero-shot" prompting—simply feeding the model the source text and asking for a summary—without strict structural guardrails or grounding mechanisms. During a routine Quality Assurance (QA) audit, a critical error was discovered:
+        </p>
+        <ul>
+          <li><strong>The Hallucination:</strong> The AI model drafted a narrative stating that a patient's serious cardiac event had "resolved," despite the source documents clearly indicating the event was "ongoing."</li>
+          <li><strong>The Cause:</strong> Generative models are probabilistic. The model had seen thousands of training examples where events resolve, and in the absence of explicit, grounded constraints, it statistically guessed a positive outcome.</li>
+        </ul>
+
+        <h2>The Regulatory Fallout</h2>
+        <p>
+          Submitting a narrative with an incorrect outcome for a serious, unexpected adverse event is a major compliance violation (e.g., under FDA 21 CFR 312.32 or EMA GVP Module VI). The CRO failed the internal audit, was forced to manually re-review hundreds of AI-generated narratives, and halted the automation program.
+        </p>
+
+        <h2>The Medivora Solution: Grounded Guardrails</h2>
+        <p>
+          This case underscores why generic AI is unsuitable for Pharmacovigilance. Medivora prevents hallucinations through:
+        </p>
+        <ul>
+          <li><strong>Strict Extraction vs. Generation:</strong> Using AI to extract explicit values (e.g., Outcome = "Ongoing") into structured JSON *before* any text is generated.</li>
+          <li><strong>Traceability Links:</strong> Every drafted sentence must programmatically cite the exact line in the source document. If it cannot cite it, it cannot write it.</li>
+          <li><strong>Deterministic Validation:</strong> Rule engines check the final narrative against the extracted JSON to ensure absolute parity before a human reviewer even sees the draft.</li>
+        </ul>
+      </div>
+
+      <aside class="cs-sidebar">
+        <div class="metrics-card card-warn">
+          <h4>The Impact</h4>
+          <div class="metric">
+            <span class="m-val warn-val">Failed</span>
+            <span class="m-lbl">QA Audit</span>
+          </div>
+          <div class="metric">
+            <span class="m-val warn-val">100%</span>
+            <span class="m-lbl">Manual Re-review Required</span>
+          </div>
+          <div class="metric">
+            <span class="m-val warn-val">0</span>
+            <span class="m-lbl">Traceability in generic AI</span>
+          </div>
+        </div>
+
+        <div class="sources-card">
+          <h4>References &amp; Standards</h4>
+          <ul>
+            <li>
+              <a href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/artificial-intelligence-and-machine-learning-aiml-software-medical-device-action-plan" target="_blank" rel="noopener">FDA Guidance on AI/ML Software</a>
+            </li>
+            <li>
+              <a href="https://www.ema.europa.eu/en/human-regulatory/post-authorisation/pharmacovigilance/good-pharmacovigilance-practices" target="_blank" rel="noopener">EMA Good Pharmacovigilance Practices (GVP)</a>
+            </li>
+            <li>
+              <span>Industry Whitepapers on AI Hallucinations in Healthcare</span>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  /* Same CSS as literature-intake.astro */
+  .case-study-page { background: var(--color-bg); padding-bottom: 5rem; }
+  
+  .cs-hero { background: var(--color-surface); padding: 4rem 0; border-bottom: 1px solid var(--color-line); margin-bottom: 3rem; }
+  .case-warn-header { border-bottom-color: rgba(220, 38, 38, 0.2); }
+  
+  .back-link { display: inline-block; font-size: 0.85rem; color: var(--color-text-soft); text-decoration: none; margin-bottom: 2rem; transition: color 200ms ease; }
+  .back-link:hover { color: var(--color-accent); }
+  
+  .cs-meta { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+  .cs-pill { background: rgba(28,201,163,0.1); color: #1cc9a3; padding: 4px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-mono); }
+  .pill-warn { background: rgba(220, 38, 38, 0.1); color: #ef4444; }
+  .cs-org { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-text-soft); letter-spacing: 0.05em; }
+  
+  .cs-hero h1 { font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.2; color: var(--color-text); margin-bottom: 1rem; }
+  .cs-lede { font-size: 1.15rem; color: var(--color-text-2); max-width: 45em; line-height: 1.6; margin-bottom: 2rem; }
+
+  /* ── Cinematic Images ── */
+  .cinematic-image-wrapper {
+    margin: 0 auto 3rem;
+    max-width: 100%;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+  .cinematic-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    object-position: center 50%;
+    display: block;
+    transition: transform 0.8s ease;
+  }
+  .cinematic-image-wrapper:hover .cinematic-img {
+    transform: scale(1.02);
+  }
+  
+  .cs-content { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
+  @media (max-width: 800px) { .cs-content { grid-template-columns: 1fr; gap: 3rem; } }
+  
+  .cs-main h2 { font-family: var(--font-serif); font-size: 1.8rem; color: var(--color-text); margin-top: 2.5rem; margin-bottom: 1rem; }
+  .cs-main h2:first-child { margin-top: 0; }
+  .cs-main p { font-size: 1.05rem; line-height: 1.7; color: var(--color-text-2); margin-bottom: 1.5rem; }
+  .cs-main ul { font-size: 1.05rem; line-height: 1.7; color: var(--color-text-2); margin-bottom: 1.5rem; padding-left: 1.5rem; }
+  .cs-main li { margin-bottom: 0.5rem; }
+  .cs-main strong { color: var(--color-text); }
+  
+  .metrics-card, .sources-card { background: var(--color-surface); border: 1px solid var(--color-line); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
+  .card-warn { border-color: rgba(220, 38, 38, 0.3); }
+  .metrics-card h4, .sources-card h4 { font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text); margin-bottom: 1.5rem; border-bottom: 1px solid var(--color-line); padding-bottom: 0.5rem; }
+  .card-warn h4 { border-bottom-color: rgba(220, 38, 38, 0.2); color: #ef4444; }
+  
+  .metric { margin-bottom: 1.2rem; }
+  .metric:last-child { margin-bottom: 0; }
+  .m-val { display: block; font-family: var(--font-mono); font-size: 1.8rem; font-weight: 700; color: #1cc9a3; line-height: 1.2; }
+  .warn-val { color: #ef4444; }
+  .m-lbl { display: block; font-size: 0.85rem; color: var(--color-text-soft); }
+  
+  .sources-card ul { list-style: none; padding: 0; margin: 0; }
+  .sources-card li { margin-bottom: 1rem; font-size: 0.85rem; line-height: 1.5; }
+  .sources-card li:last-child { margin-bottom: 0; }
+  .sources-card a { color: var(--color-accent); text-decoration: none; transition: color 200ms ease; }
+  .sources-card a:hover { color: color-mix(in srgb, var(--color-accent) 80%, white); text-decoration: underline; }
+  .sources-card span { color: var(--color-text-2); }
+</style>

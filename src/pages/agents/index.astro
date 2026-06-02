@@ -2,437 +2,130 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 
 const priorityDomains = [
-  { key: 'regulatory', label: 'Regulatory Affairs', color: '#1cc9a3', agents: 2 },
-  { key: 'pharmacovigilance', label: 'Pharmacovigilance', color: '#e8a838', agents: 3 },
-  { key: 'medical-writing', label: 'Medical Writing', color: '#6c8ef5', agents: 1 },
-  { key: 'literature', label: 'Literature Review', color: '#e05c8a', agents: 2 },
-  { key: 'clinical', label: 'Clinical Research', color: '#52c4a0', agents: 2 },
+  { key: 'pharmacovigilance', label: 'Pharmacovigilance', color: '#e8a838', agents: 6 }
 ];
 
 const agents = [
-  // ── PHASE 1: PRIORITY FOCUS ──────────────────────────────────────────────
   {
     id: 1,
-    slug: 'regulatory-intelligence',
-    name: 'Regulatory Intelligence Agent',
-    domain: 'Regulatory Affairs',
-    domainKey: 'regulatory',
+    slug: 'intake-triage',
+    name: 'Intake & Triage Agent',
+    domain: 'Pharmacovigilance',
+    domainKey: 'pharmacovigilance',
     phase: 'Phase 1 · Priority',
     priority: true,
-    tagline: 'Continuous multi-agency monitoring, synthesised into actionable intelligence.',
-    description: 'Continuously monitors global regulatory agencies — FDA, EMA, PMDA, CDSCO, ANVISA, TGA — and synthesises new guidance documents, safety communications, labelling changes, and approval decisions relevant to a company\'s specific products and pipeline. Eliminates manual tracking across 15+ regulatory websites.',
+    tagline: 'Automated extraction of valid ICSR elements from unstructured source documents.',
+    description: 'Reads unstructured emails, abstracts, and faxes to extract Patient, Reporter, Suspect Drug, and Adverse Event. Validates E2B(R3) criteria and auto-creates the case in Argus or ArisG.',
     capabilities: [
-      'Real-time FDA/EMA guidance ingestion and impact scoring',
-      'Regulatory pathway selection analysis (NDA/BLA/505(b)(2)/MAA)',
-      'Competitive intelligence: approved products, label changes, REMS updates',
-      'Dossier gap analysis against current agency expectations',
+      'Multi-modal intake (email, PDF, image OCR)',
+      'Validity criteria assessment (4 minimum criteria)',
+      'Automated E2B(R3) XML payload generation',
     ],
-    valueMetric: '60–70%',
-    valueLabel: 'reduction in regulatory intelligence workload',
-    standards: ['ICH Q8–Q12', '21 CFR Parts 210/211/314', 'EMA CHMP guidelines', 'ISO 14971'],
-    dataConnections: ['FDA Dockets', 'EMA Document Library', 'PMDA DB', 'Health Canada HPFB'],
+    valueMetric: '30%',
+    valueLabel: 'reduction in manual case entry time',
+    standards: ['ICH E2B(R3)', '21 CFR Part 11', 'EMA GVP Module VI'],
+    dataConnections: ['Exchange/Outlook', 'Veeva Vault Safety', 'Oracle Argus'],
   },
   {
     id: 2,
-    slug: 'pharmacovigilance-case-processing',
-    name: 'Pharmacovigilance Case Processing Agent',
+    slug: 'meddra-coding',
+    name: 'MedDRA Coding Agent',
     domain: 'Pharmacovigilance',
     domainKey: 'pharmacovigilance',
     phase: 'Phase 1 · Priority',
     priority: true,
-    tagline: 'End-to-end ICSR processing from intake to MedDRA-coded output in minutes.',
-    description: 'Automates intake, triage, duplicate detection, MedDRA coding, seriousness assessment, causality evaluation, and E2B R3 XML generation for Individual Case Safety Reports (ICSRs) from spontaneous reports, literature, and clinical trials. Operates across ICH E2B R3 and regional requirements.',
+    tagline: 'Semantic matching of verbatim clinical terms to MedDRA LLTs and WHO-DD.',
+    description: 'Goes beyond exact dictionary string-matching. Uses semantic understanding of clinical context to suggest the most statistically probable MedDRA Lowest Level Terms (LLTs) for adverse events and indications.',
     capabilities: [
-      'Automated ICSR intake from web portals, email, and call-centre transcripts',
-      'MedDRA 27.0+ auto-coding with human-review flagging at < 85% confidence',
-      'E2B R3 XML generation for EudraVigilance and FDA FAERS submission',
-      'Duplicate detection using probabilistic matching across case databases',
+      'Context-aware semantic matching',
+      'Confidence scoring and human-in-the-loop flagging',
+      'Automated WHO-DD drug coding',
     ],
-    valueMetric: '4h → 12min',
-    valueLabel: 'average case processing time',
-    standards: ['ICH E2A/E2B R3/E2D', 'EMA GVP Module VI', 'FDA 21 CFR 314.81', 'MedDRA 27.0'],
-    dataConnections: ['EudraVigilance', 'FDA FAERS', 'WHO VigiBase', 'LSMV (SafetyDB)'],
+    valueMetric: '85%+',
+    valueLabel: 'first-pass automated coding rate',
+    standards: ['MedDRA 27.0+', 'WHO-DD'],
+    dataConnections: ['MedDRA Browser API', 'Safety Database'],
   },
   {
     id: 3,
-    slug: 'medical-writing',
-    name: 'Medical Writing Agent',
-    domain: 'Medical Writing',
-    domainKey: 'medical-writing',
+    slug: 'medical-review',
+    name: 'Final Medical Review Copilot',
+    domain: 'Pharmacovigilance',
+    domainKey: 'pharmacovigilance',
     phase: 'Phase 1 · Priority',
     priority: true,
-    tagline: 'First-draft regulatory documents from structured clinical data in hours, not weeks.',
-    description: 'Generates first drafts of Clinical Study Reports (CSRs), Investigator Brochures (IBs), patient narratives, Periodic Safety Update Reports (PSURs), and Module 2 CTD summaries directly from CDISC-structured clinical trial data and analysis datasets. Embeds table and figure shells from ADaM outputs.',
+    tagline: 'AI reasoning assistant for the human QPPV or medical reviewer.',
+    description: 'Acts as a copilot for the final human review step. Highlights areas of low confidence, provides reasoning traces for algorithmic decisions, and performs CIOMS consistency checks before ESG gateway submission.',
     capabilities: [
-      'CSR drafting per ICH E3 — automatically populating from SDTM/ADaM datasets',
-      'Patient narrative generation for adverse events and protocol deviations',
-      'PSUR/PBRER and Development Safety Update Report (DSUR) drafting',
-      'Module 2 Clinical Summary and Clinical Overview generation',
+      'Reasoning traceability (explainable AI traces)',
+      'Cross-field E2B consistency checking',
+      'Automated query generation for missing information',
     ],
-    valueMetric: '70%',
-    valueLabel: 'reduction in first-draft production time',
-    standards: ['ICH E3', 'ICH E6(R3)', 'ICH E2C', 'CDISC SDTM 3.4', 'ADaM 2.1'],
-    dataConnections: ['Veeva Vault', 'CDISC ODM', 'SAS datasets', 'Microsoft Word COM'],
+    valueMetric: '0',
+    valueLabel: 'black-box decisions',
+    standards: ['21 CFR Part 11', 'ICH E2D'],
+    dataConnections: ['Safety Database', 'FDA ESG', 'EMA EudraVigilance'],
   },
   {
     id: 4,
-    slug: 'literature-review',
-    name: 'Literature Review Agent',
-    domain: 'Literature Review',
-    domainKey: 'literature',
+    slug: 'aggregate-reporting',
+    name: 'Aggregate Reporting Agent',
+    domain: 'Pharmacovigilance',
+    domainKey: 'pharmacovigilance',
     phase: 'Phase 1 · Priority',
     priority: true,
-    tagline: 'Systematic evidence synthesis at scale — PRISMA-compliant, GRADE-graded.',
-    description: 'Executes full systematic literature reviews and focused evidence searches across PubMed, Embase, MEDLINE, Cochrane CENTRAL, and grey literature repositories. Implements PRISMA 2020 methodology: title/abstract screening, full-text extraction, GRADE quality assessment, and structured evidence table generation.',
+    tagline: 'Automated synthesis of line listings for PSURs, DSURs, and PBRERs.',
+    description: 'Queries the safety database to compile complex line listings and automatically drafts the highly structured narrative summaries required for periodic safety update reports.',
     capabilities: [
-      'Multi-database search with PICO-structured queries and deduplication',
-      'Title/abstract and full-text screening with PRISMA flow diagram generation',
-      'GRADE evidence quality assessment for all included studies',
-      'Automated benefit-risk evidence tables for regulatory submissions',
+      'Complex SQL/API querying of safety databases',
+      'Generative drafting of PSUR/DSUR sections',
+      'Signal detection denominator calculation',
     ],
-    valueMetric: '120h → 8h',
-    valueLabel: 'per systematic review cycle',
-    standards: ['PRISMA 2020', 'GRADE methodology', 'Cochrane Handbook 6.3', 'ICH E1/E4'],
-    dataConnections: ['PubMed E-utilities', 'Embase API', 'Cochrane CENTRAL', 'TRIP Database'],
+    valueMetric: '40',
+    valueLabel: 'hours saved per PSUR generation',
+    standards: ['ICH E2C(R2)', 'GVP Module VII'],
+    dataConnections: ['Argus Data Mart', 'Document Management System'],
   },
   {
     id: 5,
-    slug: 'clinical-trial-recruitment',
-    name: 'Clinical Trial Recruitment Agent',
-    domain: 'Clinical Research',
-    domainKey: 'clinical',
+    slug: 'literature-monitoring',
+    name: 'Literature Monitoring Agent',
+    domain: 'Pharmacovigilance',
+    domainKey: 'pharmacovigilance',
     phase: 'Phase 1 · Priority',
     priority: true,
-    tagline: 'Match eligible patients to open trials in real time — at scale, with privacy.',
-    description: 'Screens EHR data, patient registries, and referral networks against clinical trial inclusion/exclusion criteria in real time, generating ranked eligibility scores and site recruitment performance reports. Integrates ICD-10, SNOMED CT, LOINC, and RxNorm for computable eligibility criteria.',
+    tagline: 'Continuous, autonomous surveillance of global scientific literature.',
+    description: 'Scrapes PubMed, Embase, and local literature daily to identify potential adverse events associated with company products, filtering out false positives and translating abstracts autonomously.',
     capabilities: [
-      'Protocol eligibility parsing into computable ICD-10/SNOMED criteria',
-      'Privacy-preserving EHR screening using federated query techniques',
-      'Site-level recruitment performance analytics and bottleneck detection',
-      'Automated pre-screen letters and feasibility assessment reports',
+      'Autonomous daily scraping (PubMed, Embase, Ovid)',
+      'Zero-shot classification for ICSR detection',
+      'Automated translation of foreign-language abstracts',
     ],
-    valueMetric: '30–45%',
-    valueLabel: 'increase in recruitment rates',
-    standards: ['ICH E6(R3) GCP', 'HL7 FHIR R4', 'CDISC Protocol Representation Model', '21 CFR 50/56'],
-    dataConnections: ['ClinicalTrials.gov API', 'HL7 FHIR endpoints', 'CTMS systems', 'REDCap'],
+    valueMetric: '95%',
+    valueLabel: 'reduction in manual literature screening',
+    standards: ['GVP Module VI', 'EMA MLM'],
+    dataConnections: ['PubMed API', 'Ovid API', 'Embase'],
   },
-
-  // ── PHASE 2+: DEVELOPMENT ROADMAP ────────────────────────────────────────
   {
     id: 6,
-    slug: 'adverse-event-detection',
-    name: 'Adverse Event Detection Agent',
+    slug: 'regulatory-intelligence',
+    name: 'Regulatory Intelligence Agent',
     domain: 'Pharmacovigilance',
     domainKey: 'pharmacovigilance',
-    phase: 'Roadmap · Phase 2',
-    priority: false,
-    tagline: 'Proactive signal detection across EHR, literature, and social sources.',
-    description: 'Continuously scans EHR systems, scientific literature, social media platforms, and regulatory databases for emerging drug safety signals, applying disproportionality analysis, Bayesian data mining, and clinical expert-weighted scoring to prioritise signals for medical review.',
+    phase: 'Phase 1 · Priority',
+    priority: true,
+    tagline: 'Real-time monitoring of global health authority guidelines and mandates.',
+    description: 'Continuously monitors global regulatory bodies (FDA, EMA, PMDA, MHRA) for updates to pharmacovigilance guidelines, automatically summarizing changes and assessing operational impact.',
     capabilities: [
-      'Multi-source signal detection: FAERS + EHR + literature + social media',
-      'Disproportionality analysis (PRR, ROR, EBGM) with automated flagging',
-      'CIOMS VI-compliant signal evaluation reports',
-      'Integrated signal tracking from detection through closure',
+      'Multi-lingual health authority scraping',
+      'Regulatory impact assessment drafting',
+      'Automated compliance alerts to QPPVs',
     ],
-    valueMetric: '3–5 months',
-    valueLabel: 'earlier signal detection vs traditional methods',
-    standards: ['ICH E2E', 'CIOMS VI', 'EMA GVP Module IX', 'WHO Signal Criteria'],
-    dataConnections: ['WHO VigiBase', 'FDA FAERS', 'EudraVigilance', 'PubMed', 'Twitter/X API'],
-  },
-  {
-    id: 7,
-    slug: 'regulatory-submission',
-    name: 'Regulatory Submission Agent',
-    domain: 'Regulatory Affairs',
-    domainKey: 'regulatory',
-    phase: 'Roadmap · Phase 2',
-    priority: false,
-    tagline: 'eCTD assembly, validation, and gap-checking — submission-ready in days.',
-    description: 'Assembles, validates, and formats complete eCTD submission packages by orchestrating documents from the DMS, cross-checking against published agency dossier requirements, running eCTD technical validation, and generating submission-ready packages for FDA, EMA, PMDA, and Health Canada.',
-    capabilities: [
-      'eCTD 3.2.2 and eCTD 4.0 compliant package assembly',
-      'Automated dossier gap analysis against agency-specific Module requirements',
-      'Technical validation using FDA eCTD Validation Criteria v6.2',
-      'Multi-agency formatting for NDA/MAA/JNDA simultaneous submissions',
-    ],
-    valueMetric: '50%',
-    valueLabel: 'reduction in submission assembly time',
-    standards: ['eCTD 3.2.2 / 4.0', 'FDA ERG v6.2', 'EMA eCTD Guidance', 'ICH M8'],
-    dataConnections: ['Veeva Vault RIM', 'IDMP Repository', 'FDA ESG', 'EMA CESP'],
-  },
-  {
-    id: 8,
-    slug: 'scientific-research',
-    name: 'Scientific Research Agent',
-    domain: 'Literature Review',
-    domainKey: 'literature',
-    phase: 'Roadmap · Phase 2',
-    priority: false,
-    tagline: 'Pipeline intelligence from conferences, preprints, and journal publications — automated.',
-    description: 'Monitors scientific conferences (ASH, ASCO, ADA, ERS, ACC), preprint servers (bioRxiv, medRxiv, SSRN), and 50,000+ journals to synthesise emerging findings relevant to the research pipeline, generating competitive intelligence reports and research gap analyses.',
-    capabilities: [
-      'Conference abstract screening for pipeline-relevant findings (ASCO, ASH, ERS, ACC)',
-      'Preprint and journal monitoring with relevance scoring against target profiles',
-      'Citation network analysis to identify emerging opinion leaders',
-      'Research gap identification for IND-enabling and late-stage programmes',
-    ],
-    valueMetric: '10×',
-    valueLabel: 'more scientific sources covered vs manual monitoring',
-    standards: ['PRISMA-ScR (scoping)', 'QUOROM', 'MOOSE', 'ISSG Search Filter Resource'],
-    dataConnections: ['PubMed API', 'bioRxiv/medRxiv', 'Semantic Scholar', 'CrossRef', 'arXiv'],
-  },
-  {
-    id: 9,
-    slug: 'clinical-documentation',
-    name: 'Clinical Documentation Agent',
-    domain: 'Clinical Research',
-    domainKey: 'clinical',
-    phase: 'Roadmap · Phase 2',
-    priority: false,
-    tagline: 'ICH E6(R3) compliant trial documentation — complete, traceable, audit-ready.',
-    description: 'Captures, structures, validates, and archives clinical trial documentation — protocols, amendments, informed consent forms, monitoring reports, and site files — against the ICH E6(R3) GCP requirements and eTMF Reference Model, ensuring real-time completeness and audit readiness.',
-    capabilities: [
-      'Protocol and amendment version control with change-tracking summaries',
-      'eTMF completeness checking against Trial Master File Reference Model v3',
-      'Consent form management: version tracking, site distribution, patient log',
-      'Protocol deviation classification and impact assessment (minor/major)',
-    ],
-    valueMetric: '60%',
-    valueLabel: 'reduction in site file error rates',
-    standards: ['ICH E6(R3)', 'eTMF Reference Model v3', '21 CFR 312', 'EMA GCP Directive 2005/28/EC'],
-    dataConnections: ['Veeva Vault eTMF', 'Medidata Rave', 'Oracle Siebel CTMS', 'REDCap'],
-  },
-  {
-    id: 10,
-    slug: 'medical-coding',
-    name: 'Medical Coding Agent',
-    domain: 'Pharmacovigilance',
-    domainKey: 'pharmacovigilance',
-    phase: 'Roadmap · Phase 2',
-    priority: false,
-    tagline: 'Verbatim-to-MedDRA and WHO-DD coding with 94%+ first-pass accuracy.',
-    description: 'Automates verbatim-to-MedDRA coding for adverse events, medical history, and procedures, and WHO-DD coding for concomitant medications across clinical trial and post-marketing datasets. Generates query lists for terms requiring coder review below the confidence threshold.',
-    capabilities: [
-      'Adverse event verbatim auto-coding to MedDRA PT/LLT/HLT',
-      'Concomitant medication coding to WHO Drug Dictionary Global',
-      'Automated coding query generation for < 90% confidence matches',
-      'Coding consistency audit across study datasets',
-    ],
-    valueMetric: '75%',
-    valueLabel: 'reduction in manual coding time',
-    standards: ['MedDRA 27.0', 'WHO-DD Global March 2024', 'ICH E2B R3', 'CDISC CDASH 2.1'],
-    dataConnections: ['MedDRA Browser API', 'WHO-DD FTP', 'Oracle Argus', 'Medidata Rave'],
-  },
-  {
-    id: 11,
-    slug: 'sop-compliance',
-    name: 'SOP Compliance Agent',
-    domain: 'Quality Management',
-    domainKey: 'quality',
-    phase: 'Roadmap · Phase 2',
-    priority: false,
-    tagline: 'Continuous GxP compliance monitoring across lab, manufacturing, and clinical ops.',
-    description: 'Monitors adherence to SOPs, work instructions, and GxP regulatory requirements across laboratory, manufacturing, and clinical operations by analysing process records, deviation logs, training records, and audit findings to identify compliance gaps proactively.',
-    capabilities: [
-      'Deviation detection against SOP requirements using document analysis',
-      'Training gap identification linked to assigned SOPs and GxP roles',
-      'CAPA tracking from initiation through effectiveness verification',
-      'Audit-readiness scoring dashboard by department and functional area',
-    ],
-    valueMetric: '50%',
-    valueLabel: 'reduction in audit preparation time',
-    standards: ['21 CFR Part 11', 'EMA Annex 11', 'ICH Q10', 'ISO 13485', 'GxP Guidelines'],
-    dataConnections: ['MasterControl QMS', 'Veeva QualityDocs', 'TrackWise', 'EtQ Reliance'],
-  },
-  {
-    id: 12,
-    slug: 'drug-information',
-    name: 'Drug Information Agent',
-    domain: 'Medical Affairs',
-    domainKey: 'medical-affairs',
-    phase: 'Roadmap · Phase 2',
-    priority: false,
-    tagline: 'Evidence-based, label-compliant medical information responses in seconds.',
-    description: 'Provides evidence-graded, label-compliant responses to unsolicited medical information requests from HCPs, patients, and internal stakeholders. Maintains a structured MI response library and flags any query that touches off-label territory for mandatory human medical review.',
-    capabilities: [
-      'Automated response to tier-1 MI queries against approved label and MI library',
-      'Off-label query detection and mandatory medical review routing',
-      'Evidence tiering: label → clinical study → published review → expert opinion',
-      'Response tracking and aggregate MI trend analytics for field teams',
-    ],
-    valueMetric: '70–80%',
-    valueLabel: 'of tier-1 MI requests handled without human review',
-    standards: ['EFPIA MI Guidelines', 'FDA FD&C Act 551', 'ACPE Standards', 'DIA MI Good Practices'],
-    dataConnections: ['FDA Label (DailyMed)', 'EMA SmPC', 'PubMed', 'CRM (Salesforce Health Cloud)'],
-  },
-  {
-    id: 13,
-    slug: 'medical-affairs-assistant',
-    name: 'Medical Affairs Assistant',
-    domain: 'Medical Affairs',
-    domainKey: 'medical-affairs',
-    phase: 'Roadmap · Phase 3',
-    priority: false,
-    tagline: 'Scientific briefings, KOL intelligence, and field insights — instantly synthesised.',
-    description: 'Supports Medical Science Liaisons (MSLs) with pre-call scientific briefings, KOL publication tracking, congress abstract monitoring, and field medical insight synthesis. Reduces non-scientific administrative time so MSLs focus on meaningful HCP scientific exchange.',
-    capabilities: [
-      'MSL pre-call briefing: HCP publication history, prescribing profile, congress presentations',
-      'KOL mapping and tiering using publication, citation, and trial leadership data',
-      'Field medical insight capture and structured reporting to medical affairs leadership',
-      'Congress monitoring: abstract screening for TA-relevant findings (ASCO, AHA, ADA)',
-    ],
-    valueMetric: '4–6h',
-    valueLabel: 'administrative time saved per MSL per week',
-    standards: ['EFPIA Code of Practice', 'PhRMA Code', 'OIG Compliance Guidelines', 'ICH E1/E4'],
-    dataConnections: ['PubMed', 'Veeva CRM', 'Congress databases', 'ClinicalTrials.gov'],
-  },
-  {
-    id: 14,
-    slug: 'quality-assurance',
-    name: 'Quality Assurance Agent',
-    domain: 'Quality Assurance',
-    domainKey: 'quality',
-    phase: 'Roadmap · Phase 3',
-    priority: false,
-    tagline: 'QMS event trending, CAPA effectiveness, and change control risk assessment — automated.',
-    description: 'Analyses quality events (deviations, OOS results, complaints, audit findings) across the QMS, identifies trending patterns before they reach reportable thresholds, assesses CAPA effectiveness, and evaluates change control impact on product quality and regulatory compliance.',
-    capabilities: [
-      'Quality event trending using statistical process control methods',
-      'CAPA effectiveness review against defined success criteria post-implementation',
-      'Change control impact assessment: product quality, validation, and regulatory impact',
-      'Annual Product Quality Review (APQR) data compilation and trend analysis',
-    ],
-    valueMetric: '40%',
-    valueLabel: 'reduction in QA review cycle time',
-    standards: ['ICH Q10', 'FDA 21 CFR 211.192', 'EMA Annex 15', 'ISO 9001:2015'],
-    dataConnections: ['TrackWise Digital', 'MasterControl', 'SAP QM', 'ETQ Reliance'],
-  },
-  {
-    id: 15,
-    slug: 'quality-control',
-    name: 'Quality Control Agent',
-    domain: 'Quality Control',
-    domainKey: 'quality',
-    phase: 'Roadmap · Phase 3',
-    priority: false,
-    tagline: 'OOS investigation support and specification trending from LIMS data.',
-    description: 'Analyses in-process and release testing results from LIMS against specifications, detects out-of-specification (OOS) and out-of-trend (OOT) results, proposes Phase I investigation paths, and identifies assignable causes using historical batch data and control charts.',
-    capabilities: [
-      'OOS/OOT detection with automated Phase I investigation initiation',
-      'Statistical trend analysis across specification parameters and instruments',
-      'Root cause hypothesis generation from historical method and instrument data',
-      'Release testing data compilation for batch record and Certificate of Analysis',
-    ],
-    valueMetric: '35%',
-    valueLabel: 'reduction in OOS investigation cycle time',
-    standards: ['FDA OOS Guidance 2006', 'ICH Q2(R2)', 'USP <1010>', 'EMA Annex 16'],
-    dataConnections: ['LabWare LIMS', 'STARLIMS', 'Empower CDS', 'Thermo SampleManager'],
-  },
-  {
-    id: 16,
-    slug: 'batch-record-review',
-    name: 'Batch Record Review Agent',
-    domain: 'Manufacturing',
-    domainKey: 'manufacturing',
-    phase: 'Roadmap · Phase 3',
-    priority: false,
-    tagline: 'eBMR exception detection before batch disposition — in under an hour.',
-    description: 'Reviews electronic Batch Manufacturing Records (eBMRs) against Master Batch Records and quality specifications, automatically flags discrepancies, missing entries, calculation errors, environmental excursions, and GMP compliance issues prior to batch disposition decisions.',
-    capabilities: [
-      'eBMR vs MBR discrepancy detection across all process steps',
-      'Calculation verification for yield, reconciliation, and critical parameters',
-      'Environmental monitoring excursion correlation with in-process data',
-      'GMP compliance exception report for QA batch disposition review',
-    ],
-    valueMetric: '8h → 45min',
-    valueLabel: 'batch record review time',
-    standards: ['21 CFR Part 211.188', 'EMA Annex 15', 'ICH Q7', 'GAMP 5'],
-    dataConnections: ['Veeva Vault MFG', 'Syncade MES', 'PAS-X', 'SAP PM'],
-  },
-  {
-    id: 17,
-    slug: 'pharma-sales-copilot',
-    name: 'Pharma Sales Copilot',
-    domain: 'Commercial Operations',
-    domainKey: 'commercial',
-    phase: 'Roadmap · Phase 3',
-    priority: false,
-    tagline: 'Real-time clinical evidence and territory insights for HCP interactions.',
-    description: 'Equips pharmaceutical sales representatives with approved clinical evidence, formulary status, reimbursement data, and territory analytics during HCP interactions. Enforces label compliance guardrails to prevent off-label promotion and flags interactions requiring Medical Affairs follow-up.',
-    capabilities: [
-      'Real-time approved clinical evidence retrieval during sales calls',
-      'Formulary and payer coverage status by plan and geography',
-      'Off-label promotion risk detection with mandatory escalation routing',
-      'Territory performance analytics: prescribing trends, call frequency, patient share',
-    ],
-    valueMetric: '23%',
-    valueLabel: 'improvement in HCP meeting quality scores',
-    standards: ['PhRMA Code', 'OIG Guidance', 'EFPIA HCP Engagement Policy', 'FDA Promotional Materials'],
-    dataConnections: ['Veeva CRM', 'IQVIA TRx Data', 'Salesforce Health Cloud', 'FDA DailyMed'],
-  },
-  {
-    id: 18,
-    slug: 'manufacturing-optimization',
-    name: 'Manufacturing Optimization Agent',
-    domain: 'Manufacturing',
-    domainKey: 'manufacturing',
-    phase: 'Roadmap · Phase 3',
-    priority: false,
-    tagline: 'Process parameter optimisation and predictive deviation prevention at scale.',
-    description: 'Analyses process parameters, equipment telemetry, yield data, and environmental monitoring across manufacturing operations to identify optimisation opportunities, predict equipment failures, and prevent batch deviations before they occur using PAT data and multivariate statistical models.',
-    capabilities: [
-      'Real-time process parameter monitoring with multivariate control charts',
-      'Predictive maintenance modelling from equipment sensor time-series data',
-      'Design Space exploration and process analytical technology (PAT) integration',
-      'Yield improvement analysis with CPP/CQA relationship mapping',
-    ],
-    valueMetric: '3–8%',
-    valueLabel: 'improvement in manufacturing yield',
-    standards: ['ICH Q8(R2)', 'ICH Q10', 'FDA PAT Guidance 2004', 'GAMP 5', 'ISA-95'],
-    dataConnections: ['OSIsoft PI', 'Rockwell FactoryTalk', 'Siemens MES', 'SCADA systems'],
-  },
-  {
-    id: 19,
-    slug: 'supply-chain-forecasting',
-    name: 'Supply Chain Forecasting Agent',
-    domain: 'Supply Chain',
-    domainKey: 'supply-chain',
-    phase: 'Roadmap · Phase 3',
-    priority: false,
-    tagline: 'Dynamic clinical and commercial supply planning with shelf-life optimisation.',
-    description: 'Integrates demand signals, clinical trial supply requirements, shelf-life constraints, cold chain logistics data, and regulatory hold considerations to generate dynamic supply chain forecasts, safety stock recommendations, and risk-adjusted production plans across the supply network.',
-    capabilities: [
-      'Clinical trial supply planning: IMP forecasting, packaging, and labelling needs',
-      'Commercial demand sensing with short-dated inventory risk detection',
-      'Cold-chain risk modelling for temperature-sensitive biologics and vaccines',
-      'Regulatory hold scenario planning and supply continuity risk assessment',
-    ],
-    valueMetric: '15–20%',
-    valueLabel: 'reduction in excess inventory',
-    standards: ['GDP Guidelines (EU 2013)', 'WHO TRS 957 Annex 5', 'USP <1079>', 'IATA DGR'],
-    dataConnections: ['SAP IBP', 'Oracle SCM Cloud', 'Kinaxis RapidResponse', 'Körber WMS'],
-  },
-  {
-    id: 20,
-    slug: 'drug-interaction',
-    name: 'Drug Interaction Agent',
-    domain: 'Clinical Decision Support',
-    domainKey: 'clinical-decision',
-    phase: 'Roadmap · Phase 3',
-    priority: false,
-    tagline: 'Evidence-graded DDI assessment with CYP450 and PK/PD mechanistic reasoning.',
-    description: 'Evaluates drug-drug (DDI), drug-food, and drug-disease interactions from prescribing context and clinical data, applying CYP450 enzyme kinetics, transporter-mediated interactions, QTc prolongation risk, and pharmacodynamic synergy/antagonism analysis to deliver evidence-graded clinical recommendations.',
-    capabilities: [
-      'CYP450 interaction analysis: inhibition, induction, and substrate classification',
-      'QTc prolongation risk stratification using CredibleMeds/AZCERTdatabase',
-      'Polypharmacy review for high-risk patient cohorts (renal/hepatic impairment)',
-      'EHR-integrated contraindication alerting with clinical justification',
-    ],
-    valueMetric: '40–60%',
-    valueLabel: 'potential adverse drug interactions prevented',
-    standards: ['FDA DDI Guidance 2020', 'EMA DDI Guideline 2012', 'ICH E14', 'PharmGKB ontology'],
-    dataConnections: ['DrugBank API', 'CredibleMeds', 'FDA DailyMed', 'Epic/Cerner SMART FHIR'],
-  },
+    valueMetric: '24/7',
+    valueLabel: 'global regulatory surveillance',
+    standards: ['FDA', 'EMA', 'PMDA', 'MHRA'],
+    dataConnections: ['Global Health Authority RSS/HTML'],
+  }
 ];
 
 const priorityAgents = agents.filter(a => a.priority);
@@ -455,7 +148,7 @@ const domainColors: Record<string, string> = {
 
 <BaseLayout
   title="AI Agents Catalogue — Medivora"
-  description="20 high-value AI agents for pharmaceutical development, pharmacovigilance, medical writing, literature review, and clinical research. Built for the life sciences industry."
+  description="6 high-value AI agents for pharmacovigilance and drug safety. Built for the life sciences industry."
 >
 
 <!-- ── HERO ─────────────────────────────────────────────── -->
@@ -465,30 +158,30 @@ const domainColors: Record<string, string> = {
       <span class="dot priority-dot"></span>
       <span>Medivora Agent Intelligence Platform</span>
     </div>
-    <h1>20 AI Agents for<br/><em>Pharma & Medicine</em></h1>
+    <h1>6 AI Agents for<br/><em>Pharmacovigilance</em></h1>
     <p class="hero-lede">
-      Each agent is purpose-built for a specific function in the pharmaceutical value chain —
-      from regulatory intelligence to manufacturing quality. Not generic chatbots.
+      Each agent is purpose-built for a specific function in the ICSR lifecycle —
+      from unstructured intake to final medical review. Not generic chatbots.
       Specialised, auditable, regulation-aware agents designed to work within GxP environments.
     </p>
     <div class="hero-stats">
       <div class="hs">
-        <span class="hs-num">20</span>
+        <span class="hs-num">6</span>
         <span class="hs-label">Specialist Agents</span>
       </div>
       <div class="hs-div"></div>
       <div class="hs">
-        <span class="hs-num">5</span>
+        <span class="hs-num">6</span>
         <span class="hs-label">Priority Phase 1</span>
       </div>
       <div class="hs-div"></div>
       <div class="hs">
-        <span class="hs-num">8</span>
-        <span class="hs-label">Pharma Domains</span>
+        <span class="hs-num">1</span>
+        <span class="hs-label">Pharma Domain</span>
       </div>
       <div class="hs-div"></div>
       <div class="hs">
-        <span class="hs-num">60+</span>
+        <span class="hs-num">10+</span>
         <span class="hs-label">Regulatory Standards</span>
       </div>
     </div>
@@ -516,13 +209,10 @@ const domainColors: Record<string, string> = {
   <div class="wrap">
     <div class="filter-bar" role="tablist">
       <button class="fb-btn active" data-filter="all" role="tab" aria-selected="true">
-        All Agents <span class="fb-count">20</span>
+        All Agents <span class="fb-count">6</span>
       </button>
       <button class="fb-btn" data-filter="priority" role="tab" aria-selected="false">
-        Phase 1 Priority <span class="fb-count priority">5</span>
-      </button>
-      <button class="fb-btn" data-filter="roadmap" role="tab" aria-selected="false">
-        Development Roadmap <span class="fb-count">15</span>
+        Phase 1 Priority <span class="fb-count priority">6</span>
       </button>
     </div>
   </div>
@@ -537,7 +227,7 @@ const domainColors: Record<string, string> = {
       <div class="gsh-inner">
         <span class="phase-badge phase1-badge">Phase 1 · Active Development</span>
         <h2>Priority Focus Agents</h2>
-        <p>These five agents represent the initial build priorities — areas with the highest regulatory burden, clearest ROI, and most mature AI tooling available today.</p>
+        <p>These six agents represent the initial build priorities — areas with the highest regulatory burden, clearest ROI, and most mature AI tooling available today.</p>
       </div>
     </div>
 
@@ -626,14 +316,7 @@ const domainColors: Record<string, string> = {
       ))}
     </div>
 
-    <!-- Roadmap heading (injected by JS based on position, here as a visual separator) -->
-    <div class="grid-section-sep" data-section="roadmap" id="roadmap-sep">
-      <div class="gsh-inner">
-        <span class="phase-badge roadmap-badge">Phases 2 & 3 · Development Roadmap</span>
-        <h2>The Full Agent Roster</h2>
-        <p>These 15 agents are on the Medivora development roadmap. Each will receive the same depth of analysis — architecture, implementation guide, regulatory considerations, and working schematics — as the Phase 1 agents.</p>
-      </div>
-    </div>
+    <!-- Roadmap section removed -->
 
   </div>
 </section>
@@ -645,7 +328,7 @@ const domainColors: Record<string, string> = {
       <div class="access-text">
         <span class="eyebrow">Early Access Programme</span>
         <h2>Get notified when each agent goes live</h2>
-        <p>We're building Phase 1 agents now — Regulatory Intelligence, Pharmacovigilance Case Processing, Medical Writing, Literature Review, and Clinical Trial Recruitment. Join the list to receive deep-dive content, architecture walkthroughs, and implementation guides as each agent is published.</p>
+        <p>We're building Phase 1 Pharmacovigilance agents now. Join the list to receive deep-dive content, architecture walkthroughs, and implementation guides as each agent is published.</p>
       </div>
       <a href="/contact" class="access-btn">Request Early Access →</a>
     </div>
