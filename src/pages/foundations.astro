@@ -172,6 +172,86 @@ import DecisionTool from '~/components/DecisionTool.astro';
     </div>
   </section>
 
+  <!-- ─── PHARMA AI ORCHESTRATOR ─── -->
+  <section class="orchestrator-section">
+    <div class="wrap">
+      <div class="orch-head">
+        <span class="eyebrow">Multi-Agent Architecture</span>
+        <h2>The Pharma AI Orchestrator: <em>how it works in practice</em></h2>
+        <p class="orch-lede">
+          A single AI "orchestrator" agent receives a high-level clinical or operational goal, decomposes it into specialised
+          subtasks, dispatches them to domain-specific agents — each connected to the relevant medical database or regulatory
+          system — then synthesises the results into a coherent, auditable output. This pattern is now in production
+          deployment across drug discovery, pharmacovigilance, and regulatory operations at major pharmaceutical organisations.
+        </p>
+      </div>
+      <div class="orch-img-wrap">
+        <img
+          src="/pharma-orchestrator.png"
+          alt="Pharma AI Orchestrator Architecture Diagram showing central AI Orchestrator connected to Drug Discovery Agent (AlphaFold, PubMed, Molecular DB), Clinical Trial Agent (ClinicalTrials.gov, Patient Registry), Pharmacovigilance Agent (MedWatch FDA, WHO VigiBase, MedDRA), Regulatory Affairs Agent (eCTD, FDA Portal, EMA Portal), Manufacturing QA Agent (LIMS, MES, Batch Records), and Clinical Decision Support Agent (EHR, Drug Database, Clinical Guidelines)"
+          class="orch-img"
+          width="1024"
+          height="1024"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div class="orch-callouts">
+        <div class="oc-item">
+          <span class="oc-num">01</span>
+          <div>
+            <h3>Goal Decomposition</h3>
+            <p>The orchestrator receives a high-level clinical objective — e.g., "identify safety signals for compound X in renal patients" — and breaks it into discrete subtasks: literature search, adverse event triage, pharmacogenomics query, and regulatory precedent check.</p>
+          </div>
+        </div>
+        <div class="oc-item">
+          <span class="oc-num">02</span>
+          <div>
+            <h3>Specialist Agent Dispatch</h3>
+            <p>Each subtask is routed to the appropriate specialist agent. The Pharmacovigilance Agent queries MedWatch and WHO VigiBase. The Drug Discovery Agent accesses AlphaFold structural data. The Regulatory Affairs Agent checks existing EMA guidance. All run in parallel.</p>
+          </div>
+        </div>
+        <div class="oc-item">
+          <span class="oc-num">03</span>
+          <div>
+            <h3>Human-in-the-Loop Review</h3>
+            <p>Before any regulated output — a safety report, a submission section, a clinical decision — is finalised, the orchestrator surfaces it to a qualified human reviewer with full reasoning trace, evidence citations, and a confidence score. The human, not the AI, makes the final determination.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── MARKET DATA ─── -->
+  <section class="market-section">
+    <div class="wrap">
+      <div class="mkt-head">
+        <span class="eyebrow">Industry Context</span>
+        <h2>The scale of AI adoption in pharmaceutical and clinical medicine</h2>
+        <p class="mkt-lede">
+          AI in pharmaceutical development and healthcare delivery has moved from experimental to operational across
+          the value chain. Clinical decision support now achieves 83% AI adoption — the highest of any pharma function.
+          The overall market is projected to grow from $4.9B (2020) to $61.4B by 2030, representing a 12.5× expansion
+          in a single decade.
+        </p>
+      </div>
+      <div class="mkt-img-wrap">
+        <img
+          src="/pharma-market-chart.png"
+          alt="Two charts: Left shows AI in Pharma Market Size growing from $4.9B in 2020 to $61.4B in 2030. Right shows AI adoption by pharma function: Clinical Decision Support 83%, Drug Discovery 78%, Pharmacovigilance 71%, Clinical Trials 65%, Manufacturing QA 61%, Supply Chain 58%, Regulatory Affairs 54%."
+          class="mkt-img"
+          width="1024"
+          height="576"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <p class="mkt-source">
+        Sources: McKinsey Global Institute Healthcare Report 2024 · Deloitte Life Sciences AI Index 2024 · WHO Global Digital Health Strategy 2020–2025
+      </p>
+    </div>
+  </section>
+
   <!-- ─── WHY PHARMA ─── -->
   <section class="why-section">
     <div class="wrap">
@@ -507,6 +587,112 @@ import DecisionTool from '~/components/DecisionTool.astro';
     background-color: var(--color-bg);
   }
 
+  /* ── Orchestrator section ── */
+  .orchestrator-section {
+    padding: 5rem 0;
+    background-color: #0a1510;
+  }
+  .orch-head { margin-bottom: 2.5rem; }
+  .orch-head .eyebrow { color: var(--color-green-bright); margin-bottom: 0.7rem; display: block; }
+  .orch-head h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 600;
+    color: #f1ece0;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .orch-head h2 em { color: var(--color-green-bright); font-style: italic; }
+  .orch-lede {
+    font-size: 1rem;
+    color: rgba(241,236,224,.68);
+    line-height: 1.7;
+    max-width: 62em;
+  }
+  .orch-img-wrap {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid rgba(22,166,132,.2);
+    margin: 2rem 0;
+  }
+  .orch-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .orch-callouts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .oc-item {
+    display: flex;
+    gap: 1rem;
+    background: rgba(241,236,224,.04);
+    border: 1px solid rgba(241,236,224,.1);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+  }
+  .oc-num {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-green-bright);
+    flex: none;
+    padding-top: 3px;
+  }
+  .oc-item h3 {
+    font-size: 0.94rem;
+    font-weight: 700;
+    color: #f1ece0;
+    margin-bottom: 0.5rem;
+  }
+  .oc-item p {
+    font-size: 0.84rem;
+    color: rgba(241,236,224,.6);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── Market section ── */
+  .market-section {
+    padding: 5rem 0;
+    background-color: var(--color-bg);
+    border-top: 1px solid var(--color-line-soft);
+  }
+  .mkt-head { margin-bottom: 2rem; }
+  .mkt-head .eyebrow { display: block; margin-bottom: 0.6rem; }
+  .mkt-head h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .mkt-lede {
+    font-size: 0.98rem;
+    color: var(--color-text-2);
+    line-height: 1.7;
+    max-width: 62em;
+  }
+  .mkt-img-wrap {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--color-line-soft);
+    margin: 2rem 0 1rem;
+  }
+  .mkt-img { width: 100%; height: auto; display: block; }
+  .mkt-source {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    color: var(--color-text-soft);
+  }
+
   /* ── Why Pharma ── */
   .why-section {
     padding: 5.5rem 0;
@@ -658,9 +844,11 @@ import DecisionTool from '~/components/DecisionTool.astro';
     .why-card:nth-child(3n) { border-right: 1px solid var(--color-line-soft); }
     .why-card:nth-child(2n) { border-right: 0; }
     .converge { grid-template-columns: 1fr; }
+    .orch-callouts { grid-template-columns: 1fr; }
   }
   @media (max-width: 600px) {
     .why-grid { grid-template-columns: 1fr; }
     .why-card { border-right: 0 !important; }
+    .orch-callouts { grid-template-columns: 1fr; }
   }
 </style>

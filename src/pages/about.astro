@@ -1,141 +1,217 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 
-const audiences = [
+const coverageAreas = [
   {
-    icon: '🏢',
-    role: 'Pharma & Biotech Operations Leaders',
-    desc: 'Making the case for automation investment, evaluating vendors, or understanding where AI actually fits in your processes.',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>`,
+    title: 'Drug Discovery & Development',
+    desc: 'AI-assisted target identification, molecular simulation, compound screening, lead optimisation, and preclinical modelling using tools such as AlphaFold, Schrödinger, and transformer-based generative chemistry.',
   },
   {
-    icon: '🔧',
-    role: 'IT Architects & Integration Engineers',
-    desc: 'Designing the automation layer: choosing between workflow tools and agentic AI, scoping validation requirements, planning rollout.',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+    title: 'Clinical Trials & Research',
+    desc: 'Adaptive trial design, AI-powered patient recruitment and stratification, protocol deviation detection, real-world evidence synthesis, and clinical data management automation across Phase I–IV trials.',
   },
   {
-    icon: '🔬',
-    role: 'Innovation & Digital Health Teams',
-    desc: 'Exploring what\'s possible with LLMs and agents — separating genuine capability from vendor hype.',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+    title: 'Pharmacovigilance & Drug Safety',
+    desc: 'Automated ICSR intake and triage, MedDRA coding assistance, signal detection algorithms, disproportionality analysis, periodic safety report generation, and regulatory submission preparation.',
   },
   {
-    icon: '📋',
-    role: 'Regulatory & Quality Professionals',
-    desc: 'Assessing what automation means for your GxP environment, validation obligations, and human oversight responsibilities.',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
+    title: 'Regulatory Affairs & Submissions',
+    desc: 'Intelligent eCTD dossier assembly, AI-assisted clinical study report authoring, label change monitoring, agency query response generation, and post-market surveillance automation.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M6.34 17.66l-1.41 1.41M2 12h2M20 12h2M17.66 6.34l1.41-1.41M4.93 19.07l1.41-1.41M12 2v2M12 20v2"/></svg>`,
+    title: 'Manufacturing & Quality (GxP)',
+    desc: 'Computer vision for in-process quality inspection, AI-driven CAPA root cause analysis, predictive equipment maintenance, electronic batch record (eBR) automation, and deviation management in GMP environments.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+    title: 'Clinical Decision Support',
+    desc: 'LLM-powered drug-drug interaction checking, AI-assisted differential diagnosis, dosing optimisation for special populations, clinical guideline summarisation, and real-time medication reconciliation.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+    title: 'Pharmacy Operations & Medicine Management',
+    desc: 'Autonomous medication dispensing systems, AI pharmacist decision support, prescription validation automation, medication therapy management, and intelligent formulary optimisation for health systems.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+    title: 'Supply Chain & Serialisation',
+    desc: 'AI-driven demand forecasting for essential medicines, cold chain anomaly detection, track-and-trace automation, shortage prediction, and multi-tier supplier intelligence for pharmaceutical supply networks.',
   },
 ];
 
-const howTo = [
-  {
-    step: '01',
-    title: 'Start with Foundations',
-    desc: 'Learn the difference between workflow and agentic automation — everything else in the guide builds on this distinction.',
-    link: '/foundations',
-    linkLabel: 'Read Foundations →',
-  },
-  {
-    step: '02',
-    title: 'Map your value chain',
-    desc: 'Use the interactive Value Chain to see where automation is already being applied across each stage of pharma development and operations.',
-    link: '/value-chain',
-    linkLabel: 'Explore Value Chain →',
-  },
-  {
-    step: '03',
-    title: 'Go deep where it matters',
-    desc: 'Case studies, responsible adoption guidelines, and the road-ahead section give context for real-world decisions.',
-    link: '/case-studies',
-    linkLabel: 'See Case Studies →',
-  },
+const principles = [
+  { num: '01', title: 'Clinical Accuracy', desc: 'Every technical claim is grounded in peer-reviewed literature, regulatory guidance documents, or validated industry reports. Where evidence is incomplete, we say so explicitly.' },
+  { num: '02', title: 'Vendor Neutrality', desc: 'Medivora is independent of all technology vendors, consultancies, and pharmaceutical companies. No content is sponsored. No product recommendation reflects a commercial arrangement.' },
+  { num: '03', title: 'Regulatory Fidelity', desc: 'Content reflects the current regulatory frameworks of the FDA, EMA, PMDA, ICH, and WHO. Regulatory references are cited precisely, not paraphrased to suit a narrative.' },
+  { num: '04', title: 'Practitioner Primacy', desc: 'Written for the practitioner, not the regulator or the investor. We prioritise operational clarity — what does this mean for the team implementing it — over theoretical completeness.' },
+  { num: '05', title: 'Transparent Limitations', desc: 'AI in medicine is a field with significant unsolved problems. Medivora does not suppress failure cases, emerging risks, or unresolved debates. The honest picture is the useful one.' },
+  { num: '06', title: 'Living Document', desc: 'Medicine and AI both evolve. Content is reviewed and updated as the evidence base, regulatory landscape, and deployed technology shift. Readers can flag outdated content directly.' },
+];
+
+const audience = [
+  { title: 'Pharmaceutical & Biotech Operations', items: ['VP/Director of Digital Innovation', 'Automation Programme Leads', 'IT Architects (Life Sciences)', 'Process Excellence / Lean Teams'] },
+  { title: 'Clinical & Regulatory Professionals', items: ['Clinical Informaticists', 'Regulatory Affairs Directors', 'Pharmacovigilance Officers', 'Clinical Data Managers'] },
+  { title: 'Quality & Manufacturing', items: ['GxP Validation Engineers', 'Quality Systems Managers', 'Manufacturing IT Leads', 'CMO / Contract Manufacturing Teams'] },
+  { title: 'Healthcare & Pharmacy', items: ['Hospital Chief Pharmacy Officers', 'Clinical Decision Support Analysts', 'Health System IT Directors', 'Academic Medical Centre Informaticists'] },
+];
+
+const roadmap = [
+  { phase: 'Current', label: 'Free Access', desc: 'All foundational content, value chain guides, case studies, glossary, and decision tools — freely accessible to every practitioner.', status: 'live' },
+  { phase: 'Q3 2025', label: 'Premium Modules', desc: 'In-depth technical implementation guides, validation frameworks, and regulatory compliance checklists for specific automation use cases.', status: 'soon' },
+  { phase: 'Q4 2025', label: 'Interactive Learning', desc: 'Structured reading pathways with assessment tools for professional development in pharma automation — CPD/CME aligned.', status: 'planned' },
+  { phase: '2026', label: 'Institutional Licences', desc: 'Enterprise access for pharmaceutical companies, health systems, and academic institutions including team dashboards and custom content tracks.', status: 'planned' },
 ];
 ---
 
-<BaseLayout title="About" description="Medivora is an independent field guide for pharma and biotech teams navigating AI automation — not a vendor, not a consultancy.">
+<BaseLayout
+  title="About Medivora"
+  description="Medivora is an independent clinical intelligence platform providing evidence-based analysis of AI and automation across pharmaceutical development, clinical medicine, and pharmacy operations."
+>
 
-  <!-- Hero -->
-  <section class="about-hero">
+  <!-- ── Publication Masthead ── -->
+  <section class="masthead">
     <div class="wrap">
-      <span class="eyebrow">About Medivora</span>
-      <h1>A field guide, <em>not a pitch deck</em></h1>
-      <p class="hero-lede">
-        Medivora exists because the pharma industry deserves a clear, honest,
-        vendor-neutral account of what AI automation can and cannot do.
-        No case studies invented for marketing. No hype. No vendor logos.
-      </p>
+      <div class="masthead-inner">
+        <div class="masthead-identity">
+          <span class="pub-tag">Independent Clinical Intelligence Platform</span>
+          <h1>About <em>Medivora</em></h1>
+          <p class="masthead-mission">
+            A peer-informed, editorially independent reference for practitioners navigating
+            the application of artificial intelligence and automation across pharmaceutical
+            development, clinical medicine, and pharmacy operations.
+          </p>
+          <div class="masthead-meta">
+            <div class="meta-item">
+              <span class="meta-label">Coverage</span>
+              <span class="meta-val">Medicine · Pharma · Pharmacy · Clinical AI</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Audience</span>
+              <span class="meta-val">Practitioners, clinical informaticists, regulatory professionals</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Access</span>
+              <span class="meta-val">Free foundational content · Premium modules (forthcoming)</span>
+            </div>
+          </div>
+        </div>
+        <div class="masthead-card">
+          <div class="mc-stat"><span class="mcs-n">8</span><span class="mcs-l">Core clinical domains covered</span></div>
+          <div class="mc-stat"><span class="mcs-n">45+</span><span class="mcs-l">Glossary terms defined</span></div>
+          <div class="mc-stat"><span class="mcs-n">7</span><span class="mcs-l">Value chain stages mapped</span></div>
+          <div class="mc-stat"><span class="mcs-n">0</span><span class="mcs-l">Vendor relationships. Zero.</span></div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Mission -->
+  <!-- ── Editorial Mission ── -->
   <section class="mission-section">
     <div class="wrap mission-grid">
-      <div class="mission-text">
-        <h2>What this guide <em>is</em></h2>
+      <div class="mission-left">
+        <span class="eyebrow">Editorial Mission</span>
+        <h2>The gap this publication fills</h2>
         <p>
-          A structured reference for anyone trying to understand, evaluate, or build
-          automation in a pharma or biotech context. The content is organised around
-          practical questions: What kind of automation do I need? Where does it fit in
-          my value chain? What are the real risks? What's actually coming next?
+          The application of AI to medicine and pharmacy is advancing faster than the practitioner
+          literature that should explain it. Vendor documentation describes products. Academic papers
+          describe experiments. Neither reliably answers the operational question that matters most
+          to the professional in the field: <em>what does this actually mean for how we work?</em>
         </p>
         <p>
-          Every section is written to be useful whether you're a first-time evaluator
-          or a practitioner who has been running automation programmes for years.
+          Medivora occupies the space between those two bodies of literature. It translates
+          clinical AI research and regulatory frameworks into operational knowledge — grounded
+          in the specific contexts of drug development, clinical care delivery, and medicine
+          management — for the practitioners and decision-makers who implement these systems.
+        </p>
+        <p>
+          This is not an advocacy publication. We do not promote the rapid adoption of AI in
+          clinical settings. We provide the accurate technical and contextual knowledge that
+          enables informed, evidence-based decisions about when adoption is appropriate,
+          what it requires, and what it risks.
         </p>
       </div>
-      <div class="mission-card">
-        <div class="mc-row">
-          <span class="mc-icon">🚫</span>
-          <div>
-            <strong>Not a vendor</strong>
-            <p>No product is being sold. No software is recommended by name unless the context requires a concrete example.</p>
+      <div class="mission-right">
+        <div class="independence-box">
+          <div class="ib-header">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Editorial Independence</span>
           </div>
-        </div>
-        <div class="mc-row">
-          <span class="mc-icon">🚫</span>
-          <div>
-            <strong>Not a consultancy</strong>
-            <p>This is not a lead generation tool. There's no team waiting to take your call. The guide stands alone.</p>
+          <p>Medivora accepts no advertising, no sponsored content, no vendor partnerships, and no affiliate revenue of any kind. All content is produced solely on the basis of editorial merit and clinical relevance.</p>
+          <div class="ib-divider"></div>
+          <div class="ib-row">
+            <span class="ib-no">✗</span>
+            <span>Sponsored articles or "native advertising"</span>
           </div>
-        </div>
-        <div class="mc-row">
-          <span class="mc-icon">✓</span>
-          <div>
-            <strong>An independent reference</strong>
-            <p>Written to evolve with the field. If something here is wrong or outdated, we want to know — contact us.</p>
+          <div class="ib-row">
+            <span class="ib-no">✗</span>
+            <span>Product recommendations for commercial consideration</span>
+          </div>
+          <div class="ib-row">
+            <span class="ib-no">✗</span>
+            <span>Equity positions in any company mentioned</span>
+          </div>
+          <div class="ib-row">
+            <span class="ib-no">✗</span>
+            <span>Consulting relationships with profiled organisations</span>
+          </div>
+          <div class="ib-divider"></div>
+          <div class="ib-row">
+            <span class="ib-yes">✓</span>
+            <span>Revenue from direct reader access (Premium Modules)</span>
+          </div>
+          <div class="ib-row">
+            <span class="ib-yes">✓</span>
+            <span>Institutional subscription licences (forthcoming)</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Audience -->
-  <section class="audience-section">
+  <!-- ── Coverage Scope ── -->
+  <section class="coverage-section">
     <div class="wrap">
-      <span class="eyebrow">Who it's for</span>
-      <h2>Built for the people making the decisions</h2>
-      <div class="audience-grid">
-        {audiences.map(a => (
-          <article class="audience-card">
-            <span class="aud-icon">{a.icon}</span>
-            <h3>{a.role}</h3>
-            <p>{a.desc}</p>
+      <div class="coverage-head">
+        <span class="eyebrow">Scope of Coverage</span>
+        <h2>Eight clinical and operational domains</h2>
+        <p class="coverage-sub">
+          Medivora covers the application of AI and automation across the full pharmaceutical
+          and clinical medicine value chain — from molecule to medicine management.
+          Coverage is limited to these domains. Adjacent topics in general digital health,
+          medical devices, or consumer health technology are outside scope.
+        </p>
+      </div>
+      <div class="coverage-grid">
+        {coverageAreas.map((area, i) => (
+          <article class="cov-card">
+            <div class="cov-icon" set:html={area.icon} />
+            <div class="cov-body">
+              <h3>{area.title}</h3>
+              <p>{area.desc}</p>
+            </div>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- How to use -->
-  <section class="howto-section">
+  <!-- ── Editorial Principles ── -->
+  <section class="principles-section">
     <div class="wrap">
-      <span class="eyebrow">How to use this guide</span>
-      <h2>Three ways in</h2>
-      <div class="howto-steps">
-        {howTo.map(s => (
-          <div class="howto-step">
-            <span class="step-num">{s.step}</span>
-            <div class="step-body">
-              <h3>{s.title}</h3>
-              <p>{s.desc}</p>
-              <a href={s.link} class="step-link">{s.linkLabel}</a>
+      <span class="eyebrow">Editorial Principles</span>
+      <h2>How content is produced and reviewed</h2>
+      <div class="principles-grid">
+        {principles.map(p => (
+          <div class="principle-item">
+            <span class="prin-num">{p.num}</span>
+            <div class="prin-body">
+              <h3>{p.title}</h3>
+              <p>{p.desc}</p>
             </div>
           </div>
         ))}
@@ -143,223 +219,578 @@ const howTo = [
     </div>
   </section>
 
-  <!-- Contribute CTA -->
-  <section class="contrib-section">
-    <div class="wrap contrib-inner">
-      <div>
-        <h2>Help make it better</h2>
+  <!-- ── Intended Audience ── -->
+  <section class="audience-section">
+    <div class="wrap">
+      <span class="eyebrow">Intended Readership</span>
+      <h2>Written for practitioners, not for the general public</h2>
+      <p class="aud-intro">
+        Content assumes familiarity with pharmaceutical development processes or clinical healthcare
+        environments. It does not require technical AI expertise — that is what the guide provides.
+        It does require operational context: an understanding of what GxP means in practice,
+        what a regulatory submission involves, or what a clinical pharmacy service does.
+      </p>
+      <div class="audience-grid">
+        {audience.map(group => (
+          <div class="aud-group">
+            <h3 class="aud-group-title">{group.title}</h3>
+            <ul class="aud-list">
+              {group.items.map(item => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Access Roadmap ── -->
+  <section class="roadmap-section">
+    <div class="wrap">
+      <span class="eyebrow">Access & Development Roadmap</span>
+      <h2>From open reference to professional learning platform</h2>
+      <p class="roadmap-intro">
+        Medivora is designed to evolve into a full professional development platform for clinical
+        AI literacy. The foundational reference content will remain free. Structured learning
+        modules, implementation guides, and institutional resources will be available through
+        direct reader access.
+      </p>
+      <div class="roadmap-track">
+        {roadmap.map((item, i) => (
+          <div class={`roadmap-item ri-${item.status}`}>
+            <div class="ri-phase">
+              <span class="ri-phase-label">{item.phase}</span>
+              {item.status === 'live' && <span class="ri-badge live-badge">Live</span>}
+              {item.status === 'soon' && <span class="ri-badge soon-badge">Soon</span>}
+              {item.status === 'planned' && <span class="ri-badge plan-badge">Planned</span>}
+            </div>
+            <div class="ri-connector" />
+            <div class="ri-content">
+              <h3>{item.label}</h3>
+              <p>{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contribute / Contact ── -->
+  <section class="contact-section">
+    <div class="wrap contact-inner">
+      <div class="contact-text">
+        <span class="eyebrow">Corrections & Contributions</span>
+        <h2>Clinical knowledge is a collaborative project</h2>
         <p>
-          Spotted an error? Know a better case study? Working on something that belongs here?
-          Medivora is only as good as the practitioners who use it and push back on it.
+          If you identify an error — factual, regulatory, or technical — we want to know immediately.
+          If you are a practitioner with direct operational experience in one of our coverage areas
+          and are willing to review content for accuracy, we are interested in hearing from you.
+          If you believe an important use case or clinical context is missing, make the case.
+        </p>
+        <p>
+          Medivora's credibility depends on getting the clinical details right. Reader challenge
+          is part of the editorial process, not an exception to it.
+        </p>
+        <div class="contact-actions">
+          <a href="/contact" class="btn-primary">Submit a correction or contribution →</a>
+          <a href="/glossary" class="btn-ghost-light">Browse the glossary</a>
+        </div>
+      </div>
+      <div class="contact-disclaimer">
+        <h3>Medical Disclaimer</h3>
+        <p>
+          Content published by Medivora is intended for informational and professional
+          education purposes only. It does not constitute medical advice, clinical guidance,
+          or regulatory counsel for any specific situation. Practitioners should apply
+          professional judgement and consult applicable regulatory authorities before
+          implementing any automated system in a clinical or GxP environment.
+        </p>
+        <p>
+          The depiction of any specific technology, tool, or organisation does not imply
+          endorsement of its safety, efficacy, or regulatory compliance for any particular use.
         </p>
       </div>
-      <a href="/contact" class="btn-primary">Get in touch →</a>
     </div>
   </section>
 
 </BaseLayout>
 
 <style>
-  /* ── Hero ── */
-  .about-hero {
+  /* ── Masthead ── */
+  .masthead {
+    background-color: #0a1510;
+    border-bottom: 1px solid rgba(22,166,132,.25);
     padding: 5rem 0 4rem;
-    border-bottom: 1px solid var(--color-line);
   }
-  .about-hero h1 {
-    font-family: var(--font-serif);
-    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
-    line-height: 1.02;
-    letter-spacing: -0.025em;
-    margin-top: 1.2rem;
-    max-width: 20ch;
-  }
-  .hero-lede {
-    margin-top: 1.4rem;
-    font-size: 1.12rem;
-    color: var(--color-text-2);
-    max-width: 52em;
-    line-height: 1.6;
-  }
-
-  /* ── Mission ── */
-  .mission-section { padding: 4.5rem 0; border-bottom: 1px solid var(--color-line-soft); }
-  .mission-grid {
+  .masthead-inner {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3.5rem;
+    grid-template-columns: 1.4fr 0.6fr;
+    gap: 4rem;
     align-items: start;
   }
-  .mission-text h2 {
+  .pub-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-green-bright);
+    border: 1px solid rgba(22,166,132,.4);
+    padding: 4px 12px;
+    border-radius: var(--radius-xs);
+    margin-bottom: 1.2rem;
+  }
+  .masthead h1 {
     font-family: var(--font-serif);
-    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-size: clamp(2.8rem, 6vw, 4.8rem);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: #f1ece0;
     margin-bottom: 1.4rem;
-    line-height: 1.1;
   }
-  .mission-text p {
-    font-size: 1rem;
-    color: var(--color-text-2);
-    line-height: 1.7;
-    margin-bottom: 1rem;
+  .masthead h1 em { color: var(--color-green-bright); font-style: italic; }
+  .masthead-mission {
+    font-size: 1.05rem;
+    color: rgba(241,236,224,.72);
+    line-height: 1.65;
+    max-width: 58em;
+    margin-bottom: 2rem;
+    font-style: italic;
   }
+  .masthead-meta { display: flex; flex-direction: column; gap: 0.8rem; }
+  .meta-item { display: flex; gap: 1rem; align-items: baseline; font-size: 0.84rem; }
+  .meta-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(241,236,224,.4);
+    min-width: 5.5rem;
+    flex: none;
+  }
+  .meta-val { color: rgba(241,236,224,.75); line-height: 1.4; }
 
-  .mission-card {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-line-soft);
+  .masthead-card {
+    background: rgba(22,166,132,.08);
+    border: 1px solid rgba(22,166,132,.22);
     border-radius: var(--radius-md);
-    padding: 1.8rem;
+    padding: 1.8rem 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
   }
-  .mc-row {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-  .mc-icon { font-size: 1.3rem; flex: none; margin-top: 2px; }
-  .mc-row strong {
+  .mc-stat {}
+  .mcs-n {
     display: block;
-    font-size: 0.96rem;
+    font-family: var(--font-serif);
+    font-size: 2.4rem;
     font-weight: 700;
-    color: var(--color-text);
-    margin-bottom: 0.3rem;
+    color: var(--color-green-bright);
+    line-height: 1;
+    letter-spacing: -0.03em;
   }
-  .mc-row p {
+  .mcs-l {
+    display: block;
+    font-size: 0.78rem;
+    color: rgba(241,236,224,.55);
+    margin-top: 0.3rem;
+    line-height: 1.35;
+  }
+
+  /* ── Mission ── */
+  .mission-section {
+    padding: 5rem 0;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .mission-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .mission-left .eyebrow { margin-bottom: 0.8rem; display: block; }
+  .mission-left h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.6rem;
+    line-height: 1.1;
+  }
+  .mission-left p {
+    font-size: 1rem;
+    color: var(--color-text-2);
+    line-height: 1.75;
+    margin-bottom: 1.2rem;
+  }
+  .mission-left em { color: var(--color-text); font-style: italic; }
+
+  .independence-box {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-md);
+    padding: 1.8rem;
+  }
+  .ib-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    margin-bottom: 0.9rem;
+  }
+  .ib-header svg { color: var(--color-accent); }
+  .independence-box > p {
     font-size: 0.88rem;
     color: var(--color-text-2);
-    line-height: 1.55;
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+  }
+  .ib-divider { border-top: 1px solid var(--color-line-soft); margin: 1rem 0; }
+  .ib-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin-bottom: 0.55rem;
+    font-size: 0.84rem;
+    color: var(--color-text-2);
+    line-height: 1.35;
+  }
+  .ib-no { color: #c06a24; font-weight: 700; flex: none; }
+  .ib-yes { color: #16a684; font-weight: 700; flex: none; }
+
+  /* ── Coverage ── */
+  .coverage-section {
+    padding: 5rem 0;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .coverage-head { margin-bottom: 2.8rem; }
+  .coverage-head .eyebrow { margin-bottom: 0.6rem; display: block; }
+  .coverage-head h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .coverage-sub {
+    font-size: 0.98rem;
+    color: var(--color-text-2);
+    line-height: 1.65;
+    max-width: 62em;
+  }
+  .coverage-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  .cov-card {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    transition: border-color 200ms ease, transform 200ms ease;
+  }
+  .cov-card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+  .cov-icon {
+    color: var(--color-accent);
+    flex: none;
+    width: 28px;
+    margin-top: 2px;
+  }
+  .cov-body h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.45rem;
+  }
+  .cov-body p {
+    font-size: 0.84rem;
+    color: var(--color-text-2);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── Principles ── */
+  .principles-section {
+    padding: 5rem 0;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .principles-section .eyebrow { display: block; margin-bottom: 0.6rem; }
+  .principles-section h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+    line-height: 1.1;
+  }
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--color-line-soft);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .principle-item {
+    display: flex;
+    gap: 1.1rem;
+    padding: 1.8rem;
+    border-right: 1px solid var(--color-line-soft);
+    border-bottom: 1px solid var(--color-line-soft);
+    transition: background-color 180ms ease;
+  }
+  .principle-item:hover { background-color: var(--color-surface); }
+  .principle-item:nth-child(3n) { border-right: 0; }
+  .principle-item:nth-child(4),
+  .principle-item:nth-child(5),
+  .principle-item:nth-child(6) { border-bottom: 0; }
+  .prin-num {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    flex: none;
+    padding-top: 3px;
+  }
+  .prin-body h3 {
+    font-size: 0.94rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+  .prin-body p {
+    font-size: 0.84rem;
+    color: var(--color-text-2);
+    line-height: 1.6;
     margin: 0;
   }
 
   /* ── Audience ── */
   .audience-section {
-    padding: 4.5rem 0;
+    padding: 5rem 0;
     background-color: var(--color-surface);
     border-bottom: 1px solid var(--color-line-soft);
   }
+  .audience-section .eyebrow { display: block; margin-bottom: 0.6rem; }
   .audience-section h2 {
     font-family: var(--font-serif);
-    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
     font-weight: 600;
     letter-spacing: -0.02em;
-    margin: 1rem 0 2.4rem;
+    margin-bottom: 1.2rem;
     line-height: 1.1;
+  }
+  .aud-intro {
+    font-size: 0.98rem;
+    color: var(--color-text-2);
+    line-height: 1.7;
+    max-width: 60em;
+    margin-bottom: 2.5rem;
+    border-left: 3px solid var(--color-accent);
+    padding-left: 1.2rem;
+    font-style: italic;
   }
   .audience-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.4rem;
   }
-  .audience-card {
+  .aud-group {
     background-color: var(--color-bg);
     border: 1px solid var(--color-line-soft);
     border-radius: var(--radius-md);
-    padding: 1.8rem;
-    transition: transform 240ms ease, border-color 240ms ease;
+    padding: 1.5rem;
   }
-  .audience-card:hover { transform: translateY(-3px); border-color: var(--color-accent); }
-  .aud-icon { font-size: 1.8rem; display: block; margin-bottom: 0.9rem; }
-  .audience-card h3 {
-    font-family: var(--font-sans);
-    font-size: 1rem;
+  .aud-group-title {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .aud-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .aud-list li {
+    font-size: 0.84rem;
+    color: var(--color-text-2);
+    line-height: 1.4;
+    padding-left: 0.8rem;
+    position: relative;
+  }
+  .aud-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-size: 0.7rem;
+    top: 2px;
+  }
+
+  /* ── Roadmap ── */
+  .roadmap-section {
+    padding: 5rem 0;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .roadmap-section .eyebrow { display: block; margin-bottom: 0.6rem; }
+  .roadmap-section h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .roadmap-intro {
+    font-size: 0.98rem;
+    color: var(--color-text-2);
+    line-height: 1.7;
+    max-width: 60em;
+    margin-bottom: 2.8rem;
+  }
+  .roadmap-track { display: flex; flex-direction: column; gap: 0; }
+  .roadmap-item {
+    display: grid;
+    grid-template-columns: 9rem 2px 1fr;
+    gap: 0 1.8rem;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid var(--color-line-soft);
+    align-items: start;
+  }
+  .roadmap-item:last-child { border-bottom: 0; }
+  .ri-phase { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-start; padding-top: 3px; }
+  .ri-phase-label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: var(--color-text-soft);
+  }
+  .ri-badge {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: var(--radius-xs);
+    font-weight: 700;
+  }
+  .live-badge { background: rgba(22,166,132,.15); color: #16a684; border: 1px solid rgba(22,166,132,.3); }
+  .soon-badge { background: rgba(208,135,44,.15); color: #d68030; border: 1px solid rgba(208,135,44,.3); }
+  .plan-badge { background: rgba(86,98,91,.12); color: var(--color-text-soft); border: 1px solid var(--color-line); }
+  .ri-connector { background-color: var(--color-line); width: 2px; min-height: 100%; align-self: stretch; }
+  .ri-live .ri-connector { background-color: var(--color-accent); }
+  .ri-content h3 {
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--color-text);
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.5rem;
   }
-  .audience-card p {
+  .ri-content p {
     font-size: 0.9rem;
     color: var(--color-text-2);
     line-height: 1.6;
     margin: 0;
   }
 
-  /* ── How-to ── */
-  .howto-section { padding: 4.5rem 0; border-bottom: 1px solid var(--color-line-soft); }
-  .howto-section h2 {
+  /* ── Contact ── */
+  .contact-section {
+    padding: 5rem 0;
+    background-color: #0a1510;
+  }
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .contact-text .eyebrow { display: block; margin-bottom: 0.6rem; }
+  .contact-text h2 {
     font-family: var(--font-serif);
-    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
     font-weight: 600;
     letter-spacing: -0.02em;
-    margin: 1rem 0 2.4rem;
+    margin-bottom: 1.2rem;
+    color: #f1ece0;
+    line-height: 1.1;
   }
-  .howto-steps {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+  .contact-text p {
+    font-size: 0.96rem;
+    color: rgba(241,236,224,.68);
+    line-height: 1.7;
+    margin-bottom: 1.1rem;
   }
-  .howto-step {
-    display: flex;
-    gap: 2rem;
-    padding: 2rem 0;
-    border-bottom: 1px solid var(--color-line-soft);
-  }
-  .step-num {
+  .contact-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.8rem; }
+  .btn-ghost-light {
     font-family: var(--font-mono);
     font-size: 0.72rem;
     letter-spacing: 0.12em;
-    color: var(--color-accent);
-    font-weight: 700;
-    min-width: 2rem;
-    padding-top: 4px;
-  }
-  .step-body h3 {
-    font-family: var(--font-serif);
-    font-size: 1.35rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--color-text);
-    letter-spacing: -0.01em;
-  }
-  .step-body p {
-    font-size: 0.95rem;
-    color: var(--color-text-2);
-    line-height: 1.6;
-    margin-bottom: 0.9rem;
-    max-width: 52em;
-  }
-  .step-link {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--color-accent);
-    font-weight: 600;
-    transition: letter-spacing 180ms ease;
+    border: 1px solid rgba(241,236,224,.3);
+    color: rgba(241,236,224,.7);
+    padding: 10px 18px;
+    border-radius: var(--radius-xs);
+    transition: border-color 180ms ease, color 180ms ease;
   }
-  .step-link:hover { letter-spacing: 0.14em; }
+  .btn-ghost-light:hover { border-color: rgba(241,236,224,.6); color: #f1ece0; }
 
-  /* ── Contribute ── */
-  .contrib-section {
-    padding: 5rem 0;
-    background-color: #13201b;
+  .contact-disclaimer {
+    background: rgba(241,236,224,.05);
+    border: 1px solid rgba(241,236,224,.1);
+    border-radius: var(--radius-md);
+    padding: 1.8rem;
   }
-  .contrib-inner {
-    display: flex;
-    gap: 3rem;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+  .contact-disclaimer h3 {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(241,236,224,.4);
+    margin-bottom: 0.9rem;
   }
-  .contrib-section h2 {
-    font-family: var(--font-serif);
-    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-    font-weight: 600;
-    color: #f1ece0;
-    margin-bottom: 0.7rem;
-    letter-spacing: -0.02em;
+  .contact-disclaimer p {
+    font-size: 0.8rem;
+    color: rgba(241,236,224,.45);
+    line-height: 1.65;
+    margin-bottom: 0.8rem;
   }
-  .contrib-section p {
-    font-size: 0.98rem;
-    color: rgba(241,236,224,.72);
-    line-height: 1.6;
-    max-width: 50em;
-  }
+  .contact-disclaimer p:last-child { margin-bottom: 0; }
 
-  @media (max-width: 780px) {
+  /* ── Responsive ── */
+  @media (max-width: 1100px) {
+    .audience-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 900px) {
+    .masthead-inner,
     .mission-grid,
+    .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .coverage-grid { grid-template-columns: 1fr; }
+    .principles-grid { grid-template-columns: 1fr; }
+    .principle-item { border-right: 0; }
+    .principle-item:nth-child(n) { border-bottom: 1px solid var(--color-line-soft); }
+    .principle-item:last-child { border-bottom: 0; }
+    .roadmap-item { grid-template-columns: 7rem 2px 1fr; }
+  }
+  @media (max-width: 600px) {
     .audience-grid { grid-template-columns: 1fr; }
-    .contrib-inner { flex-direction: column; gap: 2rem; }
+    .roadmap-item { grid-template-columns: 1fr; gap: 0.8rem; }
+    .ri-connector { display: none; }
   }
 </style>
