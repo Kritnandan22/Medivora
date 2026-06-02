@@ -236,8 +236,8 @@ flowchart TD
   </article>
 </BaseLayout>
 
-<script>
-  import mermaid from 'mermaid';
+<script is:inline type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
   mermaid.initialize({
     startOnLoad: true,
     theme: 'base',
