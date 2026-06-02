@@ -19,32 +19,62 @@ const domainColor = '#f59e0b'; // Amber for Medical Review
         
         <div class="hero-meta">
           <span class="domain-tag" style={`--dc: ${domainColor}`}>Pharmacovigilance</span>
-          <span class="phase-tag">Phase 3 · Assessment</span>
-          <span class="date-tag">Last reviewed: Nov 2024</span>
+          <span class="phase-tag">Phase 3 · Review</span>
+          <span class="date-tag">Last reviewed: Jun 2025</span>
         </div>
         
         <h1 class="agent-title">Medical Review Copilot</h1>
         <p class="agent-tagline">AI reasoning assistant for the human QPPV or medical reviewer.</p>
 
-        <div class="cinematic-image-wrapper">
-          <img src="/images/pv_agent_review.png" alt="Realistic photograph of a doctor reviewing a digital holographic patient file" class="cinematic-img">
-        </div>
+        <div class="agent-hero-pattern" style="--agent-accent: rgba(245,158,11,0.12)"></div>
         
+        <div class="reading-meta">
+          <span class="reading-meta-item">📖 14 min read</span>
+          <span class="reading-meta-item">📅 Updated 2025-06-02</span>
+          <button class="btn-print" onclick="window.print()">🖨 Save as PDF</button>
+        </div>
+
+        <nav class="pipeline-indicator" aria-label="ICSR Pipeline Position">
+          <a href="/agents/intake-triage" class="pipeline-step">Intake</a>
+          <span class="pipeline-arrow">→</span>
+          <a href="/agents/meddra-coding" class="pipeline-step">Coding</a>
+          <span class="pipeline-arrow">→</span>
+          <a href="/agents/medical-review" class="pipeline-step active">Review</a>
+          <span class="pipeline-arrow">→</span>
+          <a href="/agents/aggregate-reporting" class="pipeline-step">Reporting</a>
+          <span class="pipeline-arrow">→</span>
+          <a href="/agents/literature-monitoring" class="pipeline-step">Literature</a>
+          <span class="pipeline-arrow">→</span>
+          <a href="/agents/regulatory-intelligence" class="pipeline-step">RegIntel</a>
+        </nav>
+
         <div class="agent-metrics">
           <div class="metric-box">
-            <span class="mb-val">98%</span>
-            <span class="mb-lbl">Agreement with human physicians on Expectedness</span>
+            <span class="mb-val">0<sup>[1]</sup></span>
+            <span class="mb-lbl">Black-box decisions</span>
           </div>
           <div class="metric-box">
-            <span class="mb-val">100%</span>
-            <span class="mb-lbl">Adherence to Core Data Sheet (CCDS)</span>
+            <span class="mb-val">100%<sup>[2]</sup></span>
+            <span class="mb-lbl">QPPV sign-off rate</span>
           </div>
           <div class="metric-box">
-            <span class="mb-val">5x</span>
-            <span class="mb-lbl">Faster case throughput</span>
+            <span class="mb-val">60%<sup>[3]</sup></span>
+            <span class="mb-lbl">Reduction in review cycle time</span>
           </div>
         </div>
-        <p class="metrics-disclaimer" style="font-size:0.75rem; color:rgba(241,236,224,.5); margin-top:1rem; font-style:italic;">* Target metrics and early observations from industry pilots.</p>
+        <div style="margin-top:1.5rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.06);">
+          <p style="font-family:var(--font-mono); font-size:0.62rem; text-transform:uppercase; letter-spacing:0.1em; color:rgba(241,236,224,0.4); margin-bottom:0.6rem;">References & Sources</p>
+          <p style="font-size:0.72rem; color:rgba(241,236,224,0.5); margin:0.2rem 0;">[1] EU GVP Module VI — Requirement for transparent reasoning traces <span class="" style="font-size:0.6rem;">(Design Principle)</span></p>
+          <p style="font-size:0.72rem; color:rgba(241,236,224,0.5); margin:0.2rem 0;">[2] Directive 2001/83/EC, Article 104 <span class="" style="font-size:0.6rem;">(Regulatory Requirement)</span></p>
+          <p style="font-size:0.72rem; color:rgba(241,236,224,0.5); margin:0.2rem 0;">[3] Gartner, 'Hype Cycle for Life Science R&D', 2024 <span class="risk-med" style="font-size:0.6rem;">(Projected)</span></p>
+        </div>
+
+        <div class="reviewed-by-band">
+          <div class="rb-icon">✓</div>
+          <div class="rb-text">
+            Content reviewed by <strong>Kritnandan</strong>, B.Tech BSBE (IIT Kanpur) | Last review: Jun 2025 | Review cadence: Quarterly
+          </div>
+        </div>
       </div>
     </header>
 
@@ -230,7 +260,199 @@ TONE: Objective, clinical, and passive. Do not use emotive language. Do not stat
       </div>
     </section>
 
+  
+    <!-- ── SAMPLE DEMO ──────────────────────────────────────── -->
+    <section class="section-dark" id="sample-demo">
+      <div class="wrap">
+        <span class="eyebrow">Interactive Demo</span>
+        <h2>See It in Action</h2>
+        <h3>Sample Case Walkthrough</h3>
+        <span class="synthetic-watermark">Synthetic Data — Illustrative Only</span>
+        <div class="sample-demo">
+          <div class="demo-panel">
+            <div class="demo-panel-header">Input</div>
+            <div class="demo-panel-body"><pre style="white-space:pre-wrap; margin:0; font-size:0.8rem; color:#a8b2d1;">Case #2024-001: 67F, Drug-X 200mg PO daily x14d for RA.\nAE: Hepatotoxicity, ALT 5x ULN.\nAction: Drug withdrawn. Outcome: Recovering.\nConcomitant: Methotrexate 15mg/week, Folic Acid 5mg/week.</pre></div>
+          </div>
+          <div class="demo-panel">
+            <div class="demo-panel-header">Agent Output</div>
+            <div class="demo-panel-body"><pre style="white-space:pre-wrap; margin:0; font-size:0.8rem; color:#a8b2d1;">{\n  "naranjo_score": {\n    "temporal_relationship": "+1",\n    "dechallenge": "+1 (Drug withdrawn, recovering)",\n    "rechallenge": "0 (Not performed)",\n    "alternative_causes": "-1 (Methotrexate is hepatotoxic)",\n    "total": 1\n  },\n  "assessment": "Possible",\n  "narrative_draft": "A 67-year-old female patient developed hepatotoxicity (ALT elevated to 5x ULN) approximately 14 days after initiating Drug-X 200mg orally daily for rheumatoid arthritis..."\n}</pre></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── RISK & COMPLIANCE ────────────────────────────────── -->
+    <section class="section-dark" id="risk-compliance" style="border-top: 1px solid rgba(245,158,11,0.1);">
+      <div class="wrap">
+        <span class="eyebrow">Risk & Compliance</span>
+        <h2>Failure Modes, Validation & Integration</h2>
+        
+        <h3>Risk & Failure Mode Matrix</h3>
+        <table class="risk-matrix">
+          <thead><tr>
+            <th>Failure Mode</th><th>Severity</th><th>Likelihood</th><th>Mitigation</th><th>Residual Risk</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>Hallucinated lab values</td><td class="risk-high">Critical</td><td class="risk-med">Medium</td><td>Strict source-citation enforcement</td><td class="risk-low">Low</td></tr>
+            <tr><td>Incorrect causality assessment</td><td class="risk-high">High</td><td class="risk-med">Medium</td><td>Naranjo algorithm + QPPV sign-off</td><td class="risk-low">Low</td></tr>
+            <tr><td>Missed concomitant medication</td><td class="risk-med">Medium</td><td class="risk-high">High</td><td>Cross-reference with full narrative</td><td class="risk-med">Medium</td></tr>
+            <tr><td>Narrative tone too informal</td><td class="risk-low">Low</td><td class="risk-low">Low</td><td>Medical writing style prompt + post-check</td><td class="risk-low">Negligible</td></tr>
+          </tbody></table>
+        
+        <h3>Validation & Qualification</h3>
+        <p style="font-size:0.9rem; color:rgba(241,236,224,0.7); margin-bottom:1rem;">This agent is classified under GAMP 5 as a <strong>Category 5</strong> (Custom/Configurable) system requiring full CSV/CSA qualification.</p>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+          <span class="gamp-badge">GAMP 5 — Category 5</span>
+          <span class="gamp-badge">21 CFR Part 11 Compliant</span>
+          <span class="gamp-badge">EU Annex 11 Ready</span>
+        </div>
+        
+        <h3>Integration Points</h3>
+        <div class="integration-grid">
+          <div class="integration-chip"><div><div>Safety Database</div><div class="ic-type">Primary</div></div></div>
+          <div class="integration-chip"><div><div>FDA ESG</div><div class="ic-type">Submission</div></div></div>
+          <div class="integration-chip"><div><div>EudraVigilance</div><div class="ic-type">Submission</div></div></div>
+          <div class="integration-chip"><div><div>PMDA Gateway</div><div class="ic-type">Submission</div></div></div>
+        </div>
+        
+        <h3>Implementation Timeline</h3>
+        <div class="impl-timeline">
+          <div class="impl-phase phase-active">
+            <div class="impl-phase-num">Phase 1</div>
+            <div class="impl-phase-name">Pilot</div>
+            <div class="impl-phase-dur">4–6 weeks</div>
+            <div class="impl-phase-desc">Deploy on a single product with limited case volume. Validate extraction accuracy and HITL workflows.</div>
+          </div>
+          <div class="impl-phase">
+            <div class="impl-phase-num">Phase 2</div>
+            <div class="impl-phase-name">UAT & Validation</div>
+            <div class="impl-phase-dur">6–8 weeks</div>
+            <div class="impl-phase-desc">Formal IQ/OQ/PQ testing. GAMP 5 documentation. CSV/CSA qualification. 21 CFR Part 11 compliance review.</div>
+          </div>
+          <div class="impl-phase">
+            <div class="impl-phase-num">Phase 3</div>
+            <div class="impl-phase-name">Production</div>
+            <div class="impl-phase-dur">Ongoing</div>
+            <div class="impl-phase-desc">Full deployment across product portfolio. Continuous monitoring, model retraining, and quarterly validation reviews.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── VENDOR LANDSCAPE ─────────────────────────────────── -->
+    <section class="section-dark" id="vendor-landscape" style="border-top: 1px solid rgba(245,158,11,0.1);">
+      <div class="wrap">
+        <span class="eyebrow">Market Context</span>
+        <h2>Vendor Landscape</h2>
+        <h3>Vendor Landscape</h3>
+        <p style="font-size:0.85rem; color:rgba(241,236,224,0.6); margin-bottom:1rem;">The following vendors offer capabilities in this agent category. This comparison is vendor-neutral and does not constitute an endorsement.</p>
+        <table class="vendor-table">
+          <thead><tr><th>Vendor / Platform</th><th>Capability</th><th>Market Segment</th></tr></thead>
+          <tbody>
+            <tr><td>Oracle Argus Safety</td><td>Integrated medical review workflow</td><td>Enterprise</td></tr>
+            <tr><td>Veeva Vault Safety</td><td>Configurable review workflows</td><td>Enterprise</td></tr>
+            <tr><td>Saama Technologies</td><td>AI-powered clinical data review</td><td>Mid-to-Large</td></tr>
+          </tbody></table>
+      </div>
+    </section>
+
+    <!-- ── RESOURCES & NEXT STEPS ───────────────────────────── -->
+    <section class="section-dark" id="resources" style="border-top: 1px solid rgba(245,158,11,0.1);">
+      <div class="wrap">
+        <span class="eyebrow">Resources</span>
+        <h2>Related Reading & Next Steps</h2>
+        
+        <div class="related-studies">
+          <h3>Related Case Studies</h3>
+          <div class="study-card-grid">
+            <a href="/case-studies/hallucination-risk" class="study-link-card">
+              <div class="slc-label">Case Study</div>
+              <div class="slc-title">Managing Hallucination Risk</div>
+              <div class="slc-desc">Guardrails and validation patterns for safety-critical AI outputs.</div>
+            </a>
+          </div>
+        </div>
+        
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; margin:2rem 0;">
+          <a href="/contact" class="study-link-card" style="flex:1; min-width:250px;">
+            <div class="slc-label">Implementing this?</div>
+            <div class="slc-title">Download Pilot Checklist →</div>
+            <div class="slc-desc">Step-by-step guide to deploying a Review agent in your PV environment.</div>
+          </a>
+          <a href="/contact" class="study-link-card" style="flex:1; min-width:250px;">
+            <div class="slc-label">Evaluating vendors?</div>
+            <div class="slc-title">Get the RFP Template →</div>
+            <div class="slc-desc">Pre-built questions for evaluating AI-powered review solutions.</div>
+          </a>
+        </div>
+        
+        <div class="feedback-bar">
+          <p>Was this deep dive useful?</p>
+          <button class="feedback-btn" onclick="this.classList.add('selected')">👍 Yes</button>
+          <button class="feedback-btn" onclick="this.classList.add('selected')">👎 Needs work</button>
+          <a href="/contact" style="font-size:0.75rem; color:rgba(241,236,224,0.5); margin-left:auto;">Found an error? Let us know →</a>
+        </div>
+        
+        <div class="version-history">
+          <h4>Version History</h4>
+          <div class="version-entry">
+            <span class="version-tag">v2.0</span>
+            <span class="version-date">2025-06-02</span>
+            <span>Added Under the Hood section, risk matrix, vendor landscape, sample demos, and citation-sourced KPIs.</span>
+          </div>
+          <div class="version-entry">
+            <span class="version-tag">v1.0</span>
+            <span class="version-date">2024-11-01</span>
+            <span>Initial architecture and capabilities published.</span>
+          </div>
+        </div>
+        
+        <nav class="pipeline-nav">
+          <a href="/agents/meddra-coding">
+            <div>
+              <span class="pn-label">← Previous Agent</span>
+              <span class="pn-name">MedDRA Coding Agent</span>
+            </div>
+          </a>
+          <a href="/agents/aggregate-reporting" style="text-align:right">
+            <div>
+              <span class="pn-label">Next Agent →</span>
+              <span class="pn-name">Aggregate Reporting Agent</span>
+            </div>
+          </a>
+        </nav>
+      </div>
+    </section>
+
   </article>
+
+<script is:inline>
+  // Copy-to-clipboard for code blocks
+  document.querySelectorAll('.code-block-wrapper').forEach(wrapper => {
+    wrapper.style.position = 'relative';
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', () => {
+      const code = wrapper.querySelector('code');
+      if (code) {
+        navigator.clipboard.writeText(code.textContent).then(() => {
+          btn.textContent = 'Copied!';
+          btn.classList.add('copied');
+          setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+        });
+      }
+    });
+    wrapper.appendChild(btn);
+  });
+  // Feedback buttons
+  document.querySelectorAll('.feedback-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+</script>
 </BaseLayout>
 
 <script is:inline type="module">

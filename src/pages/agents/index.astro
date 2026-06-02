@@ -321,6 +321,78 @@ const domainColors: Record<string, string> = {
   </div>
 </section>
 
+<!-- ── COMPARISON TABLE ───────────────────────────────── -->
+<section class="comparison-section">
+  <div class="wrap" style="overflow-x: auto;">
+    <div class="grid-section-head">
+      <h2>Agents Comparison</h2>
+      <p>A high-level technical breakdown of the 6 core pharmacovigilance agents.</p>
+    </div>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Agent</th>
+          <th>Phase</th>
+          <th>Inputs</th>
+          <th>Outputs</th>
+          <th>Standards</th>
+          <th>Model Class</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong><a href="/agents/intake-triage">Intake & Triage</a></strong></td>
+          <td>Phase 1</td>
+          <td>Emails, PDFs, Faxes</td>
+          <td>E2B JSON payload</td>
+          <td>ICH E2B(R3)</td>
+          <td>Multi-modal Vision / LLM</td>
+        </tr>
+        <tr>
+          <td><strong><a href="/agents/meddra-coding">MedDRA Coding</a></strong></td>
+          <td>Phase 2</td>
+          <td>Verbatim terms, Narratives</td>
+          <td>MedDRA LLT + Confidence</td>
+          <td>MedDRA 27.x</td>
+          <td>Embeddings / RAG + LLM</td>
+        </tr>
+        <tr>
+          <td><strong><a href="/agents/medical-review">Medical Review</a></strong></td>
+          <td>Phase 3</td>
+          <td>Draft ICSR, Patient Hx</td>
+          <td>Naranjo Score, Narrative</td>
+          <td>21 CFR Part 11</td>
+          <td>Reasoning LLM</td>
+        </tr>
+        <tr>
+          <td><strong><a href="/agents/aggregate-reporting">Aggregate Reporting</a></strong></td>
+          <td>Phase 4</td>
+          <td>Line Listings, Queries</td>
+          <td>Draft PSUR Sections</td>
+          <td>ICH E2C(R2)</td>
+          <td>Map-Reduce / Long Context</td>
+        </tr>
+        <tr>
+          <td><strong><a href="/agents/literature-monitoring">Literature Monitoring</a></strong></td>
+          <td>Surveillance</td>
+          <td>PubMed/Embase Abstracts</td>
+          <td>Triage classification, E2B</td>
+          <td>EMA MLM</td>
+          <td>Zero-shot Classifier</td>
+        </tr>
+        <tr>
+          <td><strong><a href="/agents/regulatory-intelligence">Regulatory Intel</a></strong></td>
+          <td>Surveillance</td>
+          <td>Health Authority Websites</td>
+          <td>Regulatory Impact Alerts</td>
+          <td>FDA, EMA, PMDA</td>
+          <td>Web Scraper + RAG</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
 <!-- ── REQUEST ACCESS CTA ─────────────────────────────── -->
 <section class="access-section">
   <div class="wrap">
