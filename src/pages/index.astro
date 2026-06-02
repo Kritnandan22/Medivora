@@ -3,10 +3,10 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import BrandMark from '~/components/BrandMark.astro';
 
 const stats = [
-  { n: '~$2.3B', l: 'Average cost to bring a single new medicine to market' },
-  { n: '~90%', l: 'Of drug candidates still fail during clinical development', amber: true },
-  { n: '80–90%', l: 'Phase I success for AI-discovered molecules vs. 40–65% historically' },
-  { n: '67%', l: 'Reported cut in admin processing time by an AI pharmacy agent', amber: true },
+  { n: '~50-60%', l: 'Of pharmacovigilance budgets absorbed by case processing' },
+  { n: '€50-200', l: 'Fully-loaded processing cost per individual case (ICSR)', amber: true },
+  { n: '70-85%', l: 'Of ICSR processing steps proven automatable by agentic AI' },
+  { n: '15 → <5', l: 'Days from intake to submission achieved in recent pilots', amber: true },
 ];
 
 const sections = [
@@ -17,22 +17,22 @@ const sections = [
     body: 'Two distinct capabilities — workflow automation and agentic automation — sit underneath everything in this guide. Knowing which is which is the whole game.',
   },
   {
-    href: '/value-chain',
-    eyebrow: '02 — The Value Chain',
-    title: 'Seven stages, two engines at work in each.',
-    body: 'From the first hypothesis to the last dose, here is where workflow and agentic automation are being applied across the life-sciences value chain.',
+    href: '/safety-pipeline',
+    eyebrow: '02 — The Safety Pipeline',
+    title: 'From adverse event to signal detection.',
+    body: 'The entire ICSR lifecycle mapped out. Here is where workflow and agentic automation are being applied across the drug safety pipeline.',
   },
   {
     href: '/case-studies',
     eyebrow: '03 — In Practice',
     title: 'Real deployments — the wins and the honest limits.',
-    body: 'The technology is past the demo stage in several areas. It has also produced cautionary tales worth keeping in view.',
+    body: 'The technology is past the demo stage. See the evidence for MedDRA coding, case duplication, and the cautionary tales.',
   },
   {
     href: '/responsible-adoption',
     eyebrow: '04 — Doing It Responsibly',
-    title: 'In medicine, "it mostly works" is not good enough.',
-    body: 'Validation, audit trails, human-in-the-loop, harmonised data, governance — the non-negotiables that separate a deployable system from a liability.',
+    title: 'In drug safety, "it mostly works" is a liability.',
+    body: 'Validation, audit trails, human-in-the-loop, FDA Elsa, CIOMS XIV — the non-negotiables that separate a deployable PV system from a hazard.',
   },
 ];
 ---
@@ -42,23 +42,18 @@ const sections = [
     <div class="wrap">
       <div class="hero-grid">
         <div>
-          <span class="eyebrow">A Field Guide · Pharma & Medicine Management</span>
+          <span class="eyebrow">A Field Guide · Pharmacovigilance & Drug Safety</span>
           <h1 class="hero-h">
-            The pharmacy that <em>runs itself</em> — and the science that
-            <em>thinks ahead</em>.
+            Drug safety that <em>keeps up</em>.
           </h1>
           <p class="hero-sub">
-            Two kinds of automation are reshaping how medicines are discovered,
-            approved, made, distributed and managed.
-            <strong>Workflow automation</strong> moves structured work through
-            the pipeline flawlessly.
-            <strong>Agentic automation</strong> reasons through the messy parts
-            a human used to handle. Here is how both are being put to work
-            across the life-sciences value chain.
+            The definitive field guide to agentic AI in pharmacovigilance. 
+            <strong>Workflow automation</strong> routes E2B files and enforces timelines.
+            <strong>Agentic automation</strong> reasons through rambling patient emails, extracts events, and suggests MedDRA codes. Here is how autonomous agents are reshaping the post-market safety pipeline.
           </p>
           <div class="hero-actions">
-            <a href="/value-chain" class="btn btn-primary"
-              >See the value chain →</a
+            <a href="/safety-pipeline" class="btn btn-primary"
+              >See the safety pipeline →</a
             >
             <a href="/foundations" class="btn btn-ghost"
               >Understand the difference</a

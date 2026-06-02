@@ -1,0 +1,358 @@
+MEDIVORA
+Strategic Focus & Implementation Blueprint
+
+Choosing one direction the site can own — and the plan to get there.
+The recommended focus:
+Agentic AI in Pharmacovigilance (post-market drug safety)
+Field
+Detail
+Prepared for
+Medivora — medivora-health.netlify.app
+Document type
+Positioning recommendation + implementation strategy
+Date
+June 2026
+Scope
+Site repositioning, content architecture, differentiation, 90-day roadmap
+For information and planning only. Market figures and regulatory details are drawn from publicly reported sources (listed in the appendix) and should be verified against primary sources before use in any commercial, clinical, or regulatory decision.
+
+Contents
+
+
+
+1. Executive summary
+
+You have built a genuinely good asset. Medivora is a well-designed, well-written field guide to workflow and agentic automation across the life-sciences value chain. The problem is not quality — it is breadth. Right now the site tries to cover everything from drug discovery to the pharmacy counter across eight sections. A guide to everything cannot become the reference for anything, and "professionals who can use it" tend to bookmark and return to sites that own one subject completely.
+This document recommends narrowing Medivora to a single, defensible direction and rebuilding everything around it:
+Recommended focus
+Agentic AI in pharmacovigilance — the use of autonomous, reasoning AI agents to run the post-market drug-safety pipeline: adverse-event intake, data extraction, MedDRA coding, duplicate detection, seriousness assessment, narrative drafting, signal detection, and regulatory submission, with humans kept in the loop.
+Why this one, in brief:
+	•	It is pharma-native. It sits squarely in the "pharmaceuticals" half of Medivora's existing identity and keeps the whole brand coherent.
+	•	It is a textbook agentic-AI problem. Case processing is a multi-step, judgement-heavy pipeline — exactly the kind of "messy work a human used to handle" that your own homepage says agentic automation is for. It showcases the thesis better than almost any other topic.
+	•	The pain and the payoff are large and quantified. Case processing absorbs roughly 50–60% of pharmacovigilance budgets; large companies can receive up to a million safety reports a year; fully-loaded cost runs about €50–€200 per case. Credible deployments report 70–85% of case processing automatable and intake-to-submission time falling from 15+ days to under five.
+	•	It is global, not US-only. It runs on worldwide standards (ICH E2B, MedDRA, WHO Drug, GVP) and is regulated by the FDA, EMA, MHRA and others — so the audience and the content are not confined to one country.
+	•	The timing is unusually good. In the last year the field crossed a threshold: the FDA launched its Claude-based assistant Elsa for adverse-event work (one year ago today, on 2 June 2025), ran an internal Agentic AI Challenge demonstrated in January 2026, and the CIOMS Working Group XIV published the first global principles for AI in pharmacovigilance in December 2025. There is a clear "why now."
+	•	It is ownable. Unlike crowded spaces such as prior authorization or medication-adherence apps, there is no single, authoritative, vendor-neutral field guide to agentic pharmacovigilance. That gap is the opportunity.
+The rest of this document analyses the current site, shows why pharmacovigilance beats the two strongest alternatives, explains the problem and the agentic solution in enough depth to write credibly, then gives you a concrete repositioning, a section-by-section content plan mapped onto your existing pages, a differentiation strategy, and a 90-day roadmap with success metrics.
+2. Where Medivora stands today
+
+2.1 What the site is now
+Medivora presents itself as "a field guide to how workflow automation and agentic automation are reshaping pharmaceuticals and medicine management — from the first hypothesis to the last dose." It is organised into eight destinations: Foundations, Value Chain, Agents, Case Studies, Responsible Adoption, Road Ahead, Glossary, and About. The homepage leads with a strong distinction — workflow automation that "moves structured work through the pipeline flawlessly" versus agentic automation that "reasons through the messy parts" — and anchors the reader with four headline statistics covering cost-to-market, clinical failure rates, AI-discovery success, and pharmacy admin-time savings.
+2.2 Real strengths to keep
+	•	A clear conceptual spine. The workflow-vs-agentic framing is genuinely useful and is the right intellectual backbone. Keep it; just apply it to one domain.
+	•	Credibility instincts. A dedicated "Responsible Adoption" section and an explicit "information and education only / verify against primary sources" disclaimer signal seriousness. In a regulated field this is a differentiator, not boilerplate.
+	•	Sensible information architecture. Foundations → Value Chain → Case Studies → Responsible Adoption is a logical learning path, plus reference material (Glossary, About). This structure survives the pivot almost intact.
+	•	Clean, modern design and a calm voice. The visual system and tone already read as professional. No redesign is required — only a re-pointing of the content.
+2.3 The core problem: breadth dilutes authority
+Medivora's scope is the entire life-sciences value chain — "seven stages, two engines at work in each," from discovery through distribution to the pharmacy counter. That is the weakness. The consequences:
+	•	No single audience feels it was built for them. A discovery scientist, a manufacturing engineer, a community pharmacist and a drug-safety officer have almost nothing in common. Content that serves all of them deeply serves none of them.
+	•	It competes with everyone and out-ranks no one. Each stage of the value chain already has large incumbents and consultancies publishing about it. A broad guide is spread too thin to win search or word-of-mouth in any one of them.
+	•	It is unsustainable to keep current. Covering seven stages credibly means tracking seven fast-moving fields. Narrowing to one makes it realistic to be genuinely up to date — which is the whole promise of a "field guide."
+	•	The thesis gets demonstrated weakly. Spread across discovery, trials, manufacturing and dispensing, the agentic story is told in fragments. Concentrated on one pipeline, it can be shown end to end.
+The strategic insight
+The fastest, most credible path to "professionals use this" is to stop being a guide to automation across pharma and become the guide to agentic AI in one specific pharma workflow. The brand, design and conceptual spine all carry over; only the scope narrows.
+
+3. The decision: why focus, and why pharmacovigilance
+
+3.1 The case for a single vertical
+Authority on the web is won by depth, not coverage. The sites professionals trust in a domain are the ones that go deeper than anyone else on a narrow subject, stay current, and are honest about limits. Picking one vertical lets Medivora do all three. It also makes every downstream decision easier: what to write, who to reach, which keywords to target, what a newsletter is about, and — if you ever want it — what a product or service could be.
+3.2 The three finalists
+From the areas where agentic AI is delivering real, near-term value in medicine and pharma, three candidates fit Medivora's identity well enough to be serious options:
+	•	A. Agentic AI in pharmacovigilance — autonomous agents running post-market drug-safety case processing and signal detection.
+	•	B. Prior authorization / utilization management — agents that automate the insurance approval pipeline for medications and procedures.
+	•	C. Medication management & pharmacy operations — agents for adherence, refills, prescription processing and pharmacy back-office work.
+3.3 Decision matrix
+Each option is scored 1 (weak) to 5 (strong) against seven criteria that determine whether a focused content site can win.
+Criterion
+A. Pharmaco-
+vigilance
+B. Prior auth
+C. Medication mgmt
+Fit with Medivora's pharma identity
+5
+2
+4
+“Pure” agentic-AI fit (multi-step reasoning)
+5
+4
+3
+Market pain & quantified ROI
+5
+5
+4
+Whitespace / can a content site own it?
+5
+2
+2
+Audience clarity & willingness to engage
+4
+4
+3
+Global relevance (beyond the US)
+5
+2
+3
+Content runway to sustain authority
+5
+4
+4
+Total (out of 35)
+34
+23
+23
+
+3.4 Why the alternatives lose
+Prior authorization is a genuinely huge problem — by CMS-cited estimates it costs the US health system on the order of $35 billion a year and is blamed for the large majority of care delays — and a hard regulatory deadline (the CMS Interoperability and Prior Authorization Final Rule, with decision timelines from 2026 and FHIR-based APIs required by 2027) is forcing the whole payer industry to modernise. But it fails the two criteria that matter most for Medivora specifically. First, it is essentially a US payer-and-provider administrative problem, not a pharmaceuticals problem — it pulls the brand away from its identity. Second, the whitespace is already filled: well-funded players (Cohere Health, Optum, UiPath, R1 RCM and others) and a wave of startups are publishing heavily, so a new content site cannot realistically own it.
+Medication management and pharmacy operations fits the "medicine management" half of the name and addresses a real, costly problem (nonadherence). But the space is crowded with established names across software and hardware — adherence apps, smart dispensers and pharmacy-automation incumbents — and much of the value is in devices, integrations and call-handling rather than the kind of multi-step reasoning that makes agentic AI distinctive. The audience is also fragmented across hospital, retail and independent pharmacy. It is a harder space to own and a weaker showcase for the agentic thesis.
+When to revisit prior authorization
+If you later decide the audience should be US health-plan and revenue-cycle professionals rather than pharma drug-safety professionals, prior authorization becomes the stronger choice and the regulatory deadline gives it urgency. For Medivora as it stands — a pharma-flavoured brand aimed at industry professionals — pharmacovigilance is the better fit. Keep prior authorization on the shelf as your most credible “plan B.”
+3.5 Why pharmacovigilance wins
+Pharmacovigilance is the rare topic that scores at or near the top on every criterion: it keeps the brand coherent, it is the single best demonstration of what agentic automation is for, the economics are large and well-documented, it is governed by global standards and regulators, and — critically — no one has yet built the definitive, vendor-neutral field guide to it. The remaining sections treat this as the decided direction.
+
+4. The problem in depth: pharmacovigilance today
+
+4.1 What pharmacovigilance is
+Pharmacovigilance (PV), also called drug safety, is the science of detecting, assessing, understanding and preventing the adverse effects of medicines after they reach the market. Its regulatory engine is the Individual Case Safety Report (ICSR): a structured record of a single suspected adverse drug reaction. Every report a company or regulator receives must be triaged, the relevant data extracted, the events medically coded (using the MedDRA dictionary), checked against existing cases for duplicates, assessed for seriousness and expectedness, written up as a case narrative, and submitted to the right authorities within strict timelines. Across all those cases, companies also watch for safety signals — emerging patterns that may indicate a previously unknown risk.
+4.2 Why it is so expensive and so painful
+PV is one of the most labour-intensive functions in the pharmaceutical industry, for structural reasons:
+	•	Crushing volume. A mid-size company with a few dozen marketed products may process anywhere from 5,000 to 50,000 ICSRs a year; the largest companies can receive up to a million. Volumes keep rising as products age and as new sources are monitored.
+	•	High unit cost, mostly manual. Fully-loaded cost per case is commonly cited at roughly €50–€200, with complex cases exceeding €500. The work — reading free-text faxes, emails and call transcripts, then extracting and coding them — is repetitive but demands trained judgement.
+	•	It dominates the budget. Case processing alone is estimated to absorb around 50–60% of total pharmacovigilance spend, making it the single biggest cost driver and therefore the biggest automation prize.
+	•	Proliferating intake channels. Reports no longer arrive only from clinicians. Teams now also monitor patient-support programmes, scientific literature, social media and patient forums, clinical-trial data and electronic health records — in many formats, much of it unstructured.
+	•	Unforgiving timelines and audit exposure. Serious cases must be reported within tight regulatory windows (for example, ICH and regional rules measured in days). Late or low-quality submissions create compliance findings and inspection risk.
+	•	A demand surge. The boom in high-volume specialty therapies (GLP-1 medicines, oncology agents, biologics) is pushing case counts up faster than teams can hire, intensifying backlog and burnout.
+Why this is the perfect agentic-AI problem
+Case processing is a sequence of distinct, rule-bound but judgement-heavy steps performed on messy, unstructured inputs under regulatory constraints. That is precisely the profile agentic AI is built for: not one model doing one task, but a coordinated set of specialist agents that read, extract, decide, draft and hand off — escalating the uncertain cases to a human. It is the homepage thesis made concrete.
+5. How agentic AI solves it
+
+5.1 Workflow vs agentic — applied to PV
+Medivora's existing distinction maps cleanly onto drug safety. Workflow automation is the rules-based plumbing: routing an E2B file from a gateway into the safety database, firing acknowledgements, enforcing timelines. It is reliable but brittle, and it breaks the moment an input is unstructured or a case is ambiguous. Agentic automation handles exactly those messy parts — reading a rambling patient email, deciding what is and is not an adverse event, choosing the right MedDRA term, judging seriousness — by reasoning over context rather than following a fixed script. Modern systems combine both: deterministic rules where the answer is fixed, reasoning agents where judgement is required.
+5.2 The multi-agent ICSR pipeline
+A credible agentic PV system is best understood as a team of specialist agents orchestrated end to end, with defined human checkpoints:
+Agent
+What it does
+Human-in-the-loop
+Intake
+Captures reports from email, fax, web forms, call transcripts, partner gateways, literature and social listening; applies OCR and speech-to-text.
+Spot-check low-confidence captures
+Extraction
+Identifies patient, reporter, suspect and concomitant products, indications, events, seriousness, outcome and timelines from unstructured text.
+Review flagged ambiguities
+MedDRA coding
+Maps reported terms to the correct MedDRA terms and WHO Drug entries.
+Approve non-obvious codes
+Deduplication
+Matches incoming cases against the database using probabilistic and rules-based logic to avoid duplicate ICSRs.
+Adjudicate near-matches
+Seriousness / expectedness
+Applies seriousness criteria and label/reference checks to determine reportability.
+Confirm serious-case calls
+Narrative drafting
+Generates a first-draft case narrative in the required style and structure.
+Edit and sign off
+Submission / QC
+Validates against E2B requirements, runs quality checks, prepares regulatory submission.
+Final release authority
+Signal detection
+Scans aggregated data and external streams for emerging safety patterns.
+Medical assessment of signals
+
+5.3 What is real now vs hype
+This is past the demo stage in several places, but it is not autonomous magic. The honest picture:
+	•	Documented gains. Credible analyses and vendor pilots report that 70–85% of ICSR processing can be automated; intake-to-submission times falling from 15+ days to under five; signal detection 40–60% faster; and automation of low-complexity tasks cutting processing cost by roughly 25–45%. One MedDRA-coding agent reports up to ~80% efficiency gains in coding.
+	•	Real products exist. Purpose-built agentic PV capabilities are shipping from established safety-platform vendors and services firms — e.g., ArisGlobal (whose MedDRA coding agent won a 2025 Frost & Sullivan innovation award as a first-of-kind agentic PV product), Veeva, Oracle, IQVIA and others. This is a market, not a thought experiment.
+	•	The limits are the story too. Generative models can hallucinate; coding and causality involve genuine clinical judgement; and regulators expect validation, audit trails and human accountability. Even the FDA's own assistant has drawn scrutiny over reliability. Treating these limits seriously is what separates a deployable system from a liability — and it is the angle that earns professional trust.
+5.4 Why now — the 2025–2026 inflection
+The single best reason to plant a flag here in 2026 is timing. In roughly the last eighteen months, the regulatory and institutional scaffolding fell into place:
+	•	FDA “Elsa.” On 2 June 2025 — one year ago today — the FDA launched Elsa, an agency-wide generative-AI assistant built on Anthropic's Claude, running in a secure GovCloud environment that does not train on industry submissions. Among its first uses: summarising adverse events, comparing labels and generating database code. Drug safety is one of the very first places a major regulator put AI to work.
+	•	FDA Agentic AI Challenge. The agency ran an internal two-month agentic-AI challenge for staff, with solutions demonstrated at its Scientific Computing Day in January 2026 — a signal that agentic, not just generative, workflows are on the regulator's roadmap.
+	•	FDA AI guidance (Jan 2025). The FDA issued its first draft guidance on using AI to support regulatory decisions for drugs and biologics, built around a seven-step, risk-based credibility-assessment framework and explicitly inviting input on post-market pharmacovigilance.
+	•	CIOMS Working Group XIV (Dec 2025). CIOMS published the first set of global guiding principles for AI in pharmacovigilance — a vendor-neutral, internationally recognised reference that gives the field a shared governance vocabulary.
+	•	EU AI Act. Under the EU AI Act, AI used in pharmacovigilance can fall into the high-risk category, bringing obligations around transparency, human oversight and robustness as the rules phase in. Compliance is now a live design constraint.
+The window
+A field becomes ownable in the gap between “it clearly works” and “everyone has written the definitive guide.” Pharmacovigilance is in that gap right now. The standards exist, real products are shipping, regulators are engaged — and there is still no single canonical field guide. That is the opening Medivora should take.
+
+6. The repositioning
+
+6.1 New positioning statement
+Medivora is the field guide to agentic AI in pharmacovigilance — a clear, current, vendor-neutral reference for how autonomous AI agents are reshaping drug-safety case processing and signal detection, and how to adopt them responsibly.
+6.2 Tagline options
+	•	“Drug safety that keeps up.”  — speed/volume angle.
+	•	“The field guide to agentic pharmacovigilance.” — plain, authoritative, keyword-rich.
+	•	“Agentic AI for drug safety — what works, what is real, and what to watch.” — descriptive and honest.
+	•	“From adverse event to signal — automated, auditable, accountable.” — captures the pipeline and the governance promise.
+6.3 Who it serves
+Audience
+Why they come
+Drug-safety / PV operations leaders and case processors
+Practical, current view of what to automate, expected gains, and how to keep quality and compliance.
+QPPVs, PV physicians, safety-science and signal teams
+How agentic methods change signal detection, narratives and oversight; where judgement still belongs to humans.
+Regulatory affairs & quality/compliance
+Tracking FDA, EMA, CIOMS and EU AI Act expectations and translating them into validation and governance.
+PV technology buyers & vendors, CROs, consultancies
+A neutral map of capabilities, claims and trade-offs to inform build/buy decisions.
+Newcomers, students, adjacent professionals
+A trustworthy on-ramp via the Foundations and Glossary.
+
+6.4 The one-direction promise
+Every page should be able to finish the sentence: “This helps a drug-safety professional understand or adopt agentic AI.” If a piece of content cannot, it does not belong on the new Medivora. That single test is what converts a broad guide into an authority.
+7. Site architecture & content plan
+
+7.1 Re-point the existing sections (don't rebuild)
+Your current navigation barely needs to change — only its meaning does. Each section keeps its name and role but is re-scoped to pharmacovigilance:
+Current section
+Re-scoped purpose
+Foundations
+Workflow vs agentic automation, explained through the ICSR pipeline. What PV is, why it is costly, and what “agentic” means in a safety context.
+Value Chain → The Safety Pipeline
+Rename to the case lifecycle: intake → extraction → coding → deduplication → seriousness → narrative → submission → signal detection, with both engines shown at each step.
+Agents
+A catalogue of the specialist PV agents (intake, extraction, MedDRA coding, dedup, seriousness, narrative, QC, signal) — what each does, maturity, and the human checkpoint.
+Case Studies
+Vendor-neutral write-ups of real deployments and pilots, the wins and the honest limits — including cautionary tales (e.g., reliability concerns).
+Responsible Adoption
+The trust spine: validation, audit trails, human-in-the-loop, data quality, and alignment with CIOMS XIV, FDA guidance and the EU AI Act.
+Road Ahead
+Where this is going: fuller autonomy, proactive safety analytics, and the evolving regulatory frame.
+Glossary
+A best-in-class PV + AI glossary (ICSR, MedDRA, E2B, seriousness, expectedness, signal, QPPV, PSUR/PBRER, literature monitoring, and the AI terms).
+About
+The guide's mission, scope, sourcing standards and independence.
+
+7.2 Content pillars
+Organise all writing under five durable pillars. Every article belongs to one:
+	•	Understand — foundational explainers (the pipeline, key terms, workflow vs agentic in PV).
+	•	Automate — deep dives on each pipeline step and the agent that addresses it, with realistic gains and pitfalls.
+	•	Govern — responsible adoption: validation, oversight, audit, data quality, and regulatory alignment.
+	•	Evidence — case studies, benchmarks, and an honest read of vendor claims.
+	•	Watch — a living tracker of regulatory and industry developments (the recurring reason to return).
+7.3 Cornerstone content to launch with
+Write these first; they establish authority and cover the highest-intent searches:
+	•	What is agentic pharmacovigilance? A plain-English primer.
+	•	The ICSR lifecycle, end to end — and where AI fits at each step.
+	•	Workflow vs agentic automation in drug safety: a practical distinction.
+	•	MedDRA coding with AI agents: how it works, accuracy, and oversight.
+	•	Automating adverse-event intake from email, literature and social media.
+	•	Case deduplication: why it matters and how agents do it.
+	•	Seriousness and expectedness: what should and should not be automated.
+	•	AI-drafted case narratives: speed, quality and the human edit.
+	•	Signal detection in the agentic era.
+	•	A buyer's guide to agentic PV platforms (vendor-neutral).
+	•	Validating AI in pharmacovigilance: a CIOMS XIV-aligned checklist.
+	•	The regulatory map: FDA guidance, CIOMS XIV and the EU AI Act for PV.
+	•	What FDA's Elsa tells us about AI in drug safety.
+	•	Building the business case: cost-per-case, budget share and ROI.
+
+8. Differentiation & authority strategy
+
+Owning the topic requires being demonstrably better than the alternatives (vendor blogs, consultancy white papers, scattered academic papers). Five moats, in priority order:
+	•	Vendor neutrality. Almost everything written about agentic PV is published by someone selling it. An independent guide that compares approaches honestly is rare and trusted. Protect this fiercely — it is your single biggest advantage.
+	•	A governance-first spine. In a regulated field, “it mostly works” is not enough. Make validation, audit, oversight and CIOMS/FDA/EU-AI-Act alignment central, not an afterthought. This is exactly what your buyers worry about and what most marketing content skips.
+	•	A living regulatory tracker. Maintain a dated, citable log of FDA, EMA, MHRA, CIOMS and EU AI Act developments for PV. It is the feature that turns one-time visitors into subscribers and makes the “field guide” claim true.
+	•	Depth and rigour with sources. Cite primary sources, date everything, and explain mechanisms rather than asserting outcomes. Professionals can tell the difference within one paragraph.
+	•	Practical artefacts. Checklists, a glossary, a validation template, a buyer's-question list, a maturity model. Useful tools get bookmarked, shared and linked — which is how authority compounds.
+Editorial standard to publish on the About page
+“Every claim is sourced and dated. We compare technologies and vendors without selling any of them. Where the evidence is thin or contested, we say so.” That promise, kept consistently, is the brand.
+9. Audience & go-to-market
+
+9.1 How professionals will find it
+	•	Search. Target specific, high-intent terms rather than broad ones — e.g., “agentic AI pharmacovigilance,” “AI MedDRA coding,” “automate ICSR processing,” “CIOMS XIV AI,” “AI adverse event case processing,” “PV signal detection AI.” The cornerstone articles in 7.3 are built around these.
+	•	LinkedIn and professional communities. Drug-safety professionals are active on LinkedIn and in bodies such as DIA and ISoP. Short, genuinely useful posts that link to a deep article are the main distribution channel.
+	•	The regulatory tracker as a hook. A timely, well-sourced note each time something material happens (an FDA action, a CIOMS update) is the most reliable way to earn shares and subscribers.
+9.2 Capture and relationship
+You already have a newsletter sign-up (“get a note when new content is added”). Re-point it as a focused drug-safety-AI briefing. Pair it with one or two gated, high-value artefacts (for example, the validation checklist or buyer's-question list) to convert readers into subscribers.
+9.3 Optional paths to value
+If you want the site to do more than build reputation, the focus opens several doors — pursue at most one or two so the brand stays clean:
+	•	Lead generation toward consulting or advisory work on PV automation and governance.
+	•	Sponsorship / partnerships with safety-platform vendors — but only with clear labelling, to protect neutrality.
+	•	Premium artefacts or training — deeper playbooks, templates, or a short course on adopting agentic PV responsibly.
+	•	A focused job board for PV + AI roles, once traffic justifies it.
+10. Responsible adoption: the differentiator
+
+In pharmacovigilance the cost of error is patient harm and regulatory action, so trust is the product. This is why the governance angle is not a compliance chore but Medivora's sharpest point of difference. Make these the recurring themes:
+	•	Human accountability. Agents draft and decide on routine matters; a qualified person remains accountable for serious calls and final release. Show where the line sits at every pipeline step.
+	•	Validation and credibility. Treat AI components like any other validated system, framed against the FDA's risk-based credibility approach and CIOMS XIV's risk-based mindset.
+	•	Audit trails and traceability. Every automated action should be logged, explainable and reconstructable for inspection.
+	•	Data quality and privacy. Garbage in, garbage out is acute in PV; handling of personal and sensitive data must respect GDPR/HIPAA and local rules.
+	•	Honest treatment of limits. Name the failure modes — hallucination, drift, edge-case coding — and how teams mitigate them. Honesty here is what makes the rest of the site believable.
+
+11. 90-day implementation roadmap
+
+A realistic sequence that reuses your existing site and ships value early.
+Phase 1 — Days 1–30: Reposition & prove the focus
+	•	Rewrite the homepage, About and positioning around agentic pharmacovigilance; update meta-description, title and social cards.
+	•	Rename “Value Chain” to the safety pipeline and rebuild Foundations around the ICSR lifecycle.
+	•	Publish 3–4 cornerstone articles (the primer, the lifecycle, workflow-vs-agentic in PV, and the regulatory map).
+	•	Stand up v1 of the regulatory tracker with the key 2025–2026 entries (FDA guidance, Elsa, CIOMS XIV, EU AI Act).
+	•	Re-point the newsletter as a drug-safety-AI briefing.
+Phase 2 — Days 31–60: Build depth
+	•	Populate the Agents catalogue (one page per specialist agent) and expand the Glossary to a best-in-class reference.
+	•	Publish the next wave: MedDRA coding, intake automation, deduplication, narratives, signal detection.
+	•	Write the first 2–3 vendor-neutral case studies, including at least one cautionary tale.
+	•	Ship the first practical artefact (validation checklist or buyer's-question list) as a subscriber offer.
+Phase 3 — Days 61–90: Establish authority & distribution
+	•	Publish the buyer's guide and the ROI / business-case article.
+	•	Begin consistent LinkedIn distribution and outreach to PV communities (DIA, ISoP).
+	•	Add the maturity model and a validation template; interlink everything to the cornerstone pages.
+	•	Review search and subscriber data; double down on the highest-performing pillar.
+Phase
+Window
+Primary outcome
+1 — Reposition
+Days 1–30
+Site clearly reads as the agentic-PV guide; first cornerstones + tracker live.
+2 — Depth
+Days 31–60
+Full pipeline coverage, agent catalogue, glossary, first case studies + artefact.
+3 — Authority
+Days 61–90
+Buyer's guide, distribution engine running, measurement-led iteration.
+12. Success metrics
+
+Track leading indicators of authority, not vanity metrics:
+Metric
+What it tells you
+Early target (90 days)
+Cornerstone articles published
+Coverage depth
+10–14
+Returning visitors / subscriber growth
+Whether it is becoming a reference, not a one-off read
+Steady week-on-week growth
+Rankings for target PV+AI terms
+Whether you are winning the niche
+Page 1 for several specific terms
+Referral / backlinks from industry sources
+External recognition of authority
+First credible inbound links
+Newsletter open / click rates
+Quality of the relationship
+Above generic B2B benchmarks
+Artefact downloads
+Practical value delivered
+Consistent, growing
+
+The one sentence to remember
+Stop being a guide to automation across pharma and become the field guide to agentic AI in pharmacovigilance. Same brand, same design, same conceptual spine — one clear direction professionals can rely on.
+
+Appendix: key facts & sources
+
+Figures in this document are drawn from the publicly reported sources below (titles paraphrased; access dates June 2026). They are indicative industry estimates, not audited statistics — verify against primary sources before relying on any single number.
+Market & economics of pharmacovigilance
+	•	Case processing absorbs ~50–60% of PV budgets; large companies can receive up to ~1 million ICSRs/year. IntuitionLabs — CIOMS XIV implementation overview
+	•	Mid-size firms process ~5,000–50,000 ICSRs/year; fully-loaded cost ~€50–€200/case (complex >€500); AI can automate ~70–85% of ICSR processing; intake-to-submission 15+ days → under 5; signal detection 40–60% faster. SUPALABS — pharmacovigilance AI (2026)
+	•	Automation of low-complexity tasks can cut processing cost ~25–45%. Digiqt — AI agents in pharmacovigilance (2026)
+Products, vendors & technical detail
+	•	ArisGlobal MedDRA coding agent (first-of-kind agentic PV; ~80% coding efficiency; 2025 Frost & Sullivan award); agentic pipeline description. IntuitionLabs — AI agents in pharmacovigilance: technical overview
+	•	Veeva AI agents for PV case processing (2026 analysis). IntuitionLabs — Veeva AI agents for PV
+Regulatory & institutional anchors
+	•	FDA Elsa launched 2 June 2025 (built on Anthropic's Claude; GovCloud); FDA Agentic AI Challenge demonstrated Jan 2026; uses include adverse-event summarisation and label comparison. Clinical Leader — AI at the FDA
+	•	Elsa functions and reliability scrutiny. Applied Clinical Trials — FDA's Elsa raises oversight concerns
+	•	FDA Jan 2025 draft guidance (seven-step risk-based credibility framework); CIOMS WG XIV final report (Dec 2025); EU AI Act high-risk considerations. IntuitionLabs — AI agents in pharmacovigilance
+	•	Project Elsa and PV implications (literature review, triage, case intake). Cencora / PharmaLex — what Project Elsa means
+Comparison topics (alternatives considered)
+	•	Prior authorization: ~$35B/year cost and majority of care delays; CMS-0057-F timelines (2026) and FHIR APIs (2027); ~70% of health plans prioritising agentic AI for UM/PA/claims. Cohere Health — agentic AI for health plans; Cureintent — prior authorization automation 2026
+	•	Medication management market scale and incumbents. Towards Healthcare — medication management system market
+
+Prepared for Medivora · Strategic Focus & Implementation Blueprint · June 2026
