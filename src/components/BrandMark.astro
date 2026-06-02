@@ -3,24 +3,107 @@ interface Props {
   size?: number;
   class?: string;
 }
-const { size = 30, class: className = '' } = Astro.props;
+const { size = 40, class: className = '' } = Astro.props;
 ---
 
+<!--
+  Medivora SVG logo mark — transparent background, scales perfectly at any size.
+  M letter with teal→blue gradient, pixel-art dissolve effect (left side),
+  pill capsule (upper right), silver orbital ring.
+-->
 <svg
   width={size}
   height={size}
-  viewBox="0 0 30 30"
-  fill="none"
+  viewBox="0 0 120 120"
+  xmlns="http://www.w3.org/2000/svg"
   aria-hidden="true"
   class={className}
+  fill="none"
 >
-  <circle cx="6" cy="8" r="3" stroke="currentColor" stroke-width="1.6" />
-  <circle cx="22" cy="6" r="2.4" stroke="currentColor" stroke-width="1.6" />
-  <circle cx="24" cy="22" r="3" stroke="currentColor" stroke-width="1.6" />
-  <circle cx="8" cy="23" r="2.4" stroke="currentColor" stroke-width="1.6" />
-  <circle cx="15" cy="15" r="2" fill="currentColor" />
-  <line x1="6" y1="8" x2="15" y2="15" stroke="currentColor" stroke-width="1.4" />
-  <line x1="22" y1="6" x2="15" y2="15" stroke="currentColor" stroke-width="1.4" />
-  <line x1="24" y1="22" x2="15" y2="15" stroke="currentColor" stroke-width="1.4" />
-  <line x1="8" y1="23" x2="15" y2="15" stroke="currentColor" stroke-width="1.4" />
+  <defs>
+    <!-- Main M gradient: teal → blue -->
+    <linearGradient id="mv-mg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1cc9a3"/>
+      <stop offset="100%" stop-color="#1565c0"/>
+    </linearGradient>
+
+    <!-- Pill: blue half / white half -->
+    <linearGradient id="mv-pill" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#1565c0"/>
+      <stop offset="49%"  stop-color="#1e88e5"/>
+      <stop offset="51%"  stop-color="#e3f2fd"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+
+    <!-- Orbital ring: fades at edges -->
+    <linearGradient id="mv-ring" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#90a4ae" stop-opacity="0.15"/>
+      <stop offset="25%"  stop-color="#b0bec5" stop-opacity="0.9"/>
+      <stop offset="75%"  stop-color="#b0bec5" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#90a4ae" stop-opacity="0.15"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ── BACK arc of orbital ring (drawn first = behind M) ── -->
+  <path
+    d="M 12,82 A 48,13 0 0,1 108,82"
+    stroke="url(#mv-ring)"
+    stroke-width="3.5"
+    stroke-linecap="round"
+    opacity="0.55"
+  />
+
+  <!-- ── PIXEL-ART dissolve squares (left side, fading outward) ── -->
+  <!-- col 4 – closest to M leg, highest opacity -->
+  <rect x="18" y="50" width="5" height="5" rx="0.5" fill="#1cc9a3" opacity="0.80"/>
+  <rect x="18" y="58" width="5" height="5" rx="0.5" fill="#1cc9a3" opacity="0.85"/>
+  <rect x="18" y="66" width="5" height="5" rx="0.5" fill="#1cc9a3" opacity="0.75"/>
+  <rect x="18" y="74" width="5" height="5" rx="0.5" fill="#1cc9a3" opacity="0.60"/>
+  <!-- col 3 -->
+  <rect x="11" y="46" width="5" height="5" rx="0.5" fill="#1cc9a3" opacity="0.55"/>
+  <rect x="11" y="54" width="5" height="5" rx="0.5" fill="#1cc9a3" opacity="0.60"/>
+  <rect x="11" y="62" width="5" height="5" rx="0.5" fill="#1cc9a3" opacity="0.55"/>
+  <rect x="11" y="70" width="5" height="5" rx="0.5" fill="#1cc9a3" opacity="0.45"/>
+  <rect x="11" y="78" width="5" height="5" rx="0.5" fill="#1cc9a3" opacity="0.30"/>
+  <!-- col 2 -->
+  <rect x="4"  y="50" width="5" height="5" rx="0.5" fill="#1cc9a3" opacity="0.30"/>
+  <rect x="4"  y="58" width="5" height="5" rx="0.5" fill="#1cc9a3" opacity="0.35"/>
+  <rect x="4"  y="66" width="5" height="5" rx="0.5" fill="#1cc9a3" opacity="0.28"/>
+  <rect x="4"  y="74" width="5" height="5" rx="0.5" fill="#1cc9a3" opacity="0.18"/>
+  <!-- col 1 – furthest, nearly invisible -->
+  <rect x="4"  y="43" width="4" height="4" rx="0.5" fill="#1cc9a3" opacity="0.15"/>
+  <rect x="11" y="40" width="4" height="4" rx="0.5" fill="#1cc9a3" opacity="0.20"/>
+
+  <!-- ── LETTER M (block, teal→blue gradient) ── -->
+  <!--
+    Polygon path for filled block capital M:
+    outer-left-top → inner-left-top → V-apex → inner-right-top → outer-right-top →
+    outer-right-bottom → inner-right-bottom → inner-right-diagonal → V-inner-bottom →
+    inner-left-diagonal → inner-left-bottom → outer-left-bottom
+  -->
+  <polygon
+    points="20,92 20,46 32,46 60,70 88,46 100,46 100,92 88,92 88,64 60,82 32,64 32,92"
+    fill="url(#mv-mg)"
+  />
+
+  <!-- ── PILL capsule (upper right, rotated ~-42°) ── -->
+  <g transform="rotate(-42, 88, 30)">
+    <!-- Pill body -->
+    <rect x="74" y="24" width="28" height="12" rx="6" fill="url(#mv-pill)"/>
+    <!-- Centre divider line -->
+    <line x1="88" y1="24" x2="88" y2="36" stroke="rgba(100,140,200,0.4)" stroke-width="0.8"/>
+    <!-- Shine highlight -->
+    <ellipse cx="82" cy="27.5" rx="5" ry="2.5" fill="white" opacity="0.22"/>
+  </g>
+
+  <!-- ── FRONT arc of orbital ring (drawn last = in front of M base) ── -->
+  <path
+    d="M 12,82 A 48,13 0 0,0 108,82"
+    stroke="url(#mv-ring)"
+    stroke-width="3.5"
+    stroke-linecap="round"
+  />
+
+  <!-- Small dot node on ring (right side) -->
+  <circle cx="105" cy="80" r="2.2" fill="#b0bec5" opacity="0.85"/>
 </svg>

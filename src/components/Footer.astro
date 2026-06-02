@@ -1,4 +1,5 @@
 ---
+import BrandMark from '~/components/BrandMark.astro';
 import NewsletterSignup from '~/components/NewsletterSignup.astro';
 
 const year = new Date().getFullYear();
@@ -32,14 +33,7 @@ const cols = [
     <div class="foot-top">
       <div class="foot-brand">
         <a href="/" class="foot-brand-row" aria-label="Medivora home">
-          <img
-            src="/logo-mark.png"
-            alt="Medivora logo"
-            class="foot-logo"
-            width="52"
-            height="52"
-            decoding="async"
-          />
+          <BrandMark size={48} class="foot-mark" />
           <div class="foot-name">
             Medi<em>vora</em>
           </div>
@@ -117,20 +111,14 @@ const cols = [
     margin-bottom: 0.9rem;
     text-decoration: none;
   }
-  .foot-logo {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
+  .foot-mark {
+    width: 48px;
+    height: 48px;
     flex: none;
-    mix-blend-mode: multiply;
     transition: transform 220ms ease;
   }
-  :global([data-theme='dark']) .foot-logo {
-    mix-blend-mode: screen;
-    filter: brightness(1.1) saturate(1.2);
-  }
-  .foot-brand-row:hover .foot-logo {
-    transform: scale(1.08) rotate(-2deg);
+  .foot-brand-row:hover .foot-mark {
+    transform: scale(1.08) rotate(-3deg);
   }
   .foot-name {
     font-family: var(--font-serif);

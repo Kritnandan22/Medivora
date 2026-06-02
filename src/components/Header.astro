@@ -24,14 +24,7 @@ const isCurrent = (href: string) => {
 <header class="site-header">
   <div class="wrap nav-in">
     <a href="/" class="brand" aria-label="Medivora — home">
-      <img
-        src="/logo-mark.png"
-        alt="Medivora logo mark"
-        class="brand-logo"
-        width="44"
-        height="44"
-        decoding="async"
-      />
+      <BrandMark size={40} class="brand-mark" />
       <span class="brand-name">Medivora</span>
     </a>
 
@@ -130,22 +123,14 @@ const isCurrent = (href: string) => {
     letter-spacing: -0.01em;
     color: var(--color-text);
   }
-  .brand-logo {
+  .brand-mark {
     width: 40px;
     height: 40px;
-    object-fit: contain;
     flex: none;
-    /* multiply removes white background: white × any bg = bg (transparent effect) */
-    mix-blend-mode: multiply;
-    transition: transform 240ms ease;
+    transition: transform 250ms cubic-bezier(.34,1.56,.64,1);
   }
-  /* In dark mode, multiply darkens too much — use luminosity instead */
-  :global([data-theme='dark']) .brand-logo {
-    mix-blend-mode: screen;
-    filter: brightness(1.1) saturate(1.2);
-  }
-  .brand:hover .brand-logo {
-    transform: scale(1.08) rotate(-3deg);
+  .brand:hover .brand-mark {
+    transform: scale(1.1) rotate(-4deg);
   }
   .primary-nav > ul {
     display: flex;
