@@ -432,6 +432,33 @@ flowchart LR
     overflow-x: auto;
   }
 
+  /* ── Dynamic Graph Animations ──────────────────── */
+  :global(.mermaid .edgePath path) {
+    stroke-dasharray: 8 4;
+    animation: flowLines 1.5s linear infinite;
+  }
+  @keyframes flowLines {
+    to { stroke-dashoffset: -12; }
+  }
+  
+  :global(.mermaid .node) {
+    transition: transform 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+  }
+  :global(.mermaid .node:hover) {
+    transform: scale(1.03);
+    filter: drop-shadow(0 0 12px rgba(28,201,163,0.4));
+  }
+  
+  /* Pulse effect for Orchestrator */
+  :global(.mermaid #Orchestrator) {
+    animation: pulseOrch 3s infinite alternate ease-in-out;
+  }
+  @keyframes pulseOrch {
+    0% { filter: drop-shadow(0 0 5px rgba(100,255,218,0.2)); }
+    100% { filter: drop-shadow(0 0 20px rgba(100,255,218,0.6)); }
+  }
+
   /* ── Capabilities ──────────────────────────────── */
   .caps-section { background: var(--color-surface); }
   .section-title-dark {
