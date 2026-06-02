@@ -80,7 +80,7 @@ const domainColor = '#1cc9a3'; // Regulatory Affairs color
         
         <div class="diagram-container">
           <pre class="mermaid">
-flowchart TD
+flowchart LR
     classDef external fill:#1a1a1a,stroke:#333,stroke-width:1px,color:#888
     classDef input fill:#112a22,stroke:#1cc9a3,stroke-width:1px,color:#fff
     classDef agent fill:#0a192f,stroke:#64ffda,stroke-width:1px,color:#fff
@@ -89,23 +89,27 @@ flowchart TD
     classDef output fill:#112a22,stroke:#1cc9a3,stroke-width:2px,color:#fff
 
     subgraph "External Regulatory Sources"
+        direction TB
         FDA["FDA DailyMed / Dockets"]:::external
         EMA["EMA Document Library"]:::external
         PMDA["PMDA (Japan)"]:::external
     end
 
     subgraph "Ingestion & Processing Layer"
+        direction TB
         Scraper["Web Scrapers & API Connectors"]:::input
         Translation["Translation Agent<br>(Contextual Med-Term Translation)"]:::agent
         VectorDB[("Vector Database<br>(Pinecone/Weaviate)")]:::db
     end
 
     subgraph "Reasoning Layer (The Brain)"
+        direction TB
         Orchestrator(["Orchestrator Agent<br>(Enterprise LLM)"]):::agent
         PipelineDB[("Internal Pipeline /<br>Product Portfolio DB")]:::db
     end
 
     subgraph "Action & Output Layer"
+        direction TB
         HITL(["Human-in-the-Loop<br>(Subject Matter Expert)"]):::hitl
         BriefGen["Briefing Generation Agent"]:::agent
         Veeva["Veeva Vault RIM<br>API Update"]:::output
@@ -123,8 +127,8 @@ flowchart TD
     PipelineDB -- "Product Context" --> Orchestrator
 
     Orchestrator -- "Identifies High-Impact Change" --> HITL
-    HITL -- "Approves Impact Assessment" --> BriefGen
-    HITL -- "Rejects / Modifies" --> Orchestrator
+    HITL -- "Approves Assessment" --> BriefGen
+    HITL -. "Rejects / Modifies" .-> Orchestrator
 
     BriefGen --> Veeva
     BriefGen --> Alert
