@@ -1,0 +1,502 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+
+const domainColor = '#1cc9a3'; // Regulatory Affairs color
+---
+
+<BaseLayout
+  title="Regulatory Intelligence Agent — Medivora"
+  description="Architecture and capabilities of the Medivora Regulatory Intelligence Agent for continuous multi-agency monitoring and actionable intelligence synthesis."
+>
+  <article class="agent-detail-page">
+    
+    <!-- ── HERO ─────────────────────────────────────────────── -->
+    <header class="agent-hero">
+      <div class="wrap">
+        <div class="breadcrumb">
+          <a href="/agents">← Back to Agents</a>
+        </div>
+        
+        <div class="hero-meta">
+          <span class="domain-tag" style={`--dc: ${domainColor}`}>Regulatory Affairs</span>
+          <span class="phase-tag">Phase 1 · Priority Focus</span>
+        </div>
+        
+        <h1 class="agent-title">Regulatory Intelligence Agent</h1>
+        <p class="agent-tagline">Continuous multi-agency monitoring, synthesised into actionable intelligence.</p>
+        
+        <div class="agent-metrics">
+          <div class="metric-box">
+            <span class="mb-val">60–70%</span>
+            <span class="mb-lbl">Reduction in intelligence gathering workload</span>
+          </div>
+          <div class="metric-box">
+            <span class="mb-val">15+</span>
+            <span class="mb-lbl">Global health agencies monitored concurrently</span>
+          </div>
+          <div class="metric-box">
+            <span class="mb-val">Real-time</span>
+            <span class="mb-lbl">Alerting on high-impact pipeline events</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── THE PROBLEM ──────────────────────────────────────── -->
+    <section class="section-light problem-section">
+      <div class="wrap content-grid">
+        <div class="cg-main">
+          <h2>The Information Bottleneck</h2>
+          <p class="lead-text">
+            Regulatory intelligence teams spend countless hours manually tracking updates across fragmented global health authority websites. Missing a critical guidance update, an unprecedented approval pathway, or a sudden safety communication can delay a multi-million dollar launch or result in non-compliance.
+          </p>
+          <p>
+            The Medivora Regulatory Intelligence Agent solves this by continuously ingesting, translating, and semantically structuring unstructured regulatory data. It doesn't just surface updates; it reads the 100-page PDF guidance documents and cross-references them against your active product pipeline to generate targeted impact assessments.
+          </p>
+        </div>
+        <aside class="cg-side info-panel">
+          <h4>Agent Profile</h4>
+          <dl class="agent-specs">
+            <dt>Data Inputs</dt>
+            <dd>FDA Dockets, EMA Document Library, PMDA DB, Health Canada HPFB, MHRA Alerts.</dd>
+            <dt>Core AI Models</dt>
+            <dd>Gemini 1.5 Pro (long context reasoning), Custom Entity Extraction (NER).</dd>
+            <dt>Key Outputs</dt>
+            <dd>Structured Executive Briefings, Veeva Vault RIM entries, automated email digests.</dd>
+            <dt>Standards</dt>
+            <dd>ICH Q8–Q12, 21 CFR Parts 210/211/314, EMA CHMP guidelines.</dd>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ── ARCHITECTURE ─────────────────────────────────────── -->
+    <section class="section-dark arch-section">
+      <div class="wrap">
+        <h2>Agent Architecture &amp; Workflow</h2>
+        <p class="section-desc">
+          A multi-agent orchestration architecture designed for high-stakes regulatory processing. The system separates ingestion, reasoning, and human-in-the-loop (HITL) review to maintain absolute traceability and GxP compliance.
+        </p>
+        
+        <div class="diagram-container">
+          <pre class="mermaid">
+flowchart TD
+    classDef external fill:#1a1a1a,stroke:#333,stroke-width:1px,color:#888
+    classDef input fill:#112a22,stroke:#1cc9a3,stroke-width:1px,color:#fff
+    classDef agent fill:#0a192f,stroke:#64ffda,stroke-width:1px,color:#fff
+    classDef db fill:#2d1b2e,stroke:#e05c8a,stroke-width:1px,color:#fff
+    classDef hitl fill:#3a2a00,stroke:#e8a838,stroke-width:1px,color:#fff
+    classDef output fill:#112a22,stroke:#1cc9a3,stroke-width:2px,color:#fff
+
+    subgraph "External Regulatory Sources"
+        FDA["FDA DailyMed / Dockets"]:::external
+        EMA["EMA Document Library"]:::external
+        PMDA["PMDA (Japan)"]:::external
+    end
+
+    subgraph "Ingestion & Processing Layer"
+        Scraper["Web Scrapers & API Connectors"]:::input
+        Translation["Translation Agent<br>(Contextual Med-Term Translation)"]:::agent
+        VectorDB[("Vector Database<br>(Pinecone/Weaviate)")]:::db
+    end
+
+    subgraph "Reasoning Layer (The Brain)"
+        Orchestrator{"Orchestrator Agent<br>(Gemini 1.5 Pro)"}:::agent
+        PipelineDB[("Internal Pipeline /<br>Product Portfolio DB")]:::db
+    end
+
+    subgraph "Action & Output Layer"
+        HITL{"Human-in-the-Loop<br>(Subject Matter Expert)"}:::hitl
+        BriefGen["Briefing Generation Agent"]:::agent
+        Veeva["Veeva Vault RIM<br>API Update"]:::output
+        Alert["Stakeholder Email Alert"]:::output
+    end
+
+    FDA --> Scraper
+    EMA --> Scraper
+    PMDA --> Scraper
+
+    Scraper --> Translation
+    Translation --> VectorDB
+
+    VectorDB -- "Semantic Search (New vs Old)" --> Orchestrator
+    PipelineDB -- "Product Context" --> Orchestrator
+
+    Orchestrator -- "Identifies High-Impact Change" --> HITL
+    HITL -- "Approves Impact Assessment" --> BriefGen
+    HITL -- "Rejects / Modifies" --> Orchestrator
+
+    BriefGen --> Veeva
+    BriefGen --> Alert
+
+    linkStyle default stroke:#444,stroke-width:2px;
+          </pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CORE CAPABILITIES ────────────────────────────────── -->
+    <section class="section-light caps-section">
+      <div class="wrap">
+        <h2 class="section-title-dark">Core Capabilities</h2>
+        <div class="caps-grid">
+          <div class="cap-card">
+            <div class="cap-icon">1</div>
+            <h3>Real-Time Agency Ingestion</h3>
+            <p>Monitors 15+ global health authority websites simultaneously. Ingests raw unstructured text from FDA Dockets, EMA PDF guidelines, and MHRA alerts the moment they are published. Capable of parsing complex tabular data inside PDFs.</p>
+          </div>
+          <div class="cap-card">
+            <div class="cap-icon">2</div>
+            <h3>Semantic Pipeline Matching</h3>
+            <p>Cross-references incoming regulatory text against your internal pipeline database. Instead of keyword matching, it uses semantic vector search to understand if a new rule impacts a molecule's specific mechanism of action or proposed indication.</p>
+          </div>
+          <div class="cap-card">
+            <div class="cap-icon">3</div>
+            <h3>Automated Gap Analysis</h3>
+            <p>Generates immediate dossier gap analyses. When the FDA releases a revised draft guidance for a specific therapeutic area, the agent automatically identifies which sections of an upcoming IND or NDA are now non-compliant.</p>
+          </div>
+          <div class="cap-card">
+            <div class="cap-icon">4</div>
+            <h3>Competitive Labelling Intelligence</h3>
+            <p>Tracks competitor label updates (SmPC/USPI), REMS modifications, and post-market safety requirements to provide early warning of class-wide safety concerns or shifting efficacy standards.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TECHNICAL IMPLEMENTATION ─────────────────────────── -->
+    <section class="section-light tech-section">
+      <div class="wrap content-grid">
+        <div class="cg-main">
+          <h2 class="section-title-dark">Technical Implementation Guide</h2>
+          <p class="lead-text">
+            Building this agent requires a multi-agent orchestration framework connected to a highly precise Retrieval-Augmented Generation (RAG) pipeline.
+          </p>
+          
+          <h3>1. The RAG Pipeline (Vector Search)</h3>
+          <p>
+            Regulatory intelligence cannot rely on an LLM's base knowledge. The agent uses a Vector Database (like Pinecone or Weaviate) to store historical agency guidance. When a new document arrives, the agent queries the vector database to find the exact precedent or the previous version of the guidance to perform a "diff" analysis.
+          </p>
+
+          <h3>2. LLM Selection: The Context Window</h3>
+          <p>
+            Regulatory PDFs frequently exceed 100 pages. We recommend <strong>Gemini 1.5 Pro</strong> as the core reasoning engine because its massive context window allows it to hold an entire clinical guidance document in memory simultaneously, ensuring no cross-references or footnotes are missed during analysis.
+          </p>
+
+          <h3>3. Task-Specific Sub-Agents</h3>
+          <p>
+            The Orchestrator dispatches work to specialists:
+          </p>
+          <ul class="tech-list">
+            <li><strong>Translation Agent:</strong> Specifically fine-tuned on medical/regulatory terminology (e.g., translating PMDA Japanese text accurately).</li>
+            <li><strong>Extraction Agent:</strong> Uses strict JSON schema enforcement to pull dates, ruling types, and affected INNs.</li>
+            <li><strong>Formatting Agent:</strong> Converts the raw analysis into a Veeva Vault-compliant XML or Word document format.</li>
+          </ul>
+        </div>
+        <aside class="cg-side visual-panel">
+          <div class="mock-ui">
+            <div class="mui-header">
+              <span class="mui-title">Alert: High Impact Regulatory Change</span>
+              <span class="mui-date">Today, 09:41 AM</span>
+            </div>
+            <div class="mui-body">
+              <div class="mui-pill mui-red">Impact Score: 92/100</div>
+              <h4>FDA Draft Guidance: Clinical Considerations for Accelerated Approval</h4>
+              <p class="mui-desc"><strong>Agent Analysis:</strong> The FDA has updated evidentiary requirements for single-arm trials. This directly impacts our Phase 2b study design for Molecule X (NCT054321).</p>
+              <div class="mui-action">Review Full Gap Analysis →</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ── REGULATORY GUARDRAILS ────────────────────────────── -->
+    <section class="section-dark guardrails-section">
+      <div class="wrap">
+        <h2>GxP Compliance & Guardrails</h2>
+        <p class="section-desc">AI in a regulatory setting must be determinable, auditable, and human-supervised.</p>
+        
+        <div class="guard-grid">
+          <div class="guard-card">
+            <h4>Absolute Traceability</h4>
+            <p>Every claim made in the agent's executive summary contains a hyperlinked citation pointing directly to the specific paragraph in the source regulatory PDF. Hallucinations are mitigated through strict instruction-tuning to only cite retrieved text.</p>
+          </div>
+          <div class="guard-card">
+            <h4>Human-in-the-Loop (HITL)</h4>
+            <p>The agent operates as a powerful analyst, not a final decision-maker. Any structural change recommended to a dossier or pipeline strategy must be approved by a designated Subject Matter Expert (SME) before integration into the QMS.</p>
+          </div>
+          <div class="guard-card">
+            <h4>Computer Software Assurance (CSA)</h4>
+            <p>The agent framework is designed to align with FDA CSA guidance. Critical thinking is applied to testing the RAG pipeline's retrieval accuracy, while automated test scripts continuously validate the API connections to health authorities.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </article>
+</BaseLayout>
+
+<script>
+  import mermaid from 'mermaid';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#1cc9a3',
+      primaryTextColor: '#fff',
+      primaryBorderColor: '#333',
+      lineColor: '#666',
+      secondaryColor: '#0a192f',
+      tertiaryColor: '#111'
+    },
+    fontFamily: 'Inter, sans-serif'
+  });
+</script>
+
+<style>
+  /* ── Layout & Typography ───────────────────────── */
+  .agent-detail-page {
+    background: var(--color-bg);
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+  
+  .section-light { padding: 5rem 0; background: var(--color-bg); border-bottom: 1px solid var(--color-line); }
+  .section-dark { padding: 6rem 0; background: #060e0b; color: #f1ece0; border-bottom: 1px solid rgba(28,201,163,.15); }
+  
+  .content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+  }
+  @media (max-width: 900px) {
+    .content-grid { grid-template-columns: 1fr; gap: 3rem; }
+  }
+
+  /* ── Hero ──────────────────────────────────────── */
+  .agent-hero {
+    background: #060e0b;
+    padding: 3rem 0 5rem;
+    border-bottom: 1px solid rgba(28,201,163,.15);
+    color: #f1ece0;
+  }
+  .breadcrumb { margin-bottom: 3rem; }
+  .breadcrumb a {
+    font-size: 0.85rem;
+    color: rgba(241,236,224,.5);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+  .breadcrumb a:hover { color: #1cc9a3; }
+
+  .hero-meta { display: flex; gap: 0.8rem; margin-bottom: 1.5rem; align-items: center; }
+  .domain-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--dc);
+    background: color-mix(in srgb, var(--dc) 15%, transparent);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+  .phase-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    color: rgba(241,236,224,.6);
+    border: 1px solid rgba(241,236,224,.2);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
+  .agent-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+  .agent-tagline {
+    font-size: 1.2rem;
+    color: rgba(241,236,224,.7);
+    max-width: 45em;
+    line-height: 1.5;
+    margin-bottom: 3rem;
+  }
+
+  .agent-metrics {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .metric-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 1.5rem;
+    border-radius: 8px;
+    min-width: 220px;
+  }
+  .mb-val {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1cc9a3;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .mb-lbl {
+    display: block;
+    font-size: 0.85rem;
+    color: rgba(241,236,224,.6);
+    line-height: 1.4;
+  }
+
+  /* ── Problem Section ───────────────────────────── */
+  .problem-section h2 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+  }
+  .lead-text {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--color-text);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+  }
+  .cg-main p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--color-text-2);
+    margin-bottom: 1.5rem;
+  }
+
+  .info-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    padding: 2rem;
+    border-radius: 8px;
+    height: fit-content;
+  }
+  .info-panel h4 {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-line);
+    padding-bottom: 0.5rem;
+  }
+  .agent-specs dt {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #1cc9a3;
+    margin-top: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+  .agent-specs dt:first-child { margin-top: 0; }
+  .agent-specs dd {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-text-2);
+    line-height: 1.5;
+  }
+
+  /* ── Architecture Section ──────────────────────── */
+  .arch-section h2 {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+  }
+  .section-desc {
+    font-size: 1.1rem;
+    color: rgba(241,236,224,.7);
+    max-width: 50em;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+  }
+  .diagram-container {
+    background: #0d1a15;
+    border: 1px solid rgba(28,201,163,.2);
+    border-radius: 12px;
+    padding: 2rem;
+    overflow-x: auto;
+  }
+
+  /* ── Capabilities ──────────────────────────────── */
+  .caps-section { background: var(--color-surface); }
+  .section-title-dark {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+    color: var(--color-text);
+  }
+  .caps-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  @media (max-width: 768px) { .caps-grid { grid-template-columns: 1fr; } }
+  .cap-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-line);
+    padding: 2rem;
+    border-radius: 8px;
+    transition: transform 200ms ease;
+  }
+  .cap-card:hover { transform: translateY(-3px); border-color: #1cc9a3; }
+  .cap-icon {
+    width: 40px; height: 40px;
+    background: rgba(28,201,163,.1);
+    color: #1cc9a3;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-weight: bold; font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+  .cap-card h3 { font-size: 1.2rem; margin-bottom: 0.8rem; color: var(--color-text); }
+  .cap-card p { font-size: 0.95rem; color: var(--color-text-2); line-height: 1.6; }
+
+  /* ── Tech Section ──────────────────────────────── */
+  .tech-section h3 { margin-top: 2rem; margin-bottom: 0.8rem; color: var(--color-text); font-size: 1.3rem; }
+  .tech-list { padding-left: 1.5rem; margin-top: 1rem; color: var(--color-text-2); line-height: 1.7; }
+  .tech-list li { margin-bottom: 0.8rem; }
+  .tech-list strong { color: var(--color-text); }
+
+  .mock-ui {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+  :global([data-theme='dark']) .mock-ui {
+    background: #111827; border-color: #374151;
+  }
+  .mui-header { background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+  :global([data-theme='dark']) .mui-header { background: #1f2937; border-bottom-color: #374151; }
+  .mui-title { font-family: var(--font-mono); font-size: 0.75rem; font-weight: bold; color: #dc2626; text-transform: uppercase; }
+  .mui-date { font-size: 0.75rem; color: #64748b; }
+  .mui-body { padding: 1.5rem; }
+  .mui-pill { display: inline-block; padding: 4px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: bold; margin-bottom: 1rem; }
+  .mui-red { background: #fee2e2; color: #b91c1c; }
+  :global([data-theme='dark']) .mui-red { background: rgba(220,38,38,0.2); color: #ef4444; }
+  .mui-body h4 { font-size: 1.1rem; margin-bottom: 0.5rem; color: #0f172a; }
+  :global([data-theme='dark']) .mui-body h4 { color: #f1f5f9; }
+  .mui-desc { font-size: 0.9rem; color: #475569; line-height: 1.5; margin-bottom: 1.5rem; }
+  :global([data-theme='dark']) .mui-desc { color: #94a3b8; }
+  .mui-action { color: #2563eb; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
+  :global([data-theme='dark']) .mui-action { color: #3b82f6; }
+
+  /* ── Guardrails ────────────────────────────────── */
+  .guard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  @media (max-width: 900px) { .guard-grid { grid-template-columns: 1fr; } }
+  .guard-card { background: rgba(255,255,255,0.02); padding: 2rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
+  .guard-card h4 { font-size: 1.2rem; color: #1cc9a3; margin-bottom: 1rem; }
+  .guard-card p { font-size: 0.95rem; color: rgba(241,236,224,.7); line-height: 1.6; }
+</style>
