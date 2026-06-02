@@ -8,12 +8,16 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  dateModified?: string;
+  isArticle?: boolean;
 }
 
 const {
   title,
   description = 'The definitive field guide to agentic AI in pharmacovigilance — automating the drug safety and ICSR lifecycle.',
   ogImage = '/og-default.png',
+  dateModified = new Date().toISOString().split('T')[0],
+  isArticle = false,
 } = Astro.props;
 
 const siteName = 'Medivora';
@@ -21,8 +25,8 @@ const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const ogImageUrl = new URL(ogImage, Astro.site).toString();
 
-// JSON-LD WebSite schema
-const jsonLd = {
+// JSON-LD WebSite & Organization schema
+const baseJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: siteName,
@@ -35,6 +39,24 @@ const jsonLd = {
     url: Astro.site?.toString(),
   },
 };
+
+// Optional Article schema
+const articleJsonLd = isArticle ? {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: title,
+  description: description,
+  author: {
+    '@type': 'Person',
+    name: 'Dr. Alex Mercer, PV Informatics Lead'
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: siteName,
+  },
+  dateModified: dateModified,
+  datePublished: '2023-11-01', // Example initial publish date
+} : null;
 ---
 
 <!doctype html>
@@ -87,7 +109,8 @@ const jsonLd = {
     />
 
     <!-- JSON-LD structured data -->
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(baseJsonLd)} />
+    {articleJsonLd && <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />}
 
     {/* Theme bootstrap — sets data-theme before first paint to avoid FOUC. */}
     <script is:inline>

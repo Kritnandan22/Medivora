@@ -20,6 +20,7 @@ const domainColor = '#1cc9a3'; // Regulatory Affairs color
         <div class="hero-meta">
           <span class="domain-tag" style={`--dc: ${domainColor}`}>Regulatory Affairs</span>
           <span class="phase-tag">Phase 1 · Priority Focus</span>
+          <span class="date-tag">Last reviewed: Nov 2024</span>
         </div>
         
         <h1 class="agent-title">Regulatory Intelligence Agent</h1>
@@ -43,6 +44,7 @@ const domainColor = '#1cc9a3'; // Regulatory Affairs color
             <span class="mb-lbl">Alerting on high-impact pipeline events</span>
           </div>
         </div>
+        <p class="metrics-disclaimer" style="font-size:0.75rem; color:rgba(241,236,224,.5); margin-top:1rem; font-style:italic;">* Target metrics and early observations from industry pilots.</p>
       </div>
     </header>
 
@@ -238,6 +240,68 @@ flowchart LR
             <p>The agent framework is designed to align with FDA CSA guidance. Critical thinking is applied to testing the RAG pipeline's retrieval accuracy, while automated test scripts continuously validate the API connections to health authorities.</p>
           </div>
         </div>
+      </div>
+    </section>
+
+  
+    <!-- ── UNDER THE HOOD ───────────────────────────────────── -->
+    <section class="section-dark under-hood-section">
+      <div class="wrap">
+        <span class="eyebrow">Under the Hood</span>
+        <h2>Architectural Deep Dive</h2>
+        
+        <div class="uh-grid">
+          <div class="uh-col">
+            <h3>Health Authority Knowledge Graph</h3>
+            <p>The agent connects to a Retrieval-Augmented Generation (RAG) backend that is continually synced with regulatory portals (FDA, EMA, PMDA). This prevents the LLM from relying on outdated training data.</p>
+            <div class="code-block-wrapper">
+              <div class="code-header"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-title">tool_call.py</span></div>
+              <pre is:raw><code>def query_regulatory_guidance(agency: str, topic: str):
+    """
+    Tools available to the Regulatory Agent.
+    """
+    filters = {"agency": agency, "document_type": "guidance"}
+    
+    # Retrieve relevant document chunks
+    context = vector_db.search(
+        query=topic, 
+        filter=filters,
+        top_k=3
+    )
+    
+    return [
+      {"source": c.url, "text": c.text, "effective_date": c.date} 
+      for c in context
+    ]</code></pre>
+            </div>
+          </div>
+          
+          <div class="uh-col">
+            <h3>Citation-Forced Generation</h3>
+            <p>To ensure trust, the system prompt forces the agent to cite the specific paragraph and document version for every regulatory claim it makes.</p>
+            <div class="code-block-wrapper">
+              <div class="code-header"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-title">system_prompt.txt</span></div>
+              <pre is:raw><code>You are a Regulatory Intelligence Agent.
+
+RULES FOR ANSWERING:
+1. Base your answer STRICTLY on the retrieved context documents.
+2. For every regulatory requirement stated, append an inline citation [Source ID].
+3. If the retrieved context does not contain the answer, reply: "I do not have sufficient information in the current regulatory database to answer this."
+4. Never guess a submission deadline.
+5. Highlight differences between FDA and EMA requirements if applicable.</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="guardrails-box">
+          <h3>Guardrails & Failure Modes</h3>
+          <ul class="guardrail-list">
+            <li><strong>Hallucinating Deadlines:</strong> The highest risk for this agent is hallucinating a regulatory deadline (e.g., stating 15 days instead of 7 days). The citation-forcing prompt significantly mitigates this.</li>
+            <li><strong>Draft vs. Final Guidance:</strong> The RAG database metadata must strictly differentiate between "Draft Guidance" and "Final Rule". The agent is instructed to explicitly state when it is citing draft guidance.</li>
+            <li><strong>Local Nuances:</strong> Global regulations are well-documented, but local affiliate regulations (e.g., specific rules in smaller LATAM or APAC markets) often lack digitized, English-language source documents for the agent to retrieve.</li>
+          </ul>
+        </div>
+
       </div>
     </section>
 

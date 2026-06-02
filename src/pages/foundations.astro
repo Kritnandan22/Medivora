@@ -97,16 +97,16 @@ import DecisionTool from '~/components/DecisionTool.astro';
           </div>
           <div class="chart-area">
             <!-- ICSR Volume Curve -->
-            <svg class="chart-line-volume" viewBox="0 0 800 200" preserveAspectRatio="none">
+            <svg class="chart-line-volume" viewBox="0 0 800 200" preserveAspectRatio="none" role="img" aria-label="Line graph showing exponential ICSR volume growth of 15-20% YoY">
               <path d="M0,180 C200,170 400,120 800,20" fill="none" stroke="var(--color-amber-bright)" stroke-width="4" stroke-linecap="round" />
             </svg>
-            <div class="chart-label label-volume">ICSR Volume Growth (+15-20% YoY)</div>
+            <div class="chart-label label-volume">ICSR Volume Growth (+15-20% YoY) [5]</div>
             
             <!-- PV Headcount Curve -->
-            <svg class="chart-line-headcount" viewBox="0 0 800 200" preserveAspectRatio="none">
+            <svg class="chart-line-headcount" viewBox="0 0 800 200" preserveAspectRatio="none" role="img" aria-label="Line graph showing flat PV headcount growth">
               <path d="M0,180 C200,185 400,175 800,170" fill="none" stroke="var(--color-green-bright)" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 8" />
             </svg>
-            <div class="chart-label label-headcount">PV Headcount (Flat Budgets)</div>
+            <div class="chart-label label-headcount">PV Headcount (Flat Budgets) [6]</div>
           </div>
           <div class="x-axis">
             <span>2020</span>
@@ -187,7 +187,7 @@ import DecisionTool from '~/components/DecisionTool.astro';
 
       <div class="why-grid">
         <div class="why-card">
-          <svg class="why-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <svg class="why-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
             <path d="M12 2v20M2 12h20" stroke-linecap="round"/>
             <circle cx="12" cy="12" r="9"/>
           </svg>
@@ -195,7 +195,7 @@ import DecisionTool from '~/components/DecisionTool.astro';
           <p>Global adverse event reporting is growing exponentially due to stricter pharmacovigilance legislation (e.g., GVP Module VI) and easier patient reporting portals.</p>
         </div>
         <div class="why-card">
-          <svg class="why-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <svg class="why-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
             <rect x="4" y="3" width="16" height="18" rx="2"/>
             <path d="M8 8h8M8 12h8M8 16h5" stroke-linecap="round"/>
           </svg>
@@ -203,29 +203,29 @@ import DecisionTool from '~/components/DecisionTool.astro';
           <p>Safety data rarely arrives cleanly. It requires reading through complex, rambling unstructured PDFs, physician notes, and noisy social media monitoring feeds.</p>
         </div>
         <div class="why-card">
-          <svg class="why-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <svg class="why-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
             <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z" stroke-linejoin="round"/>
           </svg>
           <h3>Strict Expedited Deadlines</h3>
           <p>Global agency rules—like the strict 15-day expedited reporting window for SUSARs—demand incredibly fast, traceable, and consistent medical assessment.</p>
         </div>
         <div class="why-card">
-          <svg class="why-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <svg class="why-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
             <circle cx="12" cy="8" r="4"/>
             <path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke-linecap="round"/>
           </svg>
           <h3>Expensive Medical Review</h3>
-          <p>Highly trained Medical Doctors spend 60% of their time on copy-pasting administrative data entry rather than performing complex causality and signal detection.</p>
+          <p>Highly trained Medical Doctors spend 60% of their time on copy-pasting administrative data entry rather than performing complex causality and signal detection [11].</p>
         </div>
         <div class="why-card">
-          <svg class="why-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <svg class="why-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
             <path d="M4 4h16v16H4zM8 4v16M4 12h4" stroke-linecap="round"/>
           </svg>
           <h3>The Deduplication Bottleneck</h3>
           <p>The same adverse event is often reported by a patient, a physician, and a pharmacist simultaneously. Identifying exact duplicates across databases is a manual nightmare.</p>
         </div>
         <div class="why-card">
-          <svg class="why-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <svg class="why-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
             <path d="M5 12h14M5 12l4-4M5 12l4 4M19 7v10" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <h3>Disconnected Safety Systems</h3>

@@ -16,9 +16,18 @@ const regulations = [
     region: 'Europe',
     title: 'Reflection paper on the use of AI in the medicinal product lifecycle',
     status: 'Adopted',
-    date: 'July 2023',
+    date: 'Dec 2023',
     desc: 'Provides guidance on the principles for using AI/ML in drug development and pharmacovigilance, highlighting the need for validation of AI systems replacing manual PV tasks.',
     link: 'https://www.ema.europa.eu/en/news/reflection-paper-use-artificial-intelligence-lifecycle-medicines'
+  },
+  {
+    agency: 'EU',
+    region: 'Europe',
+    title: 'EU Artificial Intelligence Act',
+    status: 'Adopted',
+    date: 'May 2024',
+    desc: 'First comprehensive legal framework on AI worldwide. Classifies automated pharmacovigilance systems as high-risk, imposing strict requirements on data governance, transparency, and human oversight.',
+    link: 'https://artificialintelligenceact.eu/'
   },
   {
     agency: 'MHRA',
@@ -37,6 +46,24 @@ const regulations = [
     date: '2023 - Present',
     desc: 'A dedicated global working group drafting the consensus standards for using AI in signal detection, case processing, and aggregate reporting.',
     link: 'https://cioms.ch/working-groups/artificial-intelligence-in-pharmacovigilance/'
+  },
+  {
+    agency: 'FDA',
+    region: 'United States',
+    title: 'Draft Guidance: AI in Postmarket Safety Surveillance',
+    status: 'Planned',
+    date: '2025',
+    desc: 'Upcoming guidance expected to clarify the agency\'s stance on LLMs and agentic automation for processing postmarket adverse event reports.',
+    link: 'https://www.fda.gov'
+  },
+  {
+    agency: 'PMDA',
+    region: 'Japan',
+    title: 'Guidelines on AI in Regulatory Submissions',
+    status: 'Implementation',
+    date: '2024 - Ongoing',
+    desc: 'Guidance emphasizing the need for robust QA processes and explainability when utilizing AI for Japanese ICSR processing and safety signaling.',
+    link: 'https://www.pmda.go.jp/english/'
   }
 ];
 ---
@@ -51,6 +78,9 @@ const regulations = [
 
   <section class="tracker-section">
     <div class="wrap">
+      <div class="tracker-meta">
+        <span class="last-updated">Last updated: {new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+      </div>
       <div class="tracker-grid">
         {regulations.map((reg) => (
           <div class="reg-card">
@@ -75,7 +105,21 @@ const regulations = [
 
 <style>
   .tracker-section {
-    padding: 3rem 0 6rem;
+    padding: 1rem 0 6rem;
+  }
+  .tracker-meta {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+  }
+  .last-updated {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-soft);
+    letter-spacing: 0.05em;
+    background: rgba(241,236,224,.05);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
   }
   .tracker-grid {
     display: grid;
@@ -83,18 +127,20 @@ const regulations = [
     gap: 1.5rem;
   }
   .reg-card {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-md);
-    padding: 2rem;
+    background: color-mix(in srgb, var(--color-surface) 60%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 2.2rem 2rem;
     display: flex;
     flex-direction: column;
-    transition: transform 200ms ease, box-shadow 200ms ease;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
   }
   .reg-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-soft);
-    border-color: var(--color-accent);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(241, 236, 224, 0.2);
   }
   .reg-header {
     display: flex;

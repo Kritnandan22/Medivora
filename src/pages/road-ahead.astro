@@ -6,26 +6,31 @@ const cards = [
     yr: 'Intake → Prediction',
     title: 'Predictive safety signals',
     body: 'A shift from manual intake to predictive signal detection: using real-world data and LLMs to identify adverse event clusters before they become widespread.',
+    source: 'FDA Technology Modernization Action Plan'
   },
   {
     yr: 'By 2028',
     title: 'AI-native PV as default',
     body: 'Projections suggest more than half of ICSR processing could be fully automated — with early pilot success rates already running well above historical norms.',
+    source: 'McKinsey & Company Analysis'
   },
   {
     yr: 'Operations',
     title: 'Self-driving aggregate reports',
     body: 'Autonomous planning, AI control towers and medical writing copilots become standard for PSURs and PBRERs — every decision audit-ready by default.',
+    source: 'Deloitte Life Sciences Perspectives'
   },
   {
     yr: 'Platforms',
     title: 'One converged layer',
     body: 'The boundaries between safety databases, reporting tools, and agents keep dissolving — pushing teams toward flexible, multi-capability stacks over single-vendor lock-in.',
+    source: 'Gartner Hype Cycle for Life Sciences'
   },
   {
     yr: 'Compliance',
     title: 'Regulation, built in from day one',
     body: 'Agentic systems increasingly fold GVP Module VI verification into the workflow itself, turning the regulatory scramble into continuous, real-time assurance.',
+    source: 'EMA Big Data Steering Group'
   },
   {
     yr: 'The constant',
@@ -51,6 +56,11 @@ const cards = [
             <div class="fcard-yr">{c.yr}</div>
             <h2>{c.title}</h2>
             <p>{c.body}</p>
+            {c.source && (
+              <div class="fcard-source">
+                <span class="fs-label">Projection aligned with:</span> {c.source}
+              </div>
+            )}
           </article>
         ))}
       </div>
@@ -88,14 +98,18 @@ const cards = [
   }
 
   .fcard {
-    border: 1px solid rgba(241,236,224,.18);
-    border-radius: var(--radius-md);
-    padding: 1.9rem 1.6rem;
-    transition: background-color 240ms ease, border-color 240ms ease;
+    background: color-mix(in srgb, var(--color-surface) 60%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 2.2rem 1.8rem;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
   }
   .fcard:hover {
-    background-color: rgba(255,255,255,.03);
-    border-color: rgba(241,236,224,.36);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(241, 236, 224, 0.2);
   }
 
   .fcard-yr {
@@ -123,13 +137,34 @@ const cards = [
   }
   :global([data-theme='dark']) .fcard p { color: var(--color-text-2); }
 
+  .fcard-source {
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(241,236,224,0.1);
+    font-size: 0.75rem;
+    color: rgba(241,236,224,0.5);
+    font-family: var(--font-mono);
+  }
+  :global([data-theme='dark']) .fcard-source { border-top-color: var(--color-line-soft); color: var(--color-text-soft); }
+  .fs-label { 
+    text-transform: uppercase; 
+    letter-spacing: 0.05em; 
+    font-weight: 700; 
+    color: rgba(241,236,224,0.7); 
+    display: block; 
+    margin-bottom: 3px; 
+  }
+  :global([data-theme='dark']) .fs-label { color: var(--color-text-2); }
+
   /* CTA block */
   .future-cta-block {
-    background-color: rgba(255,255,255,.04);
-    border: 1px solid rgba(241,236,224,.16);
-    border-radius: var(--radius-md);
-    padding: 2.2rem 2rem;
+    background: linear-gradient(135deg, rgba(6, 14, 11, 0.8) 0%, rgba(13, 26, 21, 0.9) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 3rem 2.5rem;
     color: #f1ece0;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   }
   :global([data-theme='dark']) .future-cta-block {
     background-color: var(--color-surface);

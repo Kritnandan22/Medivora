@@ -185,6 +185,21 @@ const roadmap = [
     </div>
   </section>
 
+  <!-- ── Team / Authors ── -->
+  <section class="team-section">
+    <div class="wrap">
+      <span class="eyebrow">Who is behind Medivora</span>
+      <h2>Founder & Lead Architect</h2>
+      <div class="team-grid">
+        <div class="team-member">
+          <h3>Kritnandan</h3>
+          <span class="team-role">Founder</span>
+          <p>Holding a B.Tech in Biological Sciences and Bioengineering from IIT Kanpur, Kritnandan brings extensive cross-disciplinary expertise spanning Data Science, Computational Biology, and Biostatistics. As the Founder, he drives the technical and strategic vision for Medivora. He was recognized as the third-place winner of the Novartis NEST 1.0 Hackathon for pioneering predictive models to forecast clinical trial recruitment rates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ── Intended Audience ── -->
   <section class="audience-section">
     <div class="wrap">
@@ -448,13 +463,15 @@ const roadmap = [
     display: flex;
     gap: 1.2rem;
     align-items: flex-start;
-    background-color: var(--color-bg);
-    border: 1px solid var(--color-line-soft);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
-    transition: border-color 200ms ease, transform 200ms ease;
+    background: color-mix(in srgb, var(--color-surface) 60%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
   }
-  .cov-card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+  .cov-card:hover { border-color: rgba(241, 236, 224, 0.2); transform: translateY(-4px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); }
   .cov-icon {
     color: var(--color-accent);
     flex: none;
@@ -499,12 +516,13 @@ const roadmap = [
   .principle-item {
     display: flex;
     gap: 1.1rem;
-    padding: 1.8rem;
-    border-right: 1px solid var(--color-line-soft);
-    border-bottom: 1px solid var(--color-line-soft);
-    transition: background-color 180ms ease;
+    padding: 2rem;
+    border-right: 1px solid rgba(241, 236, 224, 0.08);
+    border-bottom: 1px solid rgba(241, 236, 224, 0.08);
+    background: color-mix(in srgb, var(--color-surface) 40%, transparent);
+    transition: background-color 0.3s ease, transform 0.3s ease;
   }
-  .principle-item:hover { background-color: var(--color-surface); }
+  .principle-item:hover { background-color: color-mix(in srgb, var(--color-surface) 80%, transparent); transform: translateY(-2px); }
   .principle-item:nth-child(3n) { border-right: 0; }
   .principle-item:nth-child(4),
   .principle-item:nth-child(5),
@@ -529,6 +547,52 @@ const roadmap = [
     color: var(--color-text-2);
     line-height: 1.6;
     margin: 0;
+  }
+
+  /* ── Team ── */
+  .team-section {
+    padding: 5rem 0;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .team-section .eyebrow { display: block; margin-bottom: 0.6rem; }
+  .team-section h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+    line-height: 1.1;
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  .team-member {
+    background: color-mix(in srgb, var(--color-surface) 40%, transparent);
+    border: 1px solid rgba(241, 236, 224, 0.08);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+  }
+  .team-member h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.3rem;
+  }
+  .team-role {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .team-member p {
+    font-size: 0.9rem;
+    color: var(--color-text-2);
+    line-height: 1.6;
   }
 
   /* ── Audience ── */
@@ -562,11 +626,15 @@ const roadmap = [
     gap: 1.4rem;
   }
   .aud-group {
-    background-color: var(--color-bg);
-    border: 1px solid var(--color-line-soft);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 1.8rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
   }
+  .aud-group:hover { transform: translateY(-3px); }
   .aud-group-title {
     font-size: 0.84rem;
     font-weight: 700;

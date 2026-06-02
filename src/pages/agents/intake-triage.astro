@@ -20,6 +20,7 @@ const domainColor = '#3b82f6'; // Blue for Intake
         <div class="hero-meta">
           <span class="domain-tag" style={`--dc: ${domainColor}`}>Pharmacovigilance</span>
           <span class="phase-tag">Phase 1 · Intake</span>
+          <span class="date-tag">Last reviewed: Nov 2024</span>
         </div>
         
         <h1 class="agent-title">Intake &amp; Triage Agent</h1>
@@ -43,6 +44,7 @@ const domainColor = '#3b82f6'; // Blue for Intake
             <span class="mb-lbl">Average processing time per case</span>
           </div>
         </div>
+        <p class="metrics-disclaimer" style="font-size:0.75rem; color:rgba(241,236,224,.5); margin-top:1rem; font-style:italic;">* Target metrics and early observations from industry pilots.</p>
       </div>
     </header>
 
@@ -164,6 +166,88 @@ flowchart LR
       </div>
     </section>
 
+  
+    <!-- ── UNDER THE HOOD ───────────────────────────────────── -->
+    <section class="section-dark under-hood-section">
+      <div class="wrap">
+        <span class="eyebrow">Under the Hood</span>
+        <h2>Architectural Deep Dive</h2>
+        
+        <div class="uh-grid">
+          <div class="uh-col">
+            <h3>System Prompt Formulation</h3>
+            <p>The Intake Agent is bound by strict extraction rules to prevent hallucination of clinical facts. It operates with a temperature of 0.0 to ensure deterministic output.</p>
+            <div class="code-block-wrapper">
+              <div class="code-header"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-title">system_prompt.txt</span></div>
+              <pre is:raw><code>You are an expert Pharmacovigilance Intake Agent.
+Your objective is to extract ICSR entities from the provided text.
+
+CRITICAL RULES:
+1. ONLY extract information explicitly stated in the text. 
+   Do NOT infer or guess medical history.
+2. If an element (e.g., patient age) is missing, output null.
+3. Map all dates to ISO 8601 format (YYYY-MM-DD).
+4. Identify if the four minimum criteria for a valid ICSR are met:
+   - Identifiable patient
+   - Identifiable reporter
+   - Suspect drug
+   - Adverse event
+
+Output the result using the extract_icsr_entities tool.</code></pre>
+            </div>
+          </div>
+          
+          <div class="uh-col">
+            <h3>Tool Calling Schema (E2B Mapping)</h3>
+            <p>The agent commits data to the safety database via a structured JSON schema that maps directly to ICH E2B (R3) data elements.</p>
+            <div class="code-block-wrapper">
+              <div class="code-header"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-title">schema.json</span></div>
+              <pre is:raw><code>{
+  "name": "extract_icsr_entities",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "is_valid_icsr": { "type": "boolean" },
+      "patient": {
+        "type": "object",
+        "properties": {
+          "age": { "type": "number", "description": "E2B: D.2.2a" },
+          "sex": { "type": "string", "enum": ["M", "F", "U"] }
+        }
+      },
+      "events": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "drugs": {
+        "type": "array",
+        "items": { 
+          "type": "object",
+          "properties": {
+             "name": { "type": "string" },
+             "role": { "type": "string", "enum": ["suspect", "concomitant"] }
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="guardrails-box">
+          <h3>Guardrails & Failure Modes</h3>
+          <ul class="guardrail-list">
+            <li><strong>OCR Degradation:</strong> Handwritten forms or highly degraded faxes often cause vision-model hallucinations. Confidence scores below 85% automatically route the case to a human queue.</li>
+            <li><strong>Contradictory Timelines:</strong> If a narrative states a patient started a drug in 2023 but the event occurred in 2022, the agent is instructed to flag an anomaly rather than attempt to resolve the logical paradox.</li>
+            <li><strong>Human-in-the-Loop (HITL):</strong> The agent <em>never</em> commits a case directly to regulatory authorities. It creates a "Draft" case in the safety database (e.g., Argus) for medical review.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
   </article>
 </BaseLayout>
 
@@ -185,6 +269,9 @@ flowchart LR
 </script>
 
 <style>
+  .mermaid { visibility: hidden; }
+  .mermaid[data-processed="true"] { visibility: visible; }
+  .date-tag { font-family: var(--font-mono); font-size: 0.65rem; color: rgba(241,236,224,.5); border: 1px dashed rgba(241,236,224,.2); padding: 4px 10px; border-radius: 100px; }
   /* Reuse standard agent layout styles */
   .agent-detail-page { background: var(--color-bg); min-height: 100vh; }
   .wrap { max-width: 1200px; margin: 0 auto; padding: 0 5%; }

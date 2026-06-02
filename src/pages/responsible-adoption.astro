@@ -35,7 +35,7 @@ const principles = [
   {
     num: 'vi.',
     title: 'Data Privacy & Anonymisation',
-    body: 'Processing patient narratives requires stringent adherence to HIPAA and GDPR. AI models must be deployed in secure, single-tenant environments, and Personally Identifiable Information (PII) should be anonymised before hitting external reasoning endpoints.',
+    body: 'Processing patient narratives requires stringent adherence to HIPAA and GDPR. AI models must be deployed in secure, single-tenant or VPC environments, and Personally Identifiable Information (PII) must be deterministically de-identified before hitting any external reasoning endpoints.',
     code: 'HIPAA · GDPR',
   },
   {
@@ -47,8 +47,14 @@ const principles = [
   {
     num: 'viii.',
     title: 'Shadow Mode Deployment',
-    body: 'Before live production, AI agents should run in a "shadow mode" parallel to existing human workflows. This allows QPPVs to evaluate the agent\'s decisions against human benchmarks without risking compliance, ensuring the system meets a 99%+ accuracy threshold before taking over.',
+    body: 'Before live production, AI agents should run in a "shadow mode" parallel to existing human workflows. This allows QPPVs to evaluate the agent\'s decisions against human benchmarks without risking compliance, ensuring the system meets a 99%+ accuracy threshold [10] before taking over.',
     code: 'Deployment Strategy',
+  },
+  {
+    num: 'ix.',
+    title: 'EU AI Act Compliance',
+    body: 'Under the incoming EU AI Act, pharmacovigilance automation often qualifies as a high-risk AI system. Implementers must ensure rigorous risk management systems, high-quality data governance, logging capabilities, and human oversight measures are in place to meet regulatory conformity assessments.',
+    code: 'EU AI Act (High-Risk)',
   }
 ];
 ---
@@ -65,7 +71,7 @@ const principles = [
     <div class="wrap">
       
       <div class="hero-image-container">
-        <video src="/videos/hero-governance.mp4" autoplay loop muted playsinline class="hero-image"></video>
+        <video src="/videos/hero-governance.mp4" poster="/og-default.png" preload="none" autoplay loop muted playsinline class="hero-image"></video>
       </div>
 
       <div class="resp-layout">

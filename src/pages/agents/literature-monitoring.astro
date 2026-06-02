@@ -20,6 +20,7 @@ const domainColor = '#8b5cf6'; // Purple for Literature
         <div class="hero-meta">
           <span class="domain-tag" style={`--dc: ${domainColor}`}>Pharmacovigilance</span>
           <span class="phase-tag">Phase 1 · Signal & Intake</span>
+          <span class="date-tag">Last reviewed: Nov 2024</span>
         </div>
         
         <h1 class="agent-title">Literature Monitoring Agent</h1>
@@ -43,6 +44,7 @@ const domainColor = '#8b5cf6'; // Purple for Literature
             <span class="mb-lbl">Reduction in false-positive manual reviews</span>
           </div>
         </div>
+        <p class="metrics-disclaimer" style="font-size:0.75rem; color:rgba(241,236,224,.5); margin-top:1rem; font-style:italic;">* Target metrics and early observations from industry pilots.</p>
       </div>
     </header>
 
@@ -153,6 +155,71 @@ flowchart LR
       </div>
     </section>
 
+  
+    <!-- ── UNDER THE HOOD ───────────────────────────────────── -->
+    <section class="section-dark under-hood-section">
+      <div class="wrap">
+        <span class="eyebrow">Under the Hood</span>
+        <h2>Architectural Deep Dive</h2>
+        
+        <div class="uh-grid">
+          <div class="uh-col">
+            <h3>API Integration & Tool Calling</h3>
+            <p>The agent runs on a scheduled CRON job, automatically querying PubMed, Embase, and other literature databases using complex boolean search strings, fetching XML abstracts for evaluation.</p>
+            <div class="code-block-wrapper">
+              <div class="code-header"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-title">scheduled_task.py</span></div>
+              <pre is:raw><code>def daily_literature_scan(drug_name):
+    # Agent calls PubMed E-utilities API
+    tool_call = {
+        "action": "query_pubmed",
+        "query": f'({drug_name}[Title/Abstract]) AND (adverse[Title/Abstract] OR toxicity[Title/Abstract])',
+        "date_range": "last_24_hours"
+    }
+    
+    abstracts = execute_tool(tool_call)
+    
+    # Pass to LLM for zero-shot triage
+    return [evaluate_abstract(a) for a in abstracts]</code></pre>
+            </div>
+          </div>
+          
+          <div class="uh-col">
+            <h3>Zero-Shot ICSR Triage</h3>
+            <p>The agent reads the abstract and determines if it represents a valid ICSR (containing a specific patient and adverse event), or if it is just a general study, animal study, or review article.</p>
+            <div class="code-block-wrapper">
+              <div class="code-header"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-title">system_prompt.txt</span></div>
+              <pre is:raw><code>Evaluate the following scientific abstract.
+
+TASK:
+Determine if this abstract contains a valid Individual Case Safety Report (ICSR).
+
+EXCLUSION CRITERIA (Mark as INVALID if):
+- It is an animal / in-vitro study.
+- It is a broad epidemiological study without individual patient timelines.
+- It is a review article summarizing past literature.
+
+If VALID, extract:
+- Patient demographics
+- Adverse event(s)
+- Suspect drug(s)
+
+Output in strict JSON format.</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="guardrails-box">
+          <h3>Guardrails & Failure Modes</h3>
+          <ul class="guardrail-list">
+            <li><strong>False Positives:</strong> The agent may flag an epidemiological study that mentions "30 patients had a rash" as 30 individual ICSRs. Prompts must be highly tuned to differentiate between aggregate study results and individual case reports.</li>
+            <li><strong>Paywalls:</strong> The agent can only read the abstract if the full text is behind a paywall. If the abstract hints at a case report but lacks details, the agent is programmed to flag it as "Full Text Required" and queue it for human procurement.</li>
+            <li><strong>Author Affiliation Bias:</strong> The agent must identify if the author is affiliated with a competitor company or if the literature originates from a known predatory journal, weighting the signal accordingly.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
   </article>
 </BaseLayout>
 
@@ -174,6 +241,9 @@ flowchart LR
 </script>
 
 <style>
+  .mermaid { visibility: hidden; }
+  .mermaid[data-processed="true"] { visibility: visible; }
+  .date-tag { font-family: var(--font-mono); font-size: 0.65rem; color: rgba(241,236,224,.5); border: 1px dashed rgba(241,236,224,.2); padding: 4px 10px; border-radius: 100px; }
   /* Reuse standard agent layout styles */
   .agent-detail-page { background: var(--color-bg); min-height: 100vh; }
   .wrap { max-width: 1200px; margin: 0 auto; padding: 0 5%; }

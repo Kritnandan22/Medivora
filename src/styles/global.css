@@ -262,4 +262,96 @@
     content-visibility: auto;
     contain-intrinsic-size: auto 400px;
   }
+
+  /* ── Under the Hood (Agent Pages) ── */
+  .under-hood-section {
+    padding: 5rem 0;
+    background: #060e0b;
+    color: #f1ece0;
+    border-top: 1px solid rgba(59,130,246,0.15);
+  }
+  .under-hood-section h2 {
+    font-size: 2.2rem;
+    margin-bottom: 3rem;
+  }
+  .uh-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+  .uh-col h3 {
+    font-size: 1.3rem;
+    color: #3b82f6;
+    margin-bottom: 1rem;
+    font-family: var(--font-sans);
+  }
+  .uh-col p {
+    font-size: 0.95rem;
+    color: rgba(241,236,224,0.7);
+    margin-bottom: 1.5rem;
+  }
+  .code-block-wrapper {
+    background: #0d1a15;
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .code-header {
+    background: rgba(0,0,0,0.4);
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .code-dot.r { background: #ff5f56; }
+  .code-dot.y { background: #ffbd2e; }
+  .code-dot.g { background: #27c93f; }
+  .code-title { 
+    margin-left: auto; 
+    font-family: var(--font-mono); 
+    font-size: 0.7rem; 
+    color: rgba(255,255,255,0.5); 
+  }
+  .code-block-wrapper pre {
+    padding: 1.5rem;
+    margin: 0;
+    font-size: 0.85rem;
+    overflow-x: auto;
+    color: #a8b2d1;
+    line-height: 1.5;
+  }
+  .guardrails-box {
+    background: rgba(255,95,86,0.05);
+    border: 1px solid rgba(255,95,86,0.2);
+    border-radius: 8px;
+    padding: 2rem;
+  }
+  .guardrails-box h3 {
+    color: #ff5f56;
+    font-family: var(--font-sans);
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .guardrail-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .guardrail-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: rgba(241,236,224,0.8);
+  }
+  .guardrail-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #ff5f56;
+    font-weight: bold;
+  }
 }

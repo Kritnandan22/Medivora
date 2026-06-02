@@ -3,10 +3,10 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import BrandMark from '~/components/BrandMark.astro';
 
 const stats = [
-  { n: '~50-60%', l: 'Of pharmacovigilance budgets absorbed by manual case processing' },
-  { n: '€50-200', l: 'Fully-loaded processing cost per individual case (ICSR)', amber: true },
-  { n: '70-85%', l: 'Of ICSR processing steps proven automatable by agentic AI' },
-  { n: '15 → <5', l: 'Days from intake to submission achieved in recent automation pilots', amber: true },
+  { n: '~50-60%', l: 'Of pharmacovigilance budgets absorbed by manual case processing [1]' },
+  { n: '€50-200', l: 'Fully-loaded processing cost per individual case (ICSR) [2]', amber: true },
+  { n: '70-85%', l: 'Of ICSR processing steps proven automatable by agentic AI [3]' },
+  { n: '15 → <5', l: 'Days from intake to submission achieved in recent automation pilots [4]', amber: true },
 ];
 
 const capabilities = [
@@ -85,6 +85,8 @@ const sections = [
             <div class="video-container">
               <video
                 src="/videos/hero-dna.mp4"
+                poster="/og-default.png"
+                preload="none"
                 autoplay
                 loop
                 muted
@@ -109,6 +111,23 @@ const sections = [
               </div>
             ))
           }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="audience-banner reveal">
+    <div class="wrap">
+      <div class="audience-inner">
+        <span class="aud-eyebrow">Who this is for</span>
+        <div class="aud-roles">
+          <span>QPPVs</span>
+          <span class="aud-dot">•</span>
+          <span>PV Operations Leads</span>
+          <span class="aud-dot">•</span>
+          <span>Medical Reviewers</span>
+          <span class="aud-dot">•</span>
+          <span>Safety IT</span>
         </div>
       </div>
     </div>
@@ -390,6 +409,40 @@ const sections = [
     font-size: 0.82rem;
     color: var(--color-text-soft);
     line-height: 1.45;
+  }
+
+  /* Audience Banner */
+  .audience-banner {
+    padding: 3rem 0 1rem;
+  }
+  .audience-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    border-bottom: 1px solid var(--color-line-soft);
+    padding-bottom: 2.5rem;
+  }
+  .aud-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-soft);
+  }
+  .aud-roles {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-text-2);
+  }
+  .aud-dot {
+    color: var(--color-accent);
+    opacity: 0.5;
   }
 
   /* QPPV Quote Section */

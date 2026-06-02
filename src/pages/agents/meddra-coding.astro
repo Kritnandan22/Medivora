@@ -20,6 +20,7 @@ const domainColor = '#10b981'; // Green for MedDRA Coding
         <div class="hero-meta">
           <span class="domain-tag" style={`--dc: ${domainColor}`}>Pharmacovigilance</span>
           <span class="phase-tag">Phase 2 · Processing</span>
+          <span class="date-tag">Last reviewed: Nov 2024</span>
         </div>
         
         <h1 class="agent-title">MedDRA Coding Agent</h1>
@@ -43,6 +44,7 @@ const domainColor = '#10b981'; // Green for MedDRA Coding
             <span class="mb-lbl">Latency per LLT mapping</span>
           </div>
         </div>
+        <p class="metrics-disclaimer" style="font-size:0.75rem; color:rgba(241,236,224,.5); margin-top:1rem; font-style:italic;">* Target metrics and early observations from industry pilots.</p>
       </div>
     </header>
 
@@ -158,6 +160,67 @@ flowchart LR
       </div>
     </section>
 
+  
+    <!-- ── UNDER THE HOOD ───────────────────────────────────── -->
+    <section class="section-dark under-hood-section">
+      <div class="wrap">
+        <span class="eyebrow">Under the Hood</span>
+        <h2>Architectural Deep Dive</h2>
+        
+        <div class="uh-grid">
+          <div class="uh-col">
+            <h3>RAG & Semantic Search Architecture</h3>
+            <p>Standard LLMs hallucinate MedDRA codes. The Coding Agent uses Retrieval-Augmented Generation (RAG): verbatim terms are embedded into vector space, compared against the embedded MedDRA dictionary, and top matches are retrieved for final LLM selection.</p>
+            <div class="code-block-wrapper">
+              <div class="code-header"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-title">search_meddra.py</span></div>
+              <pre is:raw><code>def encode_and_search(verbatim_term, top_k=5):
+    # 1. Generate embedding for verbatim term
+    query_vector = embedding_model.encode(verbatim_term)
+    
+    # 2. Perform cosine similarity search in Pinecone/Milvus
+    results = vector_db.query(
+        vector=query_vector,
+        namespace="meddra_v26",
+        top_k=top_k,
+        include_metadata=True
+    )
+    
+    # 3. Return candidates to LLM for context
+    return [match.metadata for match in results.matches]</code></pre>
+            </div>
+          </div>
+          
+          <div class="uh-col">
+            <h3>Hierarchical Prompting</h3>
+            <p>The agent is instructed to reason through the MedDRA hierarchy to ensure clinical logic, moving from System Organ Class (SOC) down to Lowest Level Term (LLT).</p>
+            <div class="code-block-wrapper">
+              <div class="code-header"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-title">system_prompt.txt</span></div>
+              <pre is:raw><code>You are an expert Medical Coder.
+Given a verbatim term and a list of dictionary candidates, select the most accurate MedDRA LLT.
+
+REASONING TRACE REQUIRED:
+1. Identify the likely System Organ Class (SOC).
+2. Evaluate candidates based on High Level Group Term (HLGT) and High Level Term (HLT).
+3. Select the Preferred Term (PT) that best captures the core medical concept.
+4. Select the final Lowest Level Term (LLT).
+
+Do NOT "up-code" (select a more severe term than reported) or "down-code" (select a less severe term).</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="guardrails-box">
+          <h3>Guardrails & Failure Modes</h3>
+          <ul class="guardrail-list">
+            <li><strong>Ambiguous Verbatims:</strong> Terms like "felt bad" lack specificity. The agent is trained to select a generic LLT (e.g., "Malaise") and flag the term for querying rather than guessing the underlying pathology.</li>
+            <li><strong>Medical vs. Social History:</strong> The agent must distinguish between "patient had a stroke [medical history]" and "patient suffered a stroke [adverse event]" based on syntactic context.</li>
+            <li><strong>Confidence Thresholds:</strong> If the cosine similarity of the best MedDRA match is below a defined threshold (e.g., 0.75), the agent refuses to code the term and queues it for a human medical coder.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
   </article>
 </BaseLayout>
 
@@ -179,6 +242,9 @@ flowchart LR
 </script>
 
 <style>
+  .mermaid { visibility: hidden; }
+  .mermaid[data-processed="true"] { visibility: visible; }
+  .date-tag { font-family: var(--font-mono); font-size: 0.65rem; color: rgba(241,236,224,.5); border: 1px dashed rgba(241,236,224,.2); padding: 4px 10px; border-radius: 100px; }
   /* Reuse standard agent layout styles */
   .agent-detail-page { background: var(--color-bg); min-height: 100vh; }
   .wrap { max-width: 1200px; margin: 0 auto; padding: 0 5%; }

@@ -4,12 +4,12 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 const terms = [
   // A
   { term: 'Agent', section: 'A', def: 'An AI system that perceives its environment, reasons about a goal, and autonomously takes actions — calling tools, querying databases, and iterating until the task is complete. Distinguished from a simple chatbot by its ability to act, not just respond.' },
+  { term: 'Argus / ARISg / Vault Safety', section: 'A', def: 'The three dominant commercial safety databases used in pharmacovigilance. Agentic systems must integrate with these systems via API or E2B (R3) to commit structured data.' },
   { term: 'Agentic Automation', section: 'A', def: 'Automation powered by AI agents that can reason through ambiguity, handle exceptions, and adapt to novel inputs. Unlike workflow automation, it is non-deterministic — the agent chooses its own steps based on its goal and current context.' },
   { term: 'API (Application Programming Interface)', section: 'A', def: 'A contract that lets two software systems exchange data programmatically. Workflow automation tools like Make or Power Automate rely on APIs to move data between cloud apps without human intervention.' },
   { term: 'Audit Trail', section: 'A', def: 'A timestamped, immutable log of every step in a process. Required in GxP-regulated environments. Workflow automation produces deterministic audit trails; agentic systems must be explicitly designed to generate reasoning traces.' },
   // B
-  { term: 'BPM (Business Process Management)', section: 'B', def: 'A discipline focused on modelling, analysing, and optimising organisational processes. Traditional BPM tools (like Appian or Pega) are the predecessors to modern workflow automation platforms.' },
-  { term: 'Batch Record', section: 'B', def: 'In pharmaceutical manufacturing, a detailed record documenting every step taken to produce a specific batch of drug product. Workflow automation tools now assist with electronic batch record (eBR) completion and exception flagging.' },
+  // B
   // C
   { term: 'CAPA (Corrective and Preventive Action)', section: 'C', def: 'A quality management process used in GxP environments to identify, investigate, and resolve non-conformances. Workflow automation routes CAPAs through defined approval chains; AI agents can assist with root-cause analysis.' },
   { term: 'Chain-of-Thought (CoT)', section: 'C', def: 'A prompting technique that instructs an LLM to reason step-by-step before answering. CoT dramatically improves accuracy on multi-step problems and is a key building block in agentic pipelines.' },
@@ -22,7 +22,6 @@ const terms = [
   // E
   { term: 'E2B (R3)', section: 'E', def: 'The international standard for the electronic transmission of ICSRs (Individual Case Safety Reports). Agentic systems in pharmacovigilance must output structured data that complies with E2B elements.' },
   { term: 'eCTD (Electronic Common Technical Document)', section: 'E', def: 'The standardised format for submitting new drug applications to regulatory agencies (FDA, EMA). Workflow automation tools assemble eCTD dossiers from source documents; agents help draft responses to agency questions.' },
-  { term: 'EHR / EMR (Electronic Health / Medical Record)', section: 'E', def: 'Digital systems that store patient health information. Agentic automation can read EHR data to support clinical decision-making, adverse event detection, and medication reconciliation — subject to strict access controls.' },
   { term: 'Embeddings', section: 'E', def: 'Numerical vector representations of text (or other data) that capture semantic meaning. Used in RAG systems to find relevant context for an LLM. Similar concepts are semantically close; dissimilar ones are far apart in vector space.' },
   // F
   { term: 'Few-Shot Prompting', section: 'F', def: 'A technique where one or more examples are included in the prompt to guide the LLM\'s output format or reasoning style. More reliable than zero-shot prompting for structured extraction tasks.' },
@@ -36,7 +35,7 @@ const terms = [
   // I
   { term: 'ICSR (Individual Case Safety Report)', section: 'I', def: 'A report submitted to regulatory authorities when a suspected adverse drug reaction occurs. Agentic AI tools assist with intake triage, MedDRA coding, causality assessment, and narrative generation.' },
   // L
-  { term: 'LIMS (Laboratory Information Management System)', section: 'L', def: 'A software platform that manages laboratory samples, workflows, and results. Workflow automation connects LIMS to ERP and QMS systems; agents can assist with sample disposition decisions and out-of-specification investigations.' },
+  // L
   { term: 'LLM (Large Language Model)', section: 'L', def: 'A neural network trained on large text corpora that can generate, summarise, classify, and reason about language. GPT-4, Claude, and Gemini are examples. LLMs are the reasoning engine inside most modern AI agents.' },
   // M
   { term: 'MAS (Multi-Agent System)', section: 'M', def: 'An architecture where multiple AI agents collaborate — each with a specialised role — to complete complex tasks. A supervisor agent coordinates specialist sub-agents (e.g., a literature agent, a safety agent, a coding agent).' },
@@ -50,12 +49,15 @@ const terms = [
   // P
   { term: 'Pharmacovigilance', section: 'P', def: 'The science of monitoring, detecting, assessing, and preventing adverse drug reactions throughout a drug\'s lifecycle. One of the highest-impact areas for agentic automation in pharma due to the volume and complexity of safety data.' },
   { term: 'Pipeline (Automation)', section: 'P', def: 'A sequence of automated steps that transforms an input into an output. In workflow automation, the pipeline is defined in advance. In agentic automation, the pipeline is determined at runtime by the agent\'s reasoning.' },
+  { term: 'PSUR / PBRER', section: 'P', def: 'Periodic Safety Update Report / Periodic Benefit-Risk Evaluation Report. Comprehensive aggregate safety reports submitted to regulators at defined intervals. Agents assist in drafting the initial narrative frameworks.' },
   { term: 'Prompt Engineering', section: 'P', def: 'The craft of designing LLM inputs (prompts) to reliably elicit accurate, structured, and useful outputs. Includes techniques like chain-of-thought, few-shot examples, role assignment, and output format specification.' },
+  // Q
+  { term: 'QPPV', section: 'Q', def: 'Qualified Person for Pharmacovigilance. A legally mandated role in the EU and UK responsible for the company\'s PV system. QPPVs must maintain oversight of any AI systems deployed in safety workflows.' },
   // R
   { term: 'RAG (Retrieval-Augmented Generation)', section: 'R', def: 'A pattern that grounds LLM responses in retrieved documents — reducing hallucination and enabling the model to answer questions based on internal knowledge bases, regulatory guidelines, or clinical literature.' },
   { term: 'ReAct Loop', section: 'R', def: 'The core reasoning pattern used by AI agents: Reason about the goal → Act (call a tool) → Observe the result → repeat. Stands for Reason + Act. Most production agents follow this pattern or a close variant.' },
   { term: 'Regulatory Submission', section: 'R', def: 'A formal package of data submitted to a health authority (FDA, EMA, PMDA) seeking approval for a drug or device. Workflow automation assists with dossier assembly; agents assist with authoring and query responses.' },
-  { term: 'RPA (Robotic Process Automation)', section: 'R', def: 'Software that mimics human UI interactions to automate repetitive tasks in legacy systems without APIs. Slower and more brittle than API-based automation, but the only option for systems that can\'t be integrated programmatically.' },
+  { term: 'Regulatory Submission', section: 'R', def: 'A formal package of data submitted to a health authority (FDA, EMA, PMDA) seeking approval for a drug or device. Workflow automation assists with dossier assembly; agents assist with authoring and query responses.' },
   // S
   { term: 'Safety Signal', section: 'S', def: 'Information that suggests a drug may cause an adverse event that was previously unknown or incompletely documented. Signal detection is a primary use case for agentic AI in pharmacovigilance.' },
   { term: 'Structured Output', section: 'S', def: 'LLM output constrained to a defined format (e.g., JSON, XML). Achieved through function calling or constrained decoding. Essential for agentic workflows where downstream steps depend on machine-readable data.' },
@@ -76,9 +78,23 @@ const alphabet = [...new Set(terms.map(t => t.section))].sort();
 const grouped = Object.fromEntries(
   alphabet.map(letter => [letter, terms.filter(t => t.section === letter)])
 );
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://medivora-health.netlify.app/glossary#definedTermSet",
+  "name": "Pharmacovigilance AI Glossary",
+  "description": "Plain-English definitions for AI and automation terms used in pharma.",
+  "hasDefinedTerm": terms.map(t => ({
+    "@type": "DefinedTerm",
+    "name": t.term,
+    "description": t.def
+  }))
+};
 ---
 
 <BaseLayout title="Glossary" description="Plain-English definitions for 50+ AI and automation terms used in pharma — from Agent to Zero-shot prompting.">
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   <section class="page-hero">
     <div class="wrap">
       <span class="eyebrow">Reference</span>
@@ -190,16 +206,18 @@ const grouped = Object.fromEntries(
   .filter-input {
     width: 100%;
     padding: 0.65rem 1rem 0.65rem 2.4rem;
-    border: 1px solid var(--color-line);
+    border: 1px solid rgba(241, 236, 224, 0.2);
     border-radius: var(--radius-md);
-    background-color: var(--color-surface);
+    background: color-mix(in srgb, var(--color-surface) 60%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     font-family: var(--font-sans);
     font-size: 0.9rem;
     color: var(--color-text);
     outline: none;
-    transition: border-color 180ms ease;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
   }
-  .filter-input:focus { border-color: var(--color-accent); }
+  .filter-input:focus { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(22, 166, 132, 0.2); }
   .filter-input::-webkit-search-cancel-button { display: none; }
   .filter-count {
     font-family: var(--font-mono);
@@ -261,12 +279,20 @@ const grouped = Object.fromEntries(
   .glossary-list { margin: 0; }
 
   .term-item {
-    padding: 1.2rem 0;
-    border-bottom: 1px solid var(--color-line-soft);
+    padding: 1.5rem 2rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid rgba(241, 236, 224, 0.08);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-surface) 40%, transparent);
     display: grid;
     grid-template-columns: 1fr 2.2fr;
     gap: 1.5rem;
     align-items: baseline;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  .term-item:hover {
+    background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+    border-color: rgba(241, 236, 224, 0.15);
   }
   .term-item[hidden] { display: none; }
 

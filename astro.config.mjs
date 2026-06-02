@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://medivora.onrender.com',
+  site: 'https://medivora-health.netlify.app',
   trailingSlash: 'ignore',
   build: {
     inlineStylesheets: 'auto',
@@ -24,10 +24,10 @@ export default defineConfig({
       lastmod: new Date(),
       // Mark key pages as higher priority
       customPages: [
-        'https://medivora.onrender.com/',
-        'https://medivora.onrender.com/foundations',
-        'https://medivora.onrender.com/value-chain',
-        'https://medivora.onrender.com/case-studies',
+        'https://medivora-health.netlify.app/',
+        'https://medivora-health.netlify.app/foundations',
+        'https://medivora-health.netlify.app/safety-pipeline',
+        'https://medivora-health.netlify.app/case-studies',
       ],
     }),
   ],

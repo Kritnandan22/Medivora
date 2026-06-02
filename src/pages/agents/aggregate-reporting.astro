@@ -20,6 +20,7 @@ const domainColor = '#ec4899'; // Pink for Aggregate Reporting
         <div class="hero-meta">
           <span class="domain-tag" style={`--dc: ${domainColor}`}>Pharmacovigilance</span>
           <span class="phase-tag">Phase 4 · Aggregate Safety</span>
+          <span class="date-tag">Last reviewed: Nov 2024</span>
         </div>
         
         <h1 class="agent-title">Aggregate Reporting Agent</h1>
@@ -43,6 +44,7 @@ const domainColor = '#ec4899'; // Pink for Aggregate Reporting
             <span class="mb-lbl">Copy-paste errors in data tables</span>
           </div>
         </div>
+        <p class="metrics-disclaimer" style="font-size:0.75rem; color:rgba(241,236,224,.5); margin-top:1rem; font-style:italic;">* Target metrics and early observations from industry pilots.</p>
       </div>
     </header>
 
@@ -156,6 +158,66 @@ flowchart LR
       </div>
     </section>
 
+  
+    <!-- ── UNDER THE HOOD ───────────────────────────────────── -->
+    <section class="section-dark under-hood-section">
+      <div class="wrap">
+        <span class="eyebrow">Under the Hood</span>
+        <h2>Architectural Deep Dive</h2>
+        
+        <div class="uh-grid">
+          <div class="uh-col">
+            <h3>Massive Context Window Orchestration</h3>
+            <p>Drafting a PSUR requires synthesizing thousands of individual cases. The agent utilizes Map-Reduce architectures and Long-Context LLMs (e.g., Claude 3.5 Sonnet or Gemini 1.5 Pro) to summarize cases by System Organ Class (SOC) before drafting the final narrative.</p>
+            <div class="code-block-wrapper">
+              <div class="code-header"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-title">map_reduce_flow.py</span></div>
+              <pre is:raw><code># 1. Map Phase: Summarize cases per SOC
+soc_summaries = []
+for soc, cases in grouped_cases.items():
+    prompt = f"Summarize the safety profile for SOC {soc}. Cases: {cases}"
+    summary = llm.generate(prompt)
+    soc_summaries.append(summary)
+
+# 2. Reduce Phase: Draft final section
+final_prompt = f"""
+Draft Section 16.1 (Summary of Safety Concerns) 
+using the following SOC summaries: {soc_summaries}
+"""
+final_draft = llm.generate(final_prompt)</code></pre>
+            </div>
+          </div>
+          
+          <div class="uh-col">
+            <h3>Medical Writing Style Prompts</h3>
+            <p>The agent is heavily prompted to adopt the specific tone and structural constraints required by ICH E2C (R2) guidelines for Periodic Benefit-Risk Evaluation Reports.</p>
+            <div class="code-block-wrapper">
+              <div class="code-header"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-title">system_prompt.txt</span></div>
+              <pre is:raw><code>You are an expert Medical Writer drafting a PSUR/PBRER.
+
+WRITING CONSTRAINTS:
+1. Tone: Formal, objective, data-driven.
+2. Structure: Follow ICH E2C (R2) format exactly.
+3. Denominators: Always state the number of cases vs. the estimated patient exposure.
+4. Cumulative Data: Clearly distinguish between the current reporting interval and cumulative data.
+5. Actionability: Highlight if a new safety signal was identified during the interval.
+
+Do not use colloquialisms. Avoid redundant phrasing.</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="guardrails-box">
+          <h3>Guardrails & Failure Modes</h3>
+          <ul class="guardrail-list">
+            <li><strong>Data/Narrative Mismatch:</strong> The LLM's generated narrative might state "There were 15 cases of rash" while the appended statistical table shows 16. A separate "Validation Agent" strictly compares the drafted text against the source JSON tables to catch mismatches.</li>
+            <li><strong>Loss in the Middle:</strong> When fed thousands of pages of line listings, some LLMs suffer from "lost in the middle" syndrome, ignoring cases in the center of the prompt. Map-reduce chunking is required to prevent this.</li>
+            <li><strong>Benefit-Risk Assessment:</strong> The final determination of the Benefit-Risk profile is a complex, highly nuanced medical decision. The agent can draft the summary of evidence, but the final conclusion remains strictly human.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
   </article>
 </BaseLayout>
 
@@ -177,6 +239,9 @@ flowchart LR
 </script>
 
 <style>
+  .mermaid { visibility: hidden; }
+  .mermaid[data-processed="true"] { visibility: visible; }
+  .date-tag { font-family: var(--font-mono); font-size: 0.65rem; color: rgba(241,236,224,.5); border: 1px dashed rgba(241,236,224,.2); padding: 4px 10px; border-radius: 100px; }
   /* Reuse standard agent layout styles */
   .agent-detail-page { background: var(--color-bg); min-height: 100vh; }
   .wrap { max-width: 1200px; margin: 0 auto; padding: 0 5%; }

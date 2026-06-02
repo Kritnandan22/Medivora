@@ -20,6 +20,7 @@ const domainColor = '#f59e0b'; // Amber for Medical Review
         <div class="hero-meta">
           <span class="domain-tag" style={`--dc: ${domainColor}`}>Pharmacovigilance</span>
           <span class="phase-tag">Phase 3 · Assessment</span>
+          <span class="date-tag">Last reviewed: Nov 2024</span>
         </div>
         
         <h1 class="agent-title">Medical Review Copilot</h1>
@@ -43,6 +44,7 @@ const domainColor = '#f59e0b'; // Amber for Medical Review
             <span class="mb-lbl">Faster case throughput</span>
           </div>
         </div>
+        <p class="metrics-disclaimer" style="font-size:0.75rem; color:rgba(241,236,224,.5); margin-top:1rem; font-style:italic;">* Target metrics and early observations from industry pilots.</p>
       </div>
     </header>
 
@@ -157,6 +159,77 @@ flowchart LR
       </div>
     </section>
 
+  
+    <!-- ── UNDER THE HOOD ───────────────────────────────────── -->
+    <section class="section-dark under-hood-section">
+      <div class="wrap">
+        <span class="eyebrow">Under the Hood</span>
+        <h2>Architectural Deep Dive</h2>
+        
+        <div class="uh-grid">
+          <div class="uh-col">
+            <h3>Algorithmic Causality Assessment</h3>
+            <p>The Medical Review agent does not rely on "gut feeling" LLM responses. It systematically walks through validated causality frameworks (like the Naranjo algorithm or WHO-UMC criteria) and outputs a scored reasoning trace.</p>
+            <div class="code-block-wrapper">
+              <div class="code-header"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-title">naranjo_evaluator.json</span></div>
+              <pre is:raw><code>{
+  "tool": "evaluate_causality",
+  "parameters": {
+    "temporal_relationship": {
+      "assessment": "Plausible time to onset (2 days)",
+      "score": 1
+    },
+    "dechallenge": {
+      "assessment": "Event abated after drug withdrawn",
+      "score": 1
+    },
+    "rechallenge": {
+      "assessment": "No rechallenge performed",
+      "score": 0
+    },
+    "alternative_causes": {
+      "assessment": "Patient has underlying hypertension",
+      "score": -1
+    },
+    "total_score": 1,
+    "final_determination": "Possible"
+  }
+}</code></pre>
+            </div>
+          </div>
+          
+          <div class="uh-col">
+            <h3>Safety Narrative Generation</h3>
+            <p>The agent drafts the required medical narrative by synthesizing the structured data into a chronological, regulator-ready text block.</p>
+            <div class="code-block-wrapper">
+              <div class="code-header"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-title">system_prompt.txt</span></div>
+              <pre is:raw><code>You are drafting an ICSR Safety Narrative.
+
+STRUCTURE REQUIRED:
+1. Patient Demographics (Age, Sex, Medical History)
+2. Suspect Drugs (Dose, Route, Dates of Therapy)
+3. Concomitant Medications
+4. Event Description (Chronological timeline of AEs)
+5. Action Taken with Drug & Outcome
+6. Company Causality Assessment
+
+TONE: Objective, clinical, and passive. Do not use emotive language. Do not state facts not present in the source data.</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="guardrails-box">
+          <h3>Guardrails & Failure Modes</h3>
+          <ul class="guardrail-list">
+            <li><strong>Complex Co-morbidities:</strong> In cases with multiple interacting concomitant medications and a complex medical history, the agent's causality scoring becomes less reliable. High-complexity cases bypass autonomous review.</li>
+            <li><strong>Hallucinated Test Results:</strong> LLMs can occasionally hallucinate normal ranges for lab values if not explicitly provided. The prompt strictly enforces that lab values must be copied verbatim from source docs.</li>
+            <li><strong>Strict Regulatory Boundaries:</strong> The agent acts as an *assistant*. In the EU, a Qualified Person for Pharmacovigilance (QPPV) or designated medical reviewer must legally sign off on the assessment. The agent *recommends*, the human *approves*.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
   </article>
 </BaseLayout>
 
@@ -178,6 +251,9 @@ flowchart LR
 </script>
 
 <style>
+  .mermaid { visibility: hidden; }
+  .mermaid[data-processed="true"] { visibility: visible; }
+  .date-tag { font-family: var(--font-mono); font-size: 0.65rem; color: rgba(241,236,224,.5); border: 1px dashed rgba(241,236,224,.2); padding: 4px 10px; border-radius: 100px; }
   /* Reuse standard agent layout styles */
   .agent-detail-page { background: var(--color-bg); min-height: 100vh; }
   .wrap { max-width: 1200px; margin: 0 auto; padding: 0 5%; }

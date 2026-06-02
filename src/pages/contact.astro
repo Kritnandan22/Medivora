@@ -156,8 +156,10 @@ import ContentLayout from '~/layouts/ContentLayout.astro';
         <div class="aside-card aside-guide">
           <span class="aside-label">Not sure where to start?</span>
           <p>The guide is structured to be read in order — but each section also stands alone.</p>
-          <a href="/foundations" class="btn btn-ghost aside-btn">Read the foundations →</a>
-        </div>
+          <div class="contact-actions">
+            <a href="mailto:kritnandan22@gmail.com" class="btn-primary">Email kritnandan22@gmail.com →</a>
+            <a href="/glossary" class="btn-ghost-light">Browse the glossary</a>
+          </div>
       </aside>
 
     </div>
@@ -372,10 +374,20 @@ import ContentLayout from '~/layouts/ContentLayout.astro';
     top: 5.5rem;
   }
   .aside-card {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-line-soft);
-    border-radius: var(--radius-md);
-    padding: 1.6rem 1.5rem;
+    background: color-mix(in srgb, var(--color-surface) 60%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(241, 236, 224, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1.8rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+  .contact-disclaimer {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
   }
   .aside-card h3 {
     font-family: var(--font-serif);
@@ -401,13 +413,13 @@ import ContentLayout from '~/layouts/ContentLayout.astro';
   .asi-icon { flex: none; font-size: 1.05rem; margin-top: 1px; }
 
   .aside-guide {
-    background-color: var(--color-green-deep);
-    border-color: transparent;
+    background: linear-gradient(135deg, rgba(6, 14, 11, 0.9) 0%, rgba(13, 26, 21, 0.95) 100%);
+    border: 1px solid rgba(241, 236, 224, 0.1);
     color: #f1ece0;
   }
   :global([data-theme='dark']) .aside-guide {
-    background-color: var(--color-surface-2);
-    border-color: var(--color-line);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border-color: rgba(241, 236, 224, 0.15);
   }
   .aside-label {
     font-family: var(--font-mono);
