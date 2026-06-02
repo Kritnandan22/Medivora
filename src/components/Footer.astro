@@ -1,5 +1,4 @@
 ---
-import BrandMark from '~/components/BrandMark.astro';
 import NewsletterSignup from '~/components/NewsletterSignup.astro';
 
 const year = new Date().getFullYear();
@@ -18,6 +17,7 @@ const cols = [
   {
     heading: 'Reference',
     links: [
+      { href: '/glossary', label: 'Glossary' },
       { href: '/about', label: 'About Medivora' },
       { href: '/contact', label: 'Contact' },
       { href: '/privacy', label: 'Privacy & Disclaimer' },
@@ -31,12 +31,19 @@ const cols = [
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-brand">
-        <div class="foot-brand-row">
-          <BrandMark size={28} class="foot-mark" />
+        <a href="/" class="foot-brand-row" aria-label="Medivora home">
+          <img
+            src="/logo-mark.png"
+            alt="Medivora logo"
+            class="foot-logo"
+            width="52"
+            height="52"
+            decoding="async"
+          />
           <div class="foot-name">
             Medi<em>vora</em>
           </div>
-        </div>
+        </a>
         <p>
           A field guide to how workflow automation and agentic automation are
           reshaping pharmaceuticals and medicine management — from the first
@@ -106,11 +113,24 @@ const cols = [
   .foot-brand-row {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
+    gap: 0.6rem;
     margin-bottom: 0.9rem;
+    text-decoration: none;
   }
-  .foot-mark {
-    color: var(--color-accent);
+  .foot-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    flex: none;
+    mix-blend-mode: multiply;
+    transition: transform 220ms ease;
+  }
+  :global([data-theme='dark']) .foot-logo {
+    mix-blend-mode: screen;
+    filter: brightness(1.1) saturate(1.2);
+  }
+  .foot-brand-row:hover .foot-logo {
+    transform: scale(1.08) rotate(-2deg);
   }
   .foot-name {
     font-family: var(--font-serif);
