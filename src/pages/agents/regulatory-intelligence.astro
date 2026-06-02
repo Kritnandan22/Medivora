@@ -60,7 +60,7 @@ const domainColor = '#1cc9a3'; // Regulatory Affairs color
             <dt>Data Inputs</dt>
             <dd>FDA Dockets, EMA Document Library, PMDA DB, Health Canada HPFB, MHRA Alerts.</dd>
             <dt>Core AI Models</dt>
-            <dd>Gemini 1.5 Pro (long context reasoning), Custom Entity Extraction (NER).</dd>
+            <dd>Enterprise LLM (e.g. Gemini / GPT-4 / Claude) for reasoning, Custom Entity Extraction (NER).</dd>
             <dt>Key Outputs</dt>
             <dd>Structured Executive Briefings, Veeva Vault RIM entries, automated email digests.</dd>
             <dt>Standards</dt>
@@ -101,12 +101,12 @@ flowchart TD
     end
 
     subgraph "Reasoning Layer (The Brain)"
-        Orchestrator{"Orchestrator Agent<br>(Gemini 1.5 Pro)"}:::agent
+        Orchestrator(["Orchestrator Agent<br>(Enterprise LLM)"]):::agent
         PipelineDB[("Internal Pipeline /<br>Product Portfolio DB")]:::db
     end
 
     subgraph "Action & Output Layer"
-        HITL{"Human-in-the-Loop<br>(Subject Matter Expert)"}:::hitl
+        HITL(["Human-in-the-Loop<br>(Subject Matter Expert)"]):::hitl
         BriefGen["Briefing Generation Agent"]:::agent
         Veeva["Veeva Vault RIM<br>API Update"]:::output
         Alert["Stakeholder Email Alert"]:::output
@@ -180,7 +180,7 @@ flowchart TD
 
           <h3>2. LLM Selection: The Context Window</h3>
           <p>
-            Regulatory PDFs frequently exceed 100 pages. We recommend <strong>Gemini 1.5 Pro</strong> as the core reasoning engine because its massive context window allows it to hold an entire clinical guidance document in memory simultaneously, ensuring no cross-references or footnotes are missed during analysis.
+            Regulatory PDFs frequently exceed 100 pages. We recommend an <strong>Enterprise LLM (such as Gemini 1.5 Pro, GPT-4o, or Claude 3.5 Sonnet)</strong> as the core reasoning engine. A massive context window allows the model to hold an entire clinical guidance document in memory simultaneously, ensuring no cross-references or footnotes are missed during analysis.
           </p>
 
           <h3>3. Task-Specific Sub-Agents</h3>
