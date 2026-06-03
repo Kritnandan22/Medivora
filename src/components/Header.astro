@@ -25,27 +25,23 @@ const isCurrent = (href: string) => {
 
 <header class="site-header">
   <div class="wrap nav-in">
-    <a href="/" class="brand" aria-label="Medivora — home">
-      <BrandMark size={40} class="brand-mark" />
-      <span class="brand-name">Medivora</span>
-    </a>
+    <div class="nav-left">
+      <button
+        type="button"
+        id="menu-toggle"
+        class="burger"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="drawer-nav"
+      >
+        <span></span><span></span><span></span>
+      </button>
 
-    <nav class="primary-nav" aria-label="Primary">
-      <ul>
-        {
-          navLinks.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                aria-current={isCurrent(link.href) ? 'page' : undefined}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
+      <a href="/" class="brand" aria-label="Medivora — home">
+        <BrandMark size={40} class="brand-mark" />
+        <span class="brand-name">Medivora</span>
+      </a>
+    </div>
 
     <div class="nav-tools">
       <!-- Search button -->
@@ -64,37 +60,38 @@ const isCurrent = (href: string) => {
       </button>
       <ThemeToggle />
       <a href="/contact" class="nav-cta">Get in touch →</a>
-      <button
-        type="button"
-        id="menu-toggle"
-        class="burger"
-        aria-label="Open menu"
-        aria-expanded="false"
-        aria-controls="mobile-nav"
-      >
-        <span></span><span></span><span></span>
-      </button>
     </div>
   </div>
 
-  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile" hidden>
-    <ul>
-      {
-        navLinks.map((link) => (
-          <li>
-            <a
-              href={link.href}
-              aria-current={isCurrent(link.href) ? 'page' : undefined}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))
-      }
-      <li>
-        <a href="/contact" class="mobile-cta">Get in touch →</a>
-      </li>
-    </ul>
+  <!-- Backdrop overlay -->
+  <div id="drawer-backdrop" class="drawer-backdrop"></div>
+
+  <!-- Left Sliding Drawer -->
+  <nav id="drawer-nav" class="drawer-nav" aria-label="Main Navigation">
+    <div class="drawer-header">
+      <BrandMark size={32} class="brand-mark" />
+      <span class="brand-name" style="font-size: 1.1rem;">Menu</span>
+      <button id="drawer-close" class="drawer-close" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="drawer-scroll-area">
+      <ul>
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                aria-current={isCurrent(link.href) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        <li style="margin-top: 1.5rem;">
+          <a href="/contact" class="drawer-cta">Get in touch →</a>
+        </li>
+      </ul>
+    </div>
   </nav>
 </header>
 
@@ -115,6 +112,11 @@ const isCurrent = (href: string) => {
     height: 66px;
     gap: 1.5rem;
   }
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
   .brand {
     display: flex;
     align-items: center;
@@ -134,39 +136,6 @@ const isCurrent = (href: string) => {
   .brand:hover .brand-mark {
     transform: scale(1.1) rotate(-4deg);
   }
-  .primary-nav > ul {
-    display: flex;
-    gap: 1.8rem;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .primary-nav a {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--color-text-2);
-    padding: 4px 0;
-    position: relative;
-    transition: color 200ms ease;
-  }
-  .primary-nav a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -2px;
-    width: 0;
-    height: 1.5px;
-    background-color: var(--color-accent);
-    transition: width 200ms ease;
-  }
-  .primary-nav a:hover,
-  .primary-nav a[aria-current='page'] {
-    color: var(--color-accent);
-  }
-  .primary-nav a:hover::after,
-  .primary-nav a[aria-current='page']::after {
-    width: 100%;
-  }
 
   .nav-tools {
     display: flex;
@@ -182,13 +151,14 @@ const isCurrent = (href: string) => {
     color: var(--color-text);
     padding: 9px 16px;
     border-radius: var(--radius-xs);
-    transition:
-      background-color 180ms ease,
-      color 180ms ease;
+    transition: background-color 180ms ease, color 180ms ease;
   }
   .nav-cta:hover {
     background-color: var(--color-text);
     color: var(--color-bg);
+  }
+  @media (max-width: 600px) {
+    .nav-cta { display: none; }
   }
 
   /* Search button */
@@ -223,95 +193,180 @@ const isCurrent = (href: string) => {
     .search-btn-hint { display: none; }
   }
 
+  /* Burger Menu Button */
   .burger {
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 5px;
     background: none;
     border: 0;
     cursor: pointer;
     padding: 8px;
+    margin-left: -8px; /* Alignment adjust */
   }
   .burger span {
-    width: 24px;
+    width: 22px;
     height: 2px;
     background-color: var(--color-text);
-    transition:
-      transform 240ms ease,
-      opacity 240ms ease;
+    transition: transform 240ms ease, opacity 240ms ease;
   }
-  .burger[aria-expanded='true'] span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-  .burger[aria-expanded='true'] span:nth-child(2) {
-    opacity: 0;
-  }
-  .burger[aria-expanded='true'] span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+  .burger:hover span {
+    background-color: var(--color-accent);
   }
 
-  .mobile-nav {
-    border-top: 1px solid var(--color-line);
-    background-color: var(--color-bg);
+  /* Drawer Overlay */
+  .drawer-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
   }
-  .mobile-nav[hidden] {
-    display: none;
+  .drawer-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
   }
-  .mobile-nav ul {
+
+  /* Left Sliding Drawer */
+  .drawer-nav {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    width: 320px;
+    height: 100vh;
+    background-color: var(--color-surface);
+    border-right: 1px solid var(--color-line);
+    z-index: 100;
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+  }
+  .drawer-nav.open {
+    transform: translateX(320px);
+  }
+  @media (max-width: 400px) {
+    .drawer-nav {
+      width: 100vw;
+      left: -100vw;
+    }
+    .drawer-nav.open {
+      transform: translateX(100vw);
+    }
+  }
+
+  .drawer-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--color-line);
+    gap: 0.5rem;
+  }
+  .drawer-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--color-text-soft);
+    cursor: pointer;
+    line-height: 1;
+    transition: color 200ms ease;
+  }
+  .drawer-close:hover {
+    color: var(--color-accent);
+  }
+
+  .drawer-scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+  }
+  .drawer-nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
-  .mobile-nav a {
+  .drawer-nav a {
     display: block;
-    padding: 14px 1.75rem;
-    border-bottom: 1px solid var(--color-line-soft);
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     color: var(--color-text-2);
+    transition: background-color 200ms ease, color 200ms ease;
   }
-  .mobile-nav a[aria-current='page'] {
+  .drawer-nav a:hover {
+    background-color: rgba(255,255,255,0.05);
+    color: var(--color-text);
+  }
+  .drawer-nav a[aria-current='page'] {
+    background-color: rgba(59,130,246,0.1);
     color: var(--color-accent);
   }
-  .mobile-nav .mobile-cta {
-    color: var(--color-accent);
-    font-weight: 600;
+  .drawer-cta {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background-color: var(--color-text);
+    color: var(--color-bg) !important;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-weight: 600 !important;
   }
-
-  @media (max-width: 980px) {
-    .primary-nav,
-    .nav-cta {
-      display: none;
-    }
-    .burger {
-      display: flex;
-    }
+  .drawer-cta:hover {
+    background-color: var(--color-text-soft);
   }
 </style>
 
 <script is:inline>
   (function () {
     const btn = document.getElementById('menu-toggle');
-    const menu = document.getElementById('mobile-nav');
-    if (!btn || !menu) return;
-    btn.addEventListener('click', () => {
-      const open = btn.getAttribute('aria-expanded') === 'true';
-      const next = !open;
-      btn.setAttribute('aria-expanded', String(next));
-      btn.setAttribute('aria-label', next ? 'Close menu' : 'Open menu');
-      if (next) {
-        menu.removeAttribute('hidden');
-      } else {
-        menu.setAttribute('hidden', '');
+    const closeBtn = document.getElementById('drawer-close');
+    const menu = document.getElementById('drawer-nav');
+    const backdrop = document.getElementById('drawer-backdrop');
+    
+    if (!btn || !menu || !backdrop || !closeBtn) return;
+    
+    const openMenu = () => {
+      menu.classList.add('open');
+      backdrop.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    };
+
+    const closeMenu = () => {
+      menu.classList.remove('open');
+      backdrop.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    btn.addEventListener('click', openMenu);
+    closeBtn.addEventListener('click', closeMenu);
+    backdrop.addEventListener('click', closeMenu);
+
+    // Close menu on link click
+    menu.querySelectorAll('a').forEach((a) =>
+      a.addEventListener('click', closeMenu)
+    );
+    
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.classList.contains('open')) {
+        closeMenu();
       }
     });
-    // Close menu on link click so users see the destination.
-    menu.querySelectorAll('a').forEach((a) =>
-      a.addEventListener('click', () => {
-        btn.setAttribute('aria-expanded', 'false');
-        btn.setAttribute('aria-label', 'Open menu');
-        menu.setAttribute('hidden', '');
-      }),
-    );
   })();
 </script>
