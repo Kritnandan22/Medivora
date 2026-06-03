@@ -262,11 +262,11 @@ Do NOT "up-code" (select a more severe term than reported) or "down-code" (selec
         <div class="sample-demo">
           <div class="demo-panel">
             <div class="demo-panel-header">Input</div>
-            <div class="demo-panel-body"><pre style="white-space:pre-wrap; margin:0; font-size:0.8rem; color:#a8b2d1;">Verbatim: 'My head feels like it is going to explode after taking the pill'\nContext: Patient is 45M, no prior history of migraine, started Drug-Y 3 days ago.</pre></div>
+            <div class="demo-panel-body"><pre is:raw style="white-space:pre-wrap; margin:0; font-size:0.8rem; color:#a8b2d1;">Verbatim: 'My head feels like it is going to explode after taking the pill'\nContext: Patient is 45M, no prior history of migraine, started Drug-Y 3 days ago.</pre></div>
           </div>
           <div class="demo-panel">
             <div class="demo-panel-header">Agent Output</div>
-            <div class="demo-panel-body"><pre style="white-space:pre-wrap; margin:0; font-size:0.8rem; color:#a8b2d1;">{\n  "verbatim": "head feels like it is going to explode",\n  "reasoning": {\n    "soc": "Nervous system disorders",\n    "hlgt": "Headaches",\n    "hlt": "Headaches NEC",\n    "pt": "Headache",\n    "llt": "Headache severe"\n  },\n  "confidence": 0.94,\n  "auto_coded": true\n}</pre></div>
+            <div class="demo-panel-body"><pre is:raw style="white-space:pre-wrap; margin:0; font-size:0.8rem; color:#a8b2d1;">{\n  "verbatim": "head feels like it is going to explode",\n  "reasoning": {\n    "soc": "Nervous system disorders",\n    "hlgt": "Headaches",\n    "hlt": "Headaches NEC",\n    "pt": "Headache",\n    "llt": "Headache severe"\n  },\n  "confidence": 0.94,\n  "auto_coded": true\n}</pre></div>
           </div>
         </div>
       </div>

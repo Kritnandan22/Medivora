@@ -289,11 +289,11 @@ Output the result using the extract_icsr_entities tool.</code></pre>
         <div class="sample-demo">
           <div class="demo-panel">
             <div class="demo-panel-header">Input</div>
-            <div class="demo-panel-body"><pre style="white-space:pre-wrap; margin:0; font-size:0.8rem; color:#a8b2d1;">From: dr.smith@hospital.org\nSubject: Adverse event report\n\nDear Safety Team,\n\nI am writing to report that my patient, a 67-year-old female, developed severe hepatotoxicity approximately 14 days after initiating treatment with Drug-X 200mg daily for rheumatoid arthritis. ALT was elevated to 5x ULN. The drug was discontinued and the patient is recovering.\n\nDr. Smith, Consultant Rheumatologist</pre></div>
+            <div class="demo-panel-body"><pre is:raw style="white-space:pre-wrap; margin:0; font-size:0.8rem; color:#a8b2d1;">From: dr.smith@hospital.org\nSubject: Adverse event report\n\nDear Safety Team,\n\nI am writing to report that my patient, a 67-year-old female, developed severe hepatotoxicity approximately 14 days after initiating treatment with Drug-X 200mg daily for rheumatoid arthritis. ALT was elevated to 5x ULN. The drug was discontinued and the patient is recovering.\n\nDr. Smith, Consultant Rheumatologist</pre></div>
           </div>
           <div class="demo-panel">
             <div class="demo-panel-header">Agent Output</div>
-            <div class="demo-panel-body"><pre style="white-space:pre-wrap; margin:0; font-size:0.8rem; color:#a8b2d1;">{\n  "is_valid_icsr": true,\n  "patient": {\n    "age": 67,\n    "age_unit": "Year",\n    "sex": "F"\n  },\n  "reporter": {\n    "name": "Dr. Smith",\n    "qualification": "Physician"\n  },\n  "drugs": [{\n    "name": "Drug-X",\n    "dose": "200mg",\n    "route": "Oral",\n    "role": "suspect"\n  }],\n  "events": [{\n    "verbatim": "severe hepatotoxicity",\n    "onset_days": 14\n  }],\n  "action_taken": "Drug withdrawn",\n  "outcome": "Recovering"\n}</pre></div>
+            <div class="demo-panel-body"><pre is:raw style="white-space:pre-wrap; margin:0; font-size:0.8rem; color:#a8b2d1;">{\n  "is_valid_icsr": true,\n  "patient": {\n    "age": 67,\n    "age_unit": "Year",\n    "sex": "F"\n  },\n  "reporter": {\n    "name": "Dr. Smith",\n    "qualification": "Physician"\n  },\n  "drugs": [{\n    "name": "Drug-X",\n    "dose": "200mg",\n    "route": "Oral",\n    "role": "suspect"\n  }],\n  "events": [{\n    "verbatim": "severe hepatotoxicity",\n    "onset_days": 14\n  }],\n  "action_taken": "Drug withdrawn",\n  "outcome": "Recovering"\n}</pre></div>
           </div>
         </div>
       </div>
