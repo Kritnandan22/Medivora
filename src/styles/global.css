@@ -716,3 +716,23 @@
     .pipeline-indicator { flex-wrap: nowrap; }
   }
 }
+
+
+/* ── Cinematic Agent Hero Images ── */
+.cinematic-image-wrapper {
+  max-width: 900px;
+  margin: 2rem auto 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.cinematic-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.cinematic-image-wrapper:hover .cinematic-img {
+  transform: scale(1.02);
+}
