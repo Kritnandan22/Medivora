@@ -5,158 +5,138 @@ import SafetyPipelineMap from '~/components/SafetyPipelineMap.astro';
 const stages = [
   {
     num: '01',
-    title: 'Case Intake & Validity',
-    slug: 'case-intake',
-    lead: 'The initial ingestion layer. Spontaneous reports arrive via unstructured emails, literature abstracts, patient portals, and call center transcripts. The immediate regulatory objective: is this a valid ICSR?',
+    title: 'Phase 1 · Intake & Triage',
+    slug: 'intake-triage',
+    lead: 'The initial ingestion layer. Spontaneous reports arrive via unstructured emails, literature abstracts, patient portals, and call center transcripts.',
     wf: {
-      label: 'E2B (R3) AS2 Gateways',
+      label: 'Traditional Workflow',
       items: [
-        'Automated ingestion of structured E2B(R3) XML payloads directly from health authorities and license partners',
-        'Deterministic routing of portal submissions straight into safety databases (e.g. Oracle Argus, ArisG)',
-        'Assigning a new Worldwide Unique Case Identification Number (MCCI) and assigning to an intake queue',
+        'Automated ingestion of E2B(R3) payloads',
+        'Deterministic routing of portal submissions',
+        'Manual data entry for unstructured emails and PDFs',
       ],
     },
     ag: {
-      label: 'Unstructured Intake Agents',
+      label: 'Agentic Automation',
       items: [
         'Parsing unstructured patient emails and messy fax PDFs via OCR and semantic NLP',
-        'Extracting the four required elements: an identifiable patient, an identifiable reporter, a suspect drug, and an adverse event',
-        'Filtering out "junk" emails and non-valid cases autonomously to prevent database pollution',
+        'Extracting the four required elements (patient, reporter, drug, event) autonomously',
+        'Filtering out "junk" emails to prevent database pollution',
       ],
     },
-    proof: 'The bottleneck: Manual intake accounts for up to 30% of PV operating costs [7]. Agentic extraction converts unstructured mess into structured E2B fields instantly.',
+    proof: 'The bottleneck: Manual intake accounts for up to 30% of PV operating costs. Agentic extraction converts unstructured mess into structured E2B fields instantly.',
   },
   {
     num: '02',
-    title: 'Data Extraction',
-    slug: 'data-extraction',
-    lead: 'Isolating critical clinical facts from narrative noise. A patient or physician might provide a 3-page discharge summary containing pre-existing conditions, lab results, and concomitant medications.',
+    title: 'Phase 2 · MedDRA Coding',
+    slug: 'meddra-coding',
+    lead: 'Translating verbatim descriptions into standardized medical ontologies (MedDRA Lowest Level Terms).',
     wf: {
-      label: 'Field-level Validation',
+      label: 'Traditional Workflow',
       items: [
-        'Mapping structured web-form fields directly into corresponding E2B data elements',
-        'Enforcing mandatory data capture fields (e.g., reporter country, event date) before saving the case',
+        'Auto-coding exact character-for-character matches',
+        'Applying static synonym lists',
+        'Manual review for ambiguous terms',
       ],
     },
     ag: {
-      label: 'Semantic Entity Extraction',
+      label: 'Agentic Automation',
       items: [
-        'Reasoning through clinical narratives to accurately identify timelines (onset dates, de-challenge, re-challenge intervals)',
-        'Extracting and structuring complex lab results (e.g., LFTs) buried deep within physician progress notes',
-        'Distinguishing the primary suspect adverse event from a long list of pre-existing medical conditions',
+        'Understanding clinical context to code ambiguous terms accurately',
+        'Suggesting the top 3 most statistically probable MedDRA LLTs',
+        'Handling misspellings and complex multi-concept medical phrases',
       ],
     },
-    proof: 'The precision: LLMs excel at Named Entity Recognition (NER), pulling medical entities with far greater accuracy than legacy regex-based NLP tools.',
+    proof: 'The upgrade: Agentic coding systems are achieving >85% accuracy on first-pass coding, virtually eliminating the backlog for medical coders.',
   },
   {
     num: '03',
-    title: 'MedDRA Coding',
-    slug: 'meddra-coding',
-    lead: 'Translating verbatim descriptions (e.g., "my tummy hurt badly") into standardized medical ontologies (MedDRA Lowest Level Terms) and coding drugs against WHO-DD.',
-    wf: {
-      label: 'Dictionary Auto-coding',
-      items: [
-        'Auto-coding verbatim terms that have a perfect, character-for-character match in the current MedDRA dictionary version',
-        'Applying rigid synonym lists manually maintained by clinical data management teams',
-      ],
-    },
-    ag: {
-      label: 'Context-Aware Coding',
-      items: [
-        'Understanding clinical context to code ambiguous terms (e.g., distinguishing between "feeling sick" as nausea vs "feeling sick" as an infection)',
-        'Suggesting the top 3 most statistically probable MedDRA LLTs for a human reviewer to approve',
-        'Flagging when a verbatim term lacks sufficient context to be coded accurately without a query',
-      ],
-    },
-    proof: 'The upgrade: Agentic coding systems are achieving >85% accuracy on first-pass coding [8], virtually eliminating the backlog for medical coders.',
-  },
-  {
-    num: '04',
-    title: 'Seriousness & Expectedness',
-    slug: 'seriousness',
-    lead: 'Determining if the event triggers expedited regulatory reporting (e.g., 15-day SUSARs). Is the event life-threatening? Did it require hospitalization? Is it listed on the Core Data Sheet?',
-    wf: {
-      label: 'Deterministic Rules Engine',
-      items: [
-        'Automatically marking a case as expedited if a user checked the "hospitalized" or "death" Boolean fields',
-        'Checking the coded MedDRA PT against a static Expectedness list (IB or SmPC)',
-      ],
-    },
-    ag: {
-      label: 'Clinical Reasoning Agents',
-      items: [
-        'Inferring seriousness from unstructured text when checkboxes are missing (e.g., reading "patient was rushed to the ER and admitted")',
-        'Cross-referencing the event with complex, multi-layered Investigator Brochure (IB) PDF documents',
-        'Drafting a clinical justification for why an event is considered unexpected',
-      ],
-    },
-    proof: 'The risk: Missing a 15-day expedited reporting deadline is a critical compliance failure. Agents act as an always-on safety net.',
-  },
-  {
-    num: '05',
-    title: 'Duplicate Detection',
-    slug: 'duplicate-detection',
-    lead: 'Protecting the integrity of the safety database. A patient might report an event on Monday via a portal, and their physician might report the identical event on Wednesday via a fax.',
-    wf: {
-      label: 'Deterministic SQL Matching',
-      items: [
-        'Flagging cases with exact string matches on Patient Initials, Date of Birth, and Gender',
-        'Running SQL queries for identical drug/event combinations within a narrow +/- 5 day window',
-      ],
-    },
-    ag: {
-      label: 'Fuzzy Clinical Matching',
-      items: [
-        'Identifying duplicates where the data is misaligned (e.g., "John Smith" vs "J.S.", or differing dates of onset due to patient memory)',
-        'Reviewing narratives of potential duplicates to determine if they describe the exact same clinical episode',
-      ],
-    },
-    proof: 'The clean up: Duplicate detection prevents false signal generation and ensures denominator accuracy in aggregate reporting (PSUR/DSUR).',
-  },
-  {
-    num: '06',
-    title: 'Narrative Drafting',
-    slug: 'narrative-drafting',
-    lead: 'Generating the formal clinical story. Every case requires a coherent, chronological medical narrative summarizing the event for regulatory review and CIOMS generation.',
-    wf: {
-      label: 'String Concatenation',
-      items: [
-        'Auto-generating narratives by concatenating structured data: "This is a case of a [Age] year old [Gender] who experienced [Event]."',
-        'Resulting in robotic, fragmented narratives that medical reviewers almost always have to rewrite manually.',
-      ],
-    },
-    ag: {
-      label: 'Generative Medical Drafting',
-      items: [
-        'Writing fluid, grammatically correct medical narratives based on all extracted structured data',
-        'Summarizing complex medical history, lab panels, and concomitant medications into a concise clinical picture',
-        'Formatting the output according to strict company SOPs (Standard Operating Procedures) and style guides',
-      ],
-    },
-    proof: 'The time saver: Generative AI is uniquely suited to drafting text. This step alone saves medical reviewers up to 15 minutes per case [9].',
-  },
-  {
-    num: '07',
-    title: 'Final Medical Review',
+    title: 'Phase 3 · Medical Review',
     slug: 'medical-review',
-    lead: 'The critical human checkpoint. The AI has pre-populated the E2B fields, coded the terms, and drafted the narrative. Now, a Qualified Person Responsible for Pharmacovigilance (QPPV) reviews it.',
+    lead: 'The critical human checkpoint where causality is established (e.g., Naranjo scorecard) and narrative is finalized.',
     wf: {
-      label: 'Gateway Submission',
+      label: 'Traditional Workflow',
       items: [
-        'Routing the completed case to the appropriate medical reviewer based on geographic region or product assignment',
+        'Routing the completed case to the appropriate medical reviewer',
+        'Manual drafting of medical narratives via string concatenation',
         'Collecting 21 CFR Part 11 compliant electronic signatures',
-        'Transmitting the final E2B(R3) XML payload directly to the FDA ESG or EMA EudraVigilance gateway',
       ],
     },
     ag: {
-      label: 'Reviewer Copilot',
+      label: 'Agentic Automation',
       items: [
-        'Highlighting areas of low algorithmic confidence for the doctor to focus their attention on',
-        'Providing reasoning traces (e.g., "I coded this as Nausea because... [link to source document]")',
-        'Running a final pre-submission consistency check across all E2B fields before sign-off',
+        'Pre-populating a causality scorecard based on de-challenge/re-challenge timelines',
+        'Drafting fluid, grammatically correct medical narratives based on structured data',
+        'Highlighting areas of low algorithmic confidence for the QPPV',
       ],
     },
     proof: 'The principle: Agentic systems in PV are "Human-in-the-Loop" by design. The AI does the heavy lifting; the QPPV makes the medical decision.',
+  },
+  {
+    num: '04',
+    title: 'Phase 4 · Aggregate Reporting',
+    slug: 'aggregate-reporting',
+    lead: 'Synthesis of millions of data points into periodic safety reports (PSUR, DSUR, PBRER).',
+    wf: {
+      label: 'Traditional Workflow',
+      items: [
+        'Exporting massive data line listings into Excel',
+        'Manually drafting sections like "Patient Exposure" and "Line Listing Summary"',
+      ],
+    },
+    ag: {
+      label: 'Agentic Automation',
+      items: [
+        'Synthesizing massive line listings into coherent analytical prose',
+        'Generating dynamic signals graphs and charts',
+        'Drafting regulatory-ready PSUR/DSUR sections referencing prior intervals',
+      ],
+    },
+    proof: 'The impact: Reducing a 6-week reporting cycle to a 2-week cycle, allowing teams to focus on true signal detection.',
+  },
+  {
+    num: '05',
+    title: 'Surveillance · Literature',
+    slug: 'literature-monitoring',
+    lead: 'Continuous tracking of scientific and medical literature for new safety signals associated with approved products.',
+    wf: {
+      label: 'Traditional Workflow',
+      items: [
+        'Manual boolean queries on PubMed/Embase',
+        'Human triage of thousands of irrelevant abstracts',
+      ],
+    },
+    ag: {
+      label: 'Agentic Automation',
+      items: [
+        'Continuous screening of global medical literature',
+        'Semantic filtering of non-relevant articles',
+        'Extracting valid ICSRs directly from published case reports',
+      ],
+    },
+    proof: 'The coverage: Agents monitor millions of abstracts 24/7 without fatigue, catching signals that boolean queries miss.',
+  },
+  {
+    num: '06',
+    title: 'Surveillance · RegIntel',
+    slug: 'regulatory-intelligence',
+    lead: 'Monitoring global health authority (FDA, EMA, PMDA) updates, guidance changes, and competitor labeling.',
+    wf: {
+      label: 'Traditional Workflow',
+      items: [
+        'Manually checking agency websites for new PDF guidances',
+        'Reading 100-page documents to find a single relevant clause',
+      ],
+    },
+    ag: {
+      label: 'Agentic Automation',
+      items: [
+        'Monitoring global health authority (FDA, EMA, PMDA) updates via RSS and scraping',
+        'Translating non-English regulatory updates into actionable summaries',
+        'Cross-referencing new guidance against internal company SOPs to flag necessary updates',
+      ],
+    },
+    proof: 'The compliance: Regulatory environments shift rapidly. Agentic intel ensures zero missed guidelines and proactive compliance.',
   },
 ];
 ---
@@ -173,6 +153,15 @@ const stages = [
     <div class="wrap">
       <SafetyPipelineMap />
     </div>
+    <div class="wrap" style="margin-top:-2rem; margin-bottom:2rem;">
+      <div class="reviewed-by-band" style="max-width:800px; margin:0 auto; background:var(--color-bg-alt); padding:0.75rem 1.25rem; border-radius:0.5rem; display:flex; align-items:center; gap:0.75rem; border:1px solid rgba(255,255,255,0.06);">
+        <div class="rb-icon" style="color:var(--color-success);">✓</div>
+        <div class="rb-text" style="font-size:0.8rem; color:var(--color-text-2);">
+          Content reviewed by <strong>Kritnandan</strong>, B.Tech BSBE (IIT Kanpur) | Last review: Jun 2025
+        </div>
+      </div>
+    </div>
+
 
     <!-- Cinematic Reviewer Image -->
     <div class="wrap">

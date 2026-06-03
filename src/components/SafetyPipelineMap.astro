@@ -2,13 +2,12 @@
 // Safety Pipeline Explorer Map — interactive SVG pipeline
 // Clicking a node scrolls to + opens the corresponding accordion item in safety-pipeline.astro
 const stages = [
-  { num: '01', short: 'Intake',       color: 'ag',  desc: 'Case Intake & Validity' },
-  { num: '02', short: 'Extraction',   color: 'ag',  desc: 'Data Extraction' },
-  { num: '03', short: 'Coding',       color: 'ag',  desc: 'MedDRA Coding' },
-  { num: '04', short: 'Seriousness',  color: 'wf',  desc: 'Seriousness & Expectedness' },
-  { num: '05', short: 'Deduplication',color: 'wf',  desc: 'Duplicate Detection' },
-  { num: '06', short: 'Narrative',    color: 'ag',  desc: 'Narrative Drafting' },
-  { num: '07', short: 'Review',       color: 'wf',  desc: 'Final Medical Review' },
+  { num: '01', short: 'Intake',       color: 'ag',  desc: 'Phase 1 · Intake & Triage' },
+  { num: '02', short: 'Coding',       color: 'ag',  desc: 'Phase 2 · MedDRA Coding' },
+  { num: '03', short: 'Review',       color: 'ag',  desc: 'Phase 3 · Medical Review' },
+  { num: '04', short: 'Reporting',    color: 'ag',  desc: 'Phase 4 · Aggregate Reporting' },
+  { num: '05', short: 'Literature',   color: 'ag',  desc: 'Surveillance · Literature Monitoring' },
+  { num: '06', short: 'RegIntel',     color: 'ag',  desc: 'Surveillance · Regulatory Intelligence' },
 ];
 ---
 
@@ -25,12 +24,12 @@ const stages = [
       viewBox="0 0 1100 160"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
-      aria-label="Seven-stage safety case processing pipeline"
+      aria-label="Six-agent safety case processing pipeline"
     >
       <!-- Connector lines between nodes -->
       {stages.slice(0, -1).map((_, i) => {
-        const x1 = 80 + i * 145 + 46;
-        const x2 = 80 + (i + 1) * 145 - 46;
+        const x1 = 100 + i * 180 + 46;
+        const x2 = 100 + (i + 1) * 180 - 46;
         return (
           <line
             class="connector"
@@ -43,7 +42,7 @@ const stages = [
 
       <!-- Stage nodes -->
       {stages.map((s, i) => {
-        const cx = 80 + i * 145;
+        const cx = 100 + i * 180;
         const isAg = s.color === 'ag';
         return (
           <g
